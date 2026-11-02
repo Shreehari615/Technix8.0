@@ -1,0 +1,219 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #05070B;
+    --foreground: #F8FAFC;
+    --stark-red: #E23636;
+    --stark-gold: #F59E0B;
+    --arc-cyan: #38BDF8;
+    --vibranium-purple: #A855F7;
+    --gamma-green: #22C55E;
+  }
+
+  html {
+    color-scheme: dark;
+    background-color: #05070B;
+  }
+
+  body {
+    background-color: transparent;
+    color: #F8FAFC;
+    font-family: var(--font-inter), sans-serif;
+  }
+}
+
+/* Typography Helpers */
+.font-heading {
+  font-family: var(--font-orbitron), sans-serif;
+}
+
+.font-tech {
+  font-family: var(--font-rajdhani), sans-serif;
+}
+
+.font-mono-code {
+  font-family: var(--font-space-mono), monospace;
+}
+
+/* Metallic Silver Typography */
+.text-metallic-silver {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 40%, #94A3B8 60%, #F8FAFC 85%, #64748B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-metallic-gold {
+  background: linear-gradient(135deg, #FEF08A 0%, #F59E0B 40%, #D97706 70%, #FEF08A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-metallic-red {
+  background: linear-gradient(135deg, #FCA5A5 0%, #EF4444 40%, #B91C1C 75%, #F87171 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Cinematic Glowing Accents */
+.glow-red {
+  box-shadow: 0 0 25px -5px rgba(226, 54, 54, 0.45);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.45);
+}
+
+.glow-gold {
+  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.45);
+}
+
+.glow-purple {
+  box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.45);
+}
+
+/* Stark Hexagonal Background Overlay */
+.bg-hex-grid {
+  background-image: radial-gradient(rgba(226, 54, 54, 0.12) 1px, transparent 1px),
+                    radial-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+/* Cyber Tactical Borders */
+.border-cyber {
+  position: relative;
+}
+.border-cyber::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #E23636;
+  border-left: 2px solid #E23636;
+  pointer-events: none;
+}
+.border-cyber::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid #E23636;
+  border-right: 2px solid #E23636;
+  pointer-events: none;
+}
+
+/* Animated Light Sweep */
+@keyframes lightSweep {
+  0% {
+    transform: translateX(-150%) skewX(-25deg);
+  }
+  50%, 100% {
+    transform: translateX(250%) skewX(-25deg);
+  }
+}
+
+.animate-light-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-light-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  animation: lightSweep 4s ease-in-out infinite;
+}
+
+/* Arc Reactor Pulse */
+@keyframes pulseArc {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+.animate-arc-pulse {
+  animation: pulseArc 3s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05070B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+  border: 1px solid rgba(226, 54, 54, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E23636;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================== */
+/* DARK NEUMORPHIC SOFT UI (REFERENCE: MATTE DEBOSSED / EMBOSSED) */
+/* ============================================================== */
+.neu-chassis {
+  background-color: #161719;
+  box-shadow: 20px 20px 60px #0b0c0d, -12px -12px 40px rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.neu-inset {
+  background-color: #161719 !important;
+  box-shadow: inset 4px 4px 8px #0b0c0d, inset -3px -3px 7px rgba(255, 255, 255, 0.045) !important;
+  border: 1px solid rgba(0, 0, 0, 0.45) !important;
+  transition: all 0.2s ease-out;
+}
+
+.neu-inset:focus,
+.neu-inset:focus-within {
+  border-color: rgba(245, 184, 0, 0.45) !important;
+  box-shadow: inset 4px 4px 8px #090a0a, inset -3px -3px 7px rgba(245, 184, 0, 0.08), 0 0 14px rgba(245, 184, 0, 0.15) !important;
+}
+
+.neu-btn {
+  background-color: #18191B !important;
+  box-shadow: 6px 6px 14px #0c0d0e, -4px -4px 10px rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.neu-btn:hover {
+  box-shadow: 8px 8px 18px #0a0b0c, -5px -5px 12px rgba(255, 255, 255, 0.06) !important;
+  transform: translateY(-1px);
+}
+
+.neu-btn:active {
+  box-shadow: inset 4px 4px 8px #0b0c0d, inset -2px -2px 5px rgba(255, 255, 255, 0.04) !important;
+  transform: translateY(1px);
+}
+
