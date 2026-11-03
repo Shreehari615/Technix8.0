@@ -82,7 +82,11 @@ export const metadata: Metadata = {
     images: ["/images/hero/hero-bg.svg"],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/logo.jpeg", type: "image/jpeg" },
+    ],
+    apple: "/logo.jpeg",
+    shortcut: "/logo.jpeg",
   },
 };
 

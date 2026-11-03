@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.database import connect_db, disconnect_db
-from app.routers import health, registrations, events, admin, export, contact
+from app.routers import health, registrations, events, admin, export, contact, otp
 
 # Configure logging
 logging.basicConfig(
@@ -66,6 +66,7 @@ app.include_router(events.router)
 app.include_router(admin.router)
 app.include_router(export.router)
 app.include_router(contact.router)
+app.include_router(otp.router)
 
 @app.get("/", tags=["Root"])
 async def root():

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import confetti from "canvas-confetti";
 import { FestEvent, RegistrationSubmission } from "@/types";
@@ -28,6 +28,10 @@ import {
   RotateCcw,
   ArrowRight,
   CreditCard,
+  ShieldCheck,
+  RefreshCw,
+  KeyRound,
+  Loader2,
 } from "lucide-react";
 import UPIPaymentModal from "./UPIPaymentModal";
 
@@ -58,6 +62,19 @@ export default function EventRegistrationModal({
   const [members, setMembers] = useState<string[]>([]);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
+  // ── OTP Verification States ──────────────────────────────────────
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [otpError, setOtpError] = useState("");
+  const [otpSuccess, setOtpSuccess] = useState("");
+  const [otpCooldown, setOtpCooldown] = useState(0); // seconds countdown
+  const otpCooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Keep track of which email was verified (reset if user changes email)
+  const verifiedEmailRef = useRef("");
+
   // Submission & ticket state
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [ticketData, setTicketData] = useState<RegistrationSubmission | null>(null);
@@ -78,6 +95,113 @@ export default function EventRegistrationModal({
       setMembers((prev) => prev.slice(0, maxExtra));
     }
   }, [event, isOpen]);
+
+  // Reset OTP state when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setOtpSent(false);
+      setOtpCode("");
+      setEmailVerified(false);
+      setOtpError("");
+      setOtpSuccess("");
+      setOtpCooldown(0);
+      verifiedEmailRef.current = "";
+      if (otpCooldownRef.current) clearInterval(otpCooldownRef.current);
+    }
+  }, [isOpen]);
+
+  // When user changes the email field after verifying, reset verification
+  const handleEmailChange = (val: string) => {
+    setEmail(val);
+    if (emailVerified && val.trim().toLowerCase() !== verifiedEmailRef.current) {
+      setEmailVerified(false);
+      setOtpSent(false);
+      setOtpCode("");
+      setOtpError("");
+      setOtpSuccess("");
+    }
+  };
+
+  // Start 60-second cooldown between OTP resends
+  const startCooldown = (seconds = 60) => {
+    setOtpCooldown(seconds);
+    if (otpCooldownRef.current) clearInterval(otpCooldownRef.current);
+    otpCooldownRef.current = setInterval(() => {
+      setOtpCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(otpCooldownRef.current!);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  // Send OTP to the entered email
+  const handleSendOtp = async () => {
+    const trimmedEmail = email.trim().toLowerCase();
+    if (!trimmedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      setOtpError("Please enter a valid email address first.");
+      return;
+    }
+    setIsSendingOtp(true);
+    setOtpError("");
+    setOtpSuccess("");
+    try {
+      const res = await fetch("/api/otp/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmedEmail, name: leadName.trim() || "Agent" }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setOtpSent(true);
+        setOtpCode("");
+        setOtpSuccess(`OTP sent to ${trimmedEmail}`);
+        startCooldown(60);
+      } else {
+        setOtpError(data.error || "Failed to send OTP. Try again.");
+      }
+    } catch {
+      setOtpError("Network error. Please check your connection.");
+    } finally {
+      setIsSendingOtp(false);
+    }
+  };
+
+  // Verify the OTP entered by the user
+  const handleVerifyOtp = async () => {
+    if (otpCode.trim().length !== 6) {
+      setOtpError("Please enter the 6-digit OTP.");
+      return;
+    }
+    setIsVerifyingOtp(true);
+    setOtpError("");
+    try {
+      const res = await fetch("/api/otp/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim().toLowerCase(), otp: otpCode.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok && data.verified) {
+        setEmailVerified(true);
+        verifiedEmailRef.current = email.trim().toLowerCase();
+        setOtpSent(false);
+        setOtpCode("");
+        setOtpError("");
+        setOtpSuccess("✓ Email verified successfully!");
+        if (otpCooldownRef.current) clearInterval(otpCooldownRef.current);
+        setOtpCooldown(0);
+      } else {
+        setOtpError(data.error || "Incorrect OTP. Please try again.");
+      }
+    } catch {
+      setOtpError("Network error. Please check your connection.");
+    } finally {
+      setIsVerifyingOtp(false);
+    }
+  };
 
   // Auto-flip effect when modal opens for a selected event
   useEffect(() => {
@@ -637,16 +761,117 @@ export default function EventRegistrationModal({
                       />
                     </div>
 
-                    {/* Input 2: Phone number or email */}
-                    <div>
-                      <input
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email address (Active email)"
-                        className="w-full rounded-full h-12 px-6 text-white placeholder:text-slate-400 text-xs sm:text-sm bg-black/40 backdrop-blur-md border border-white/15 focus:border-[#F5B800] focus:bg-black/60 focus:ring-1 focus:ring-[#F5B800]/50 transition-all shadow-inner outline-none"
-                      />
+                    {/* Input 2: Email + OTP Verification */}
+                    <div className="space-y-2">
+                      {/* Email row */}
+                      <div className="flex items-center gap-2">
+                        <div className="relative flex-1">
+                          <input
+                            type="email"
+                            required
+                            value={email}
+                            onChange={(e) => handleEmailChange(e.target.value)}
+                            placeholder="Email address (Active email)"
+                            disabled={emailVerified}
+                            className={`w-full rounded-full h-12 px-6 text-white placeholder:text-slate-400 text-xs sm:text-sm backdrop-blur-md border transition-all shadow-inner outline-none ${
+                              emailVerified
+                                ? "bg-emerald-950/40 border-emerald-500/60 text-emerald-300 cursor-not-allowed"
+                                : "bg-black/40 border-white/15 focus:border-[#F5B800] focus:bg-black/60 focus:ring-1 focus:ring-[#F5B800]/50"
+                            }`}
+                          />
+                          {emailVerified && (
+                            <ShieldCheck className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-400" />
+                          )}
+                        </div>
+
+                        {/* Verify / Resend button */}
+                        {!emailVerified && (
+                          <button
+                            type="button"
+                            onClick={handleSendOtp}
+                            disabled={isSendingOtp || otpCooldown > 0}
+                            className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 h-12 rounded-full text-xs font-heading font-black uppercase tracking-wider transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-red-600 to-pink-700 hover:from-red-500 hover:to-pink-600 text-white shadow-lg hover:scale-105 active:scale-95 whitespace-nowrap"
+                          >
+                            {isSendingOtp ? (
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            ) : otpSent ? (
+                              <RefreshCw className="w-3.5 h-3.5" />
+                            ) : (
+                              <Mail className="w-3.5 h-3.5" />
+                            )}
+                            <span>
+                              {isSendingOtp
+                                ? "Sending..."
+                                : otpCooldown > 0
+                                ? `${otpCooldown}s`
+                                : otpSent
+                                ? "Resend"
+                                : "Verify"}
+                            </span>
+                          </button>
+                        )}
+
+                        {/* Verified badge */}
+                        {emailVerified && (
+                          <span className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 h-12 rounded-full text-xs font-heading font-black uppercase tracking-wider bg-emerald-950/50 border border-emerald-500/50 text-emerald-400">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                            Verified
+                          </span>
+                        )}
+                      </div>
+
+                      {/* OTP input panel — shown after OTP is sent and before verified */}
+                      {otpSent && !emailVerified && (
+                        <div className="rounded-2xl bg-black/50 border border-[#F5B800]/30 backdrop-blur-md p-3 space-y-2 animate-in slide-in-from-top-1 duration-200">
+                          <p className="text-[11px] font-mono-code text-slate-300">
+                            <KeyRound className="inline w-3 h-3 mr-1 text-amber-400" />
+                            Enter the 6-digit OTP sent to{" "}
+                            <span className="text-amber-300 font-bold">{email}</span>
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              maxLength={6}
+                              value={otpCode}
+                              onChange={(e) => {
+                                setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6));
+                                setOtpError("");
+                              }}
+                              onKeyDown={(e) => e.key === "Enter" && handleVerifyOtp()}
+                              placeholder="_ _ _ _ _ _"
+                              className="flex-1 rounded-full h-11 px-5 text-white placeholder:text-slate-500 text-center text-sm font-mono-code tracking-[0.5em] bg-black/60 border border-[#F5B800]/40 focus:border-[#F5B800] focus:ring-1 focus:ring-[#F5B800]/50 outline-none transition-all"
+                            />
+                            <button
+                              type="button"
+                              onClick={handleVerifyOtp}
+                              disabled={isVerifyingOtp || otpCode.length !== 6}
+                              className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 h-11 rounded-full text-xs font-heading font-black uppercase tracking-wider transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white shadow-lg hover:scale-105 active:scale-95"
+                            >
+                              {isVerifyingOtp ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : (
+                                <ShieldCheck className="w-3.5 h-3.5" />
+                              )}
+                              <span>{isVerifyingOtp ? "..." : "Confirm"}</span>
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Error / Success message */}
+                      {otpError && (
+                        <p className="text-[11px] font-mono-code text-red-400 flex items-center gap-1 px-1">
+                          <AlertCircle className="w-3 h-3 flex-shrink-0" />
+                          {otpError}
+                        </p>
+                      )}
+                      {otpSuccess && !otpError && (
+                        <p className="text-[11px] font-mono-code text-emerald-400 flex items-center gap-1 px-1">
+                          <CheckCircle2 className="w-3 h-3 flex-shrink-0" />
+                          {otpSuccess}
+                        </p>
+                      )}
                     </div>
 
                     {/* Input 3: WhatsApp Contact */}
@@ -761,10 +986,19 @@ export default function EventRegistrationModal({
                     </div>
 
                     {/* Primary Button: PROCEED TO UPI PAYMENT */}
-                    <div className="pt-2">
+                    <div className="pt-2 space-y-2">
+                      {/* Email not yet verified hint */}
+                      {!emailVerified && (
+                        <div className="flex items-center gap-2 rounded-xl px-4 py-2.5 bg-amber-950/30 border border-amber-500/30 text-amber-300">
+                          <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0" />
+                          <span className="text-[11px] font-mono-code">
+                            Verify your email above before proceeding to payment
+                          </span>
+                        </div>
+                      )}
                       <button
                         type="submit"
-                        disabled={isSubmitting || !agreedToTerms}
+                        disabled={isSubmitting || !agreedToTerms || !emailVerified}
                         className="w-full rounded-full py-3.5 sm:py-4 text-center cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed group bg-gradient-to-r from-amber-500 via-amber-400 to-red-600 hover:from-amber-400 hover:to-red-500 shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-[0.99]"
                       >
                         <span className="font-heading font-black text-sm sm:text-base text-slate-950 uppercase tracking-wider flex items-center justify-center gap-2">

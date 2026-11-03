@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import TechnixGraffitiLogo from "./TechnixGraffitiLogo";
 import { usePageTransition } from "./PageTransitionContext";
 import { Menu, X, Play, Shield } from "lucide-react";
 
@@ -77,9 +76,16 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
             {/* Subtle Divider */}
             <div className="h-6 sm:h-7 w-[1px] bg-white/20 group-hover:bg-red-500/50 transition-colors" />
 
-            {/* Technix 8.0 Logo */}
-            <div className="w-24 sm:w-28 md:w-32 h-auto group-hover:scale-105 transition-transform duration-200">
-              <TechnixGraffitiLogo mode="nav" className="w-full h-auto" glow={false} />
+            {/* Technix 8.0 Logo Image */}
+            <div className="relative h-8 sm:h-10 w-24 sm:w-32 shrink-0 group-hover:scale-105 transition-transform duration-200">
+              <Image
+                src="/logo.jpeg"
+                alt="Technix 8.0"
+                fill
+                priority
+                unoptimized
+                className="object-contain object-left drop-shadow-[0_2px_12px_rgba(220,38,38,0.5)]"
+              />
             </div>
           </Link>
 
