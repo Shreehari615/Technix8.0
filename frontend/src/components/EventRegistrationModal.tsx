@@ -615,7 +615,7 @@ export default function EventRegistrationModal({
             {/* HEADER */}
             <div className="w-full px-6 pt-2 pb-3 text-center flex-shrink-0 z-20 border-b border-white/10">
               <p className="font-mono-code text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-slate-300 uppercase">
-                TECHNIX 8.0 • BMSIT YELAHANKA
+                TECHNIX 8.0 • BMSITM YELAHANKA
               </p>
 
               <h2
@@ -713,7 +713,7 @@ export default function EventRegistrationModal({
                           ||| | |||| | ||||| || ||| ||||
                         </div>
                         <span className="font-mono-code text-[9px] text-slate-400 mt-1 block">
-                          HASH: {ticketData.id} • BMSIT YELAHANKA ENTRANCE
+                          HASH: {ticketData.id} • BMSITM YELAHANKA ENTRANCE
                         </span>
                       </div>
 
@@ -773,11 +773,10 @@ export default function EventRegistrationModal({
                             onChange={(e) => handleEmailChange(e.target.value)}
                             placeholder="Email address (Active email)"
                             disabled={emailVerified}
-                            className={`w-full rounded-full h-12 px-6 text-white placeholder:text-slate-400 text-xs sm:text-sm backdrop-blur-md border transition-all shadow-inner outline-none ${
-                              emailVerified
+                            className={`w-full rounded-full h-12 px-6 text-white placeholder:text-slate-400 text-xs sm:text-sm backdrop-blur-md border transition-all shadow-inner outline-none ${emailVerified
                                 ? "bg-emerald-950/40 border-emerald-500/60 text-emerald-300 cursor-not-allowed"
                                 : "bg-black/40 border-white/15 focus:border-[#F5B800] focus:bg-black/60 focus:ring-1 focus:ring-[#F5B800]/50"
-                            }`}
+                              }`}
                           />
                           {emailVerified && (
                             <ShieldCheck className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-400" />
@@ -803,10 +802,10 @@ export default function EventRegistrationModal({
                               {isSendingOtp
                                 ? "Sending..."
                                 : otpCooldown > 0
-                                ? `${otpCooldown}s`
-                                : otpSent
-                                ? "Resend"
-                                : "Verify"}
+                                  ? `${otpCooldown}s`
+                                  : otpSent
+                                    ? "Resend"
+                                    : "Verify"}
                             </span>
                           </button>
                         )}
@@ -893,7 +892,7 @@ export default function EventRegistrationModal({
                         required
                         value={collegeName}
                         onChange={(e) => setCollegeName(e.target.value)}
-                        placeholder="College (e.g. BMSIT Bengaluru)"
+                        placeholder="College (e.g. BMSITM Bengaluru)"
                         className="w-full rounded-full h-12 px-6 text-white placeholder:text-slate-400 text-xs sm:text-sm bg-black/40 backdrop-blur-md border border-white/15 focus:border-[#F5B800] focus:bg-black/60 focus:ring-1 focus:ring-[#F5B800]/50 transition-all shadow-inner outline-none"
                       />
                     </div>
@@ -980,7 +979,7 @@ export default function EventRegistrationModal({
                           className="mt-0.5 w-4 h-4 rounded border-white/30 text-amber-500 focus:ring-amber-400 bg-black/40 cursor-pointer"
                         />
                         <span className="text-[11px] font-sans text-slate-300 leading-tight select-none">
-                          I agree to TECHNIX 8.0 rules and verify that college ID will be presented at BMSIT Yelahanka.
+                          I agree to TECHNIX 8.0 rules and verify that college ID will be presented at BMSITM Yelahanka.
                         </span>
                       </label>
                     </div>
@@ -1034,7 +1033,7 @@ export default function EventRegistrationModal({
                       <p>
                         Need assistance? Student Helpdesk active.{" "}
                         <span className="text-[#F5B800] font-semibold">
-                          College ID verification mandatory at BMSIT Yelahanka entrance.
+                          College ID verification mandatory at BMSITM Yelahanka entrance.
                         </span>
                       </p>
                       <p className="font-mono-code text-[10px] text-slate-500 mt-1">

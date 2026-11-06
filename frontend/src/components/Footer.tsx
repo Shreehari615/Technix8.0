@@ -7,7 +7,7 @@ import { festConfig } from "@/data/festConfig";
 import { eventsData } from "@/data/eventsData";
 import { usePageTransition } from "./PageTransitionContext";
 import TechnixGraffitiLogo from "./TechnixGraffitiLogo";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Mail } from "lucide-react";
 
 interface FooterProps {
   onOpenEventDetails?: (eventId: string) => void;
@@ -41,7 +41,7 @@ export default function Footer({ onOpenEventDetails }: FooterProps) {
               <div className="relative w-10 h-10 shrink-0">
                 <Image
                   src="/images/bmsit-logo-clean.png"
-                  alt="BMSIT & M"
+                  alt="BMSITM"
                   fill
                   unoptimized
                   className="object-contain"
@@ -58,7 +58,37 @@ export default function Footer({ onOpenEventDetails }: FooterProps) {
             </p>
 
             <div className="pt-2 text-xs font-mono-code text-pink-400">
-              <span>VENUE // {festConfig.institution.campus}</span>
+              <a
+                href={festConfig.institution.mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-pink-300 transition-colors underline underline-offset-2"
+              >
+                VENUE // {festConfig.institution.campus}
+              </a>
+            </div>
+
+            {/* Social Links */}
+            <div className="flex items-center gap-3 pt-1">
+              <a
+                href={festConfig.contact.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-pink-400 transition-colors"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <span className="font-mono-code">@technix8.0</span>
+              </a>
+              <span className="text-slate-700">•</span>
+              <a
+                href={`mailto:${festConfig.contact.officialEmail}`}
+                aria-label="Email"
+                className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-pink-400 transition-colors"
+              >
+                <Mail className="w-4 h-4" />
+                <span className="font-mono-code">{festConfig.contact.officialEmail}</span>
+              </a>
             </div>
           </div>
 

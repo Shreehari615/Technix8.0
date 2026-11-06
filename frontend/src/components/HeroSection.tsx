@@ -6,6 +6,7 @@ import MarvelTechnixBranding from "./MarvelTechnixBranding";
 import ParticleCanvas from "./ParticleCanvas";
 import CountdownTimer from "./CountdownTimer";
 import { usePageTransition } from "./PageTransitionContext";
+import { festConfig } from "@/data/festConfig";
 
 interface HeroSectionProps {
   onReplaySplash?: () => void;
@@ -57,27 +58,32 @@ export default function HeroSection({
         {/* FLIP Destination Anchor: MARVEL × TECHNIX 8.0 Branding */}
         <div
           id="hero-branding-target"
-          className={`w-full flex justify-center transition-opacity duration-300 ${
-            isSplashActive
+          className={`w-full flex justify-center transition-opacity duration-300 ${isSplashActive
               ? "opacity-0 pointer-events-none select-none"
               : "opacity-100"
-          }`}
+            }`}
         >
           <MarvelTechnixBranding priority />
         </div>
 
-        {/* Primary Subtitle: "The Convergence Is Here." */}
+        {/* Primary Subtitle: tagline */}
         <h2 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-wide text-white mb-2 drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
-          The Convergence Is Here.
+          {festConfig.tagline}
         </h2>
 
         {/* Fest Dates & Location */}
         <p className="font-mono-code text-xs sm:text-sm tracking-[0.3em] uppercase text-amber-200/90 font-medium mb-1.5 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
-          NOVEMBER 17 – 18, 2026
+          NOVEMBER 23 – 24, 2026
         </p>
-        <p className="font-mono-code text-[11px] sm:text-xs tracking-[0.22em] uppercase text-slate-300 font-semibold mb-5 sm:mb-6 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
-          BMSIT, YELAHANKA, BENGALURU
-        </p>
+        <a
+          href={festConfig.institution.mapUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-mono-code text-[11px] sm:text-xs tracking-[0.22em] uppercase text-slate-300 font-semibold mb-5 sm:mb-6 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] hover:text-amber-300 transition-colors inline-flex items-center gap-1.5"
+        >
+          <span>📍</span>
+          BMSITM, YELAHANKA, BENGALURU
+        </a>
 
         {/* Live Launch Countdown (Replacing 'TECHNIX NOT LIVE NOW') */}
         <div className="w-full max-w-xl mx-auto flex flex-col items-center">

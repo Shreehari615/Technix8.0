@@ -1,4 +1,4 @@
-import { FestEvent } from "@/types";
+﻿import { FestEvent } from "@/types";
 
 export const eventsData: FestEvent[] = [
   // 1. STARK PROTOCOL — Coding & Debugging Challenge
@@ -29,7 +29,7 @@ export const eventsData: FestEvent[] = [
     runnerUpPrize: "₹1,000",
     categoriesNote: "UG and PG (separate competitions)",
     tagline: "Think. Code. Debug. Innovate. Become the next Stark!",
-    venue: "Main Computer Center - Lab 301",
+    venue: "Updating Soon",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -78,13 +78,13 @@ export const eventsData: FestEvent[] = [
         name: "Shreehari S V",
         role: "Event Lead",
         phone: "+91 93539 19651",
-        email: "shreehari.technix@bmsit.in",
+        email: "shreehari.technix@BMSITM.in",
       },
       {
         name: "Keerthana",
         role: "Student Coordinator",
         phone: "+91 85534 86995",
-        email: "keerthana.technix@bmsit.in",
+        email: "keerthana.technix@BMSITM.in",
       },
     ],
     image: "/images/technix/events/stark-protocol.webp",
@@ -118,8 +118,8 @@ export const eventsData: FestEvent[] = [
     winningPrize: "₹2,000",
     categoriesNote: "UG and PG (separate competitions)",
     tagline: "Lead with Logic. Command with Confidence. Conquer the Chaos!",
-    venue: "S.H.I.E.L.D. Boardroom - Seminar Hall 2",
-    scheduleTime: "Day 1 - Morning",
+    venue: "Updating Soon",
+    scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
         roundNumber: 1,
@@ -156,13 +156,13 @@ export const eventsData: FestEvent[] = [
         name: "Sharique Raza",
         role: "Event Lead",
         phone: "+91 62075 84187",
-        email: "sharique.technix@bmsit.in",
+        email: "sharique.technix@BMSITM.in",
       },
       {
         name: "Anusha K",
         role: "Student Coordinator",
         phone: "+91 63632 62375",
-        email: "anusha.technix@bmsit.in",
+        email: "anusha.technix@BMSITM.in",
       },
     ],
     image: "/images/technix/events/shield-command-chaos.webp",
@@ -196,8 +196,8 @@ export const eventsData: FestEvent[] = [
     winningPrize: "₹2,000",
     runnerUpPrize: "₹1,000",
     tagline: "Think Fast. Answer Smart. Conquer the Infinity Challenge!",
-    venue: "Sanctum Auditorium - Hall A",
-    scheduleTime: "Day 1 - Afternoon",
+    venue: "Updating Soon",
+    scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
         roundNumber: 1,
@@ -241,13 +241,13 @@ export const eventsData: FestEvent[] = [
         name: "Rahul Jangir",
         role: "Event Lead",
         phone: "+91 75045 54709",
-        email: "rahul.technix@bmsit.in",
+        email: "rahul.technix@BMSITM.in",
       },
       {
         name: "Srigouri Nadig",
         role: "Student Coordinator",
         phone: "+91 81232 80889",
-        email: "srigouri.technix@bmsit.in",
+        email: "srigouri.technix@BMSITM.in",
       },
     ],
     image: "/images/technix/events/infinity-iq-challenge.webp",
@@ -282,8 +282,8 @@ export const eventsData: FestEvent[] = [
     runnerUpPrize: "₹1,000",
     categoriesNote: "UG and PG (separate competitions)",
     tagline: "Imagine. Design. Innovate. Build the Future with Stark Technology!",
-    venue: "Design Lab 204 - Computing Wing",
-    scheduleTime: "Day 1 - Morning",
+    venue: "Updating Soon",
+    scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
         roundNumber: 1,
@@ -324,13 +324,13 @@ export const eventsData: FestEvent[] = [
         name: "Samarth S Patil",
         role: "Event Lead",
         phone: "+91 63602 36750",
-        email: "samarth.technix@bmsit.in",
+        email: "samarth.technix@BMSITM.in",
       },
       {
         name: "Harshitha",
         role: "Student Coordinator",
         phone: "+91 70190 67719",
-        email: "harshitha.technix@bmsit.in",
+        email: "harshitha.technix@BMSITM.in",
       },
     ],
     image: "/images/technix/events/interface-infinity.webp",
@@ -364,8 +364,8 @@ export const eventsData: FestEvent[] = [
     winningPrize: "₹3,000",
     eventFormat: "Virtual Cybersecurity Treasure Hunt (4 Rounds)",
     tagline: "Trace the Threat. Crack the Code. Stop the System.",
-    venue: "Cyber Defense Wing - Lab 402",
-    scheduleTime: "Day 1 - Afternoon",
+    venue: "Updating Soon",
+    scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
         roundNumber: 1,
@@ -415,13 +415,13 @@ export const eventsData: FestEvent[] = [
         name: "M Thanmay",
         role: "Event Lead",
         phone: "+91 93911 20323",
-        email: "thanmay.technix@bmsit.in",
+        email: "thanmay.technix@BMSITM.in",
       },
       {
         name: "Nishitha",
         role: "Student Coordinator",
         phone: "+91 80731 67665",
-        email: "nishitha.technix@bmsit.in",
+        email: "nishitha.technix@BMSITM.in",
       },
     ],
     image: "/images/technix/events/ultron-digital-dominion.jpg",
@@ -457,8 +457,8 @@ export const eventsData: FestEvent[] = [
     maxEntries: "2 teams per college",
     eventFormat: "Technical Debate",
     tagline: "Choose Your Side. Defend Your Ideas. Win the Debate.",
-    venue: "Main Moot Court / Seminar Hall 3",
-    scheduleTime: "Day 2 - Morning",
+    venue: "Updating Soon",
+    scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
         roundNumber: 1,
@@ -492,13 +492,13 @@ export const eventsData: FestEvent[] = [
         name: "Madeneni Chetan Sivaram",
         role: "Event Lead",
         phone: "+91 95159 97994",
-        email: "chetan.technix@bmsit.in",
+        email: "chetan.technix@BMSITM.in",
       },
       {
         name: "Shehnaaz Begum",
         role: "Student Coordinator",
         phone: "+91 89713 88110",
-        email: "shehnaaz.technix@bmsit.in",
+        email: "shehnaaz.technix@BMSITM.in",
       },
     ],
     image: "/images/hero/marvel-convergence-hero.jpg",
@@ -533,7 +533,7 @@ export const eventsData: FestEvent[] = [
     runnerUpPrize: "₹1,000",
     maxEntries: "2 teams per college",
     tagline: "Focus. Frame. Capture. Let Every Moment Become Legendary!",
-    venue: "Media Center - Room 102 & Campus-Wide",
+    venue: "Updating Soon",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -576,13 +576,13 @@ export const eventsData: FestEvent[] = [
         name: "Shashank Kodiya",
         role: "Event Lead",
         phone: "+91 80505 63255",
-        email: "shashank.technix@bmsit.in",
+        email: "shashank.technix@BMSITM.in",
       },
       {
         name: "Rajeev",
         role: "Student Coordinator",
         phone: "+91 93537 72342",
-        email: "rajeev.technix@bmsit.in",
+        email: "rajeev.technix@BMSITM.in",
       },
     ],
     image: "/images/technix/events/marvel-in-motion.webp",
@@ -616,8 +616,8 @@ export const eventsData: FestEvent[] = [
     winningPrize: "₹3,000",
     maxEntries: "2 teams per college",
     tagline: "Find the Clues. Crack the Code. Steal the Tesseract!",
-    venue: "Central Plaza - Assembly Flagpole",
-    scheduleTime: "Day 1 - 01:30 PM",
+    venue: "Updating Soon",
+    scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
         roundNumber: 1,
@@ -658,13 +658,13 @@ export const eventsData: FestEvent[] = [
         name: "Prajwal Kumar Ponarkar",
         role: "Event Lead",
         phone: "+91 76769 70816",
-        email: "prajwal.technix@bmsit.in",
+        email: "prajwal.technix@BMSITM.in",
       },
       {
         name: "Gnanesh K C",
         role: "Student Coordinator",
         phone: "+91 95351 97496",
-        email: "gnanesh.technix@bmsit.in",
+        email: "gnanesh.technix@BMSITM.in",
       },
     ],
     image: "/images/technix/events/tesseract-heist.webp",
@@ -699,7 +699,7 @@ export const eventsData: FestEvent[] = [
     runnerUpPrize: "₹1,500",
     eventFormat: "Battlegrounds Mobile India (BGMI)",
     tagline: "Drop In. Squad Up. Fight Together. Conquer the Battleworld!",
-    venue: "Main Esports Arena - Seminar Hall 1",
+    venue: "Updating Soon",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -736,87 +736,20 @@ export const eventsData: FestEvent[] = [
         name: "Aditya Wagh",
         role: "Event Lead",
         phone: "+91 70199 432437",
-        email: "aditya.technix@bmsit.in",
+        email: "aditya.technix@BMSITM.in",
       },
       {
         name: "Mehrooz Zehra",
         role: "Student Coordinator",
         phone: "+91 63637 17806",
-        email: "mehrooz.technix@bmsit.in",
+        email: "mehrooz.technix@BMSITM.in",
       },
     ],
     image: "/images/technix/events/avengers-battleworld.webp",
     avatarIcon: "Gamepad2",
   },
 
-  // 10. COSMIC SHOWCASE — Marvel-Themed Dance Competition
-  {
-    id: "cosmic-showcase",
-    title: "COSMIC SHOWCASE — Dance Competition",
-    subtitle: "Marvel-Themed Dance Competition",
-    marvelCharacter: "STAR-LORD — Peter Quill & Guardians",
-    characterTitle: "Leader of the Galactic Sound & Stage",
-    category: "Cultural",
-    shortDescription: "Under the theme “Social Media Takeover”, group dance teams bring creativity, rhythm and storytelling together on stage.",
-    fullDescription: "Inspired by the vibrant energy, iconic heroes and spectacular battles of the Marvel Universe, COSMIC SHOWCASE brings creativity, rhythm and storytelling together on stage. Under the theme “Social Media Takeover”, participants are invited to display their talent through energetic choreography, imaginative concepts and engaging performances inspired by the digital world. Celebrate individuality, teamwork and artistic expression as you take over the stage with a performance worthy of the Multiverse.",
-    visualDirection: "Cassette synthwave neon, deep space cosmic lasers, concert stage beams, magenta, violet, and cyan.",
-    heroTheme: {
-      accentColor: "#EC4899", // Neon Magenta
-      glowColor: "rgba(236, 72, 153, 0.45)",
-      badgeBg: "rgba(236, 72, 153, 0.15)",
-      heroGradient: "linear-gradient(135deg, rgba(236,72,153,0.3) 0%, rgba(168,85,247,0.2) 100%)",
-    },
-    teamSize: {
-      min: 4,
-      max: 6,
-      label: "4–6 Members (Group Dance)",
-    },
-    feeAmount: 300,
-    registrationFee: "₹300 per team",
-    winningPrize: "₹3,000",
-    eventFormat: "Group Dance Competition (Theme: Social Media Takeover)",
-    tagline: "Dance to the Beat. Own the Stage. Unleash Your Cosmic Energy!",
-    venue: "Open Air Amphitheatre - Main Festival Stage",
-    scheduleTime: "Day 2 - 04:30 PM",
-    rounds: [
-      {
-        roundNumber: 1,
-        title: "Main Stage Performance: Social Media Takeover",
-        duration: "Max 6 Mins",
-        description: "Group dance performance under the announced theme 'Social Media Takeover', evaluated on choreography, concept, synchronization, and energy.",
-      },
-    ],
-    rules: [
-      "Each performance must be no longer than six minutes.",
-      "Teams must arrange and manage their own props, costumes and other materials. The organisers will not provide these items.",
-      "Music tracks must be submitted to the organisers on a pen drive before the performance begins.",
-      "Every performance must follow the announced theme, “Social Media Takeover”.",
-      "Costumes, music, choreography and overall presentation must be appropriate and comply with the college code of conduct.",
-      "Teams must report to the venue before their allotted performance time.",
-      "The respective team will be responsible for any damage to the stage, venue or college property caused by its props or equipment.",
-      "On-the-spot registration for available slots will be open only for this event on 18 November, from 8:00 AM to 9:00 AM, subject to slot availability.",
-      "The decisions of the judges and jury will be final and binding on all participants.",
-    ],
-    eligibility: "Open to all enrolled undergraduate and postgraduate students.",
-    coordinators: [
-      {
-        name: "Aishwarya",
-        role: "Event Lead",
-        phone: "+91 78993 12975",
-        email: "aishwarya.technix@bmsit.in",
-      },
-      {
-        name: "Mahima Raj",
-        role: "Student Coordinator",
-        phone: "+91 79758 53550",
-        email: "mahima.technix@bmsit.in",
-      },
-    ],
-    image: "/images/technix/events/cosmic-showcase.webp",
-    avatarIcon: "Music",
-  },
-
-  // 11. PROJECT: WHAT IF...? — Marvel-Themed Surprise Event
+  // 10. PROJECT: WHAT IF...? — Marvel-Themed Surprise Event
   {
     id: "project-what-if",
     title: "PROJECT: WHAT IF...? — Surprise Event",
@@ -843,8 +776,8 @@ export const eventsData: FestEvent[] = [
     winningPrize: "₹3,000",
     runnerUpPrize: "₹1,500",
     tagline: "Expect the Unexpected. Embrace the Chaos. Rewrite the Multiverse!",
-    venue: "Multiverse Arena - Revealed on Spot",
-    scheduleTime: "Day 2 - 02:00 PM",
+    venue: "Updating Soon",
+    scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
         roundNumber: 1,
@@ -869,13 +802,13 @@ export const eventsData: FestEvent[] = [
         name: "Khushi Poonja",
         role: "Event Lead",
         phone: "+91 95900 12306",
-        email: "khushi.technix@bmsit.in",
+        email: "khushi.technix@BMSITM.in",
       },
       {
         name: "Vivek Baheti",
         role: "Student Coordinator",
         phone: "+91 88299 24009",
-        email: "vivek.technix@bmsit.in",
+        email: "vivek.technix@BMSITM.in",
       },
     ],
     image: "/images/technix/events/project-what-if.webp",

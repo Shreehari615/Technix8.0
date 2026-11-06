@@ -152,7 +152,7 @@ export default function RegistrationSection({
       <div className="w-full bg-black/60 border-b border-white/10 text-[#CCCCCC] py-2 px-4 flex items-center justify-center text-[11px] sm:text-xs font-mono-code tracking-widest uppercase select-none z-20 relative">
         <span className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-          STREAM TECHNIX 8.0 EXCLUSIVELY AT FEST ARENAS • NOVEMBER 17 – 18, 2026 • BMSIT YELAHANKA BENGALURU
+          STREAM TECHNIX 8.0 EXCLUSIVELY AT FEST ARENAS • NOVEMBER 23 – 24, 2026 • BMSITM YELAHANKA BENGALURU
         </span>
       </div>
 
@@ -220,7 +220,7 @@ export default function RegistrationSection({
 
           <div className="mt-5 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white/90 text-xs font-mono-code uppercase tracking-wider">
             <Calendar className="w-3.5 h-3.5 text-amber-400" />
-            <span>NOVEMBER 17 – 18, 2026 • BMSIT YELAHANKA BENGALURU</span>
+            <span>NOVEMBER 23 – 24, 2026 • BMSITM YELAHANKA BENGALURU</span>
           </div>
         </div>
       </div>
@@ -260,7 +260,7 @@ export default function RegistrationSection({
                   {ticketData.passCode}
                 </span>
                 <span className="font-mono-code text-xs text-amber-300/90 font-bold block mt-1">
-                  {festConfig.name} • BMSIT Yelahanka Bengaluru
+                  {festConfig.name} • BMSITM Yelahanka Bengaluru
                 </span>
               </div>
 
@@ -359,7 +359,7 @@ export default function RegistrationSection({
                   ||| | |||| | ||||| || ||| ||||
                 </div>
                 <span className="font-mono-code text-[10px] text-slate-500 mt-1 block">
-                  CRYPTOGRAPHIC HASH: {ticketData.id} • BMSIT YELAHANKA ENTRANCE
+                  CRYPTOGRAPHIC HASH: {ticketData.id} • BMSITM YELAHANKA ENTRANCE
                 </span>
               </div>
 
@@ -402,7 +402,7 @@ export default function RegistrationSection({
               {/* Header: HAPPY ANNIVERSARY -> TECHNIX 8.0 • BMSIT YELAHANKA */}
               <div className="text-center pt-4 pb-4">
                 <p className="font-mono-code text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-slate-400 uppercase">
-                  TECHNIX 8.0 • BMSIT YELAHANKA
+                  TECHNIX 8.0 • BMSITM YELAHANKA
                 </p>
 
                 {/* Big Bold Golden Headline (GALERY TYPOGRAPHY -> EVENT TITLE / REGISTRATION) */}
@@ -515,7 +515,7 @@ export default function RegistrationSection({
                     required
                     value={collegeName}
                     onChange={(e) => setCollegeName(e.target.value)}
-                    placeholder="College or University ( e.g. BMSIT Bengaluru )"
+                    placeholder="College or University ( e.g. BMSITM Bengaluru )"
                     className="w-full neu-inset rounded-full h-12 px-6 text-white placeholder:text-slate-500 text-xs sm:text-sm focus:outline-none"
                   />
                 </div>
@@ -603,7 +603,7 @@ export default function RegistrationSection({
                       className="mt-0.5 w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-400 bg-[#161719] cursor-pointer"
                     />
                     <span className="text-[11px] font-sans text-slate-400 leading-tight select-none">
-                      I agree to TECHNIX 8.0 rules and verify that college ID will be presented at BMSIT Yelahanka.
+                      I agree to TECHNIX 8.0 rules and verify that college ID will be presented at BMSITM Yelahanka.
                     </span>
                   </label>
                 </div>
@@ -645,13 +645,13 @@ export default function RegistrationSection({
                 {/* Footnote (Reference Style: 'Mau ngucapin ? bisa banget...') */}
                 <div className="pt-3 pb-1 text-center text-[10px] sm:text-[11px] font-sans text-slate-400 leading-relaxed">
                   <p>
-                    Need fest clearance? Passes are strictly verified at BMSIT Yelahanka gate entry.{" "}
+                    Need fest clearance? Passes are strictly verified at BMSITM Yelahanka gate entry.{" "}
                     <span className="text-[#F5B800] font-semibold">
-                      Ensure your institution ID card is carried throughout November 17 – 18, 2026.
+                      Ensure your institution ID card is carried throughout November 23 – 24, 2026.
                     </span>
                   </p>
                   <p className="mt-3 font-mono-code text-[10px] text-slate-500">
-                    @technix8.0_bmsit
+                    @technix8.0_BMSITM
                   </p>
                 </div>
               </form>

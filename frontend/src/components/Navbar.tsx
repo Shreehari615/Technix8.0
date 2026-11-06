@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { usePageTransition } from "./PageTransitionContext";
+import TechnixGraffitiLogo from "./TechnixGraffitiLogo";
 import { Menu, X, Play, Shield } from "lucide-react";
 
 interface NavbarProps {
@@ -46,11 +47,10 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 py-3 sm:py-3.5 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-200 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 py-3 sm:py-3.5 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-200 ${isScrolled
           ? "bg-[#070A10]/95 backdrop-blur-md border-b border-slate-800/80 shadow-2xl"
           : "bg-transparent border-b border-transparent"
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -59,13 +59,13 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
             href="/"
             onClick={(e) => handleNavClick(e, "/", "HOME")}
             className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none"
-            aria-label="Technix 8.0 Home - BMSIT"
+            aria-label="Technix 8.0 Home - BMSITM"
           >
-            {/* BMSIT Official Seal */}
+            {/* BMSITM Official Seal */}
             <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0 group-hover:scale-105 transition-transform duration-200">
               <Image
                 src="/images/bmsit-logo-clean.png"
-                alt="BMSIT & M"
+                alt="BMSITM"
                 fill
                 priority
                 unoptimized
@@ -76,16 +76,9 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
             {/* Subtle Divider */}
             <div className="h-6 sm:h-7 w-[1px] bg-white/20 group-hover:bg-red-500/50 transition-colors" />
 
-            {/* Technix 8.0 Logo Image */}
-            <div className="relative h-8 sm:h-10 w-24 sm:w-32 shrink-0 group-hover:scale-105 transition-transform duration-200">
-              <Image
-                src="/logo.jpeg"
-                alt="Technix 8.0"
-                fill
-                priority
-                unoptimized
-                className="object-contain object-left drop-shadow-[0_2px_12px_rgba(220,38,38,0.5)]"
-              />
+            {/* Technix 8.0 Logo */}
+            <div className="w-24 sm:w-28 md:w-32 h-auto group-hover:scale-105 transition-transform duration-200">
+              <TechnixGraffitiLogo mode="nav" className="w-full h-auto" glow={false} />
             </div>
           </Link>
 
@@ -102,9 +95,8 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href, link.name)}
-                  className={`relative font-sans text-xs sm:text-[13px] tracking-[0.2em] uppercase font-bold transition-all py-1 cursor-pointer ${
-                    isActive ? "text-white" : "text-slate-300 hover:text-white"
-                  }`}
+                  className={`relative font-sans text-xs sm:text-[13px] tracking-[0.2em] uppercase font-bold transition-all py-1 cursor-pointer ${isActive ? "text-white" : "text-slate-300 hover:text-white"
+                    }`}
                 >
                   <span>{link.name}</span>
                   {/* Crimson Underline on Active Link */}
@@ -120,11 +112,10 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
               href="/admin"
               onClick={(e) => handleNavClick(e, "/admin", "ADMIN COMMAND MAINFRAME")}
               title="Admin Command Center"
-              className={`p-1.5 rounded-full transition-all cursor-pointer ${
-                pathname === "/admin"
+              className={`p-1.5 rounded-full transition-all cursor-pointer ${pathname === "/admin"
                   ? "text-red-400 bg-red-950/40 border border-red-500/40"
                   : "text-slate-400 hover:text-red-400 hover:bg-white/5"
-              }`}
+                }`}
             >
               <Shield className="w-3.5 h-3.5" />
             </a>
@@ -168,9 +159,8 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href, link.name)}
-                  className={`font-sans text-sm tracking-[0.2em] uppercase font-bold py-1 border-b border-slate-800/40 ${
-                    isActive ? "text-red-400" : "text-slate-300"
-                  }`}
+                  className={`font-sans text-sm tracking-[0.2em] uppercase font-bold py-1 border-b border-slate-800/40 ${isActive ? "text-red-400" : "text-slate-300"
+                    }`}
                 >
                   {link.name}
                 </a>

@@ -21,7 +21,7 @@ async def send_registration_confirmation(
     year_of_study: Optional[str] = None,
 ) -> bool:
     """
-    Sends a branded Marvel/BMSIT admission confirmation email via Brevo REST API v3.
+    Sends a branded Marvel/BMSITM admission confirmation email via Brevo REST API v3.
     """
     if not settings.BREVO_API_KEY:
         logger.warning("BREVO_API_KEY is not configured. Skipping confirmation email.")
@@ -174,7 +174,7 @@ async def send_registration_confirmation(
                 <span style="color:#94a3b8;font-size:11px;font-family:monospace;text-transform:uppercase;letter-spacing:1px;">DATES</span>
               </td>
               <td style="padding:10px 16px;background:#111827;color:#e2e8f0;font-size:13px;">
-                November 17 – 18, 2026
+                November 23 – 24, 2026
               </td>
             </tr>
           </table>
@@ -183,7 +183,7 @@ async def send_registration_confirmation(
         <!-- FOOTER -->
         <tr><td style="background:#030712;padding:24px 32px;text-align:center;border-top:1px solid #1f2937;">
           <p style="margin:0 0 6px;color:#64748b;font-size:11px;font-family:monospace;">
-            TECHNIX 8.0 · Department of MCA · BMSIT&amp;M · Yelahanka, Bengaluru
+            TECHNIX 8.0 · Department of MCA · BMSITM · Yelahanka, Bengaluru
           </p>
           <div style="margin:16px auto 0;width:32px;height:2px;background:#dc2626;border-radius:1px;"></div>
         </td></tr>
@@ -199,7 +199,7 @@ async def send_registration_confirmation(
         "to": [{"email": to_email, "name": lead_name}],
         "subject": f"[TECHNIX 8.0] ✅ Registration Confirmed — {pass_code} | {event_title}",
         "htmlContent": html_content,
-        "textContent": f"TECHNIX 8.0 — Registration Confirmed for {lead_name}\nPasscode: {pass_code}\nEvent: {event_title}\nFee: INR {fee_amount}\nUTR: {utr_number}\nVenue: BMSIT Yelahanka, Bengaluru\nDates: Nov 17-18, 2026",
+        "textContent": f"TECHNIX 8.0 — Registration Confirmed for {lead_name}\nPasscode: {pass_code}\nEvent: {event_title}\nFee: INR {fee_amount}\nUTR: {utr_number}\nVenue: BMSITM Yelahanka, Bengaluru\nDates: Nov 23-24, 2026",
     }
 
     headers = {
@@ -303,7 +303,7 @@ async def send_otp_email(to_email: str, name: str, otp: str) -> bool:
         <!-- FOOTER -->
         <tr><td style="background:#030712;padding:20px 32px;text-align:center;border-top:1px solid #1f2937;">
           <p style="margin:0 0 4px;color:#64748b;font-size:11px;font-family:monospace;">
-            TECHNIX 8.0 · Department of MCA · BMSIT&amp;M · Yelahanka, Bengaluru
+            TECHNIX 8.0 · Department of MCA · BMSITM · Yelahanka, Bengaluru
           </p>
           <div style="margin:14px auto 0;width:32px;height:2px;background:#dc2626;border-radius:1px;"></div>
         </td></tr>

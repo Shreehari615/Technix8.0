@@ -100,7 +100,7 @@ export default function CountdownTimer({
 
             <div className="flex items-center gap-1.5 text-amber-300/90 font-mono-code text-[10px] sm:text-[11px] tracking-wider uppercase font-semibold">
               <Sparkles className="w-3 h-3 text-amber-400" />
-              <span>NOV 17, 2026</span>
+              <span>NOV 23, 2026</span>
             </div>
           </div>
 
@@ -135,7 +135,7 @@ export default function CountdownTimer({
               onClick={onActionClick}
               className="mt-4 w-full group relative inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl border border-amber-500/50 bg-gradient-to-r from-red-600/90 via-red-700/90 to-amber-600/90 hover:from-red-500 hover:to-amber-500 text-white font-mono-code text-xs sm:text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-[1.02] active:scale-98 cursor-pointer"
             >
-              <span>EXPLORE 11 FEST ARENAS</span>
+              <span>EXPLORE 10 FEST ARENAS</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           )}

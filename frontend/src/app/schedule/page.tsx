@@ -10,31 +10,38 @@ import { Calendar, Clock, MapPin, AlertCircle, Sparkles } from "lucide-react";
 export default function SchedulePage() {
   const [selectedDayTab, setSelectedDayTab] = useState<"All" | "Day 1" | "Day 2">("All");
 
+  // All 10 competition events run across both days
+  const allCompetitionEvents = [
+    { time: "Updating Soon", title: "Stark Protocol — Coding & Debugging", venue: "Updating Soon", category: "Technical" },
+    { time: "Updating Soon", title: "Shield: Command The Chaos — IT Manager", venue: "Updating Soon", category: "Technical" },
+    { time: "Updating Soon", title: "The Infinity IQ Challenge — IT Quiz", venue: "Updating Soon", category: "Technical" },
+    { time: "Updating Soon", title: "Stark Labs: Interface Infinity — Web Designing", venue: "Updating Soon", category: "Technical" },
+    { time: "Updating Soon", title: "Ultron's Digital Dominion — Hackathon", venue: "Updating Soon", category: "Technical" },
+    { time: "Updating Soon", title: "Civil War: Battle of Ideas — Debate", venue: "Updating Soon", category: "Non-Technical" },
+    { time: "Updating Soon", title: "Marvel In Motion — Photography & Videography", venue: "Updating Soon", category: "Non-Technical" },
+    { time: "Updating Soon", title: "The Tesseract Heist — Treasure Hunt", venue: "Updating Soon", category: "Non-Technical" },
+    { time: "Updating Soon", title: "Avengers: Battleworld — Gaming & Esports", venue: "Updating Soon", category: "Gaming" },
+    { time: "Updating Soon", title: "Project: What If...? — Surprise Protocol", venue: "Updating Soon", category: "Classified" },
+  ];
+
   const scheduleDays = [
     {
       day: "Day 1 — Convergence Awakening",
       dayKey: "Day 1" as const,
-      date: "November 17, 2026",
+      date: "November 23, 2026",
       events: [
-        { time: "Updating Soon", title: "Grand Inauguration & Quantum Opening", venue: "BMSIT Grand Auditorium", category: "Ceremony" },
-        { time: "Updating Soon", title: "Stark Protocol — Coding & Debugging", venue: "BMSIT Computing Lab", category: "Technical" },
-        { time: "Updating Soon", title: "Shield: Command The Chaos — IT Manager", venue: "BMSIT Seminar Hall", category: "Technical" },
-        { time: "Updating Soon", title: "The Infinity IQ Challenge — IT Quiz", venue: "BMSIT Main Hall", category: "Technical" },
-        { time: "Updating Soon", title: "Avengers: Battleworld — Gaming & Esports", venue: "BMSIT Esports Arena", category: "Gaming" },
-        { time: "Updating Soon", title: "Stark Labs: Interface Infinity — Web Designing", venue: "BMSIT Design Center", category: "Technical" },
+        { time: "Updating Soon", title: "Grand Inauguration & Quantum Opening", venue: "Updating Soon", category: "Ceremony" },
+        ...allCompetitionEvents,
       ],
     },
     {
       day: "Day 2 — The Cosmic Climax",
       dayKey: "Day 2" as const,
-      date: "November 18, 2026",
+      date: "November 24, 2026",
       events: [
-        { time: "Updating Soon", title: "Marvel In Motion — Photography & Videography", venue: "BMSIT Campus-Wide", category: "Non-Technical" },
-        { time: "Updating Soon", title: "The Tesseract Heist — Treasure Hunt", venue: "BMSIT Central Quadrangle", category: "Non-Technical" },
-        { time: "Updating Soon", title: "Project: What If...? — Surprise Protocol", venue: "BMSIT Classified Arena", category: "Classified" },
-        { time: "Updating Soon", title: "Cosmic Showcase — Cultural Showdown", venue: "BMSIT Open Air Amphitheatre", category: "Cultural" },
-        { time: "Updating Soon", title: "Valedictory Ceremony & Prize Distribution", venue: "BMSIT Grand Auditorium", category: "Ceremony" },
-        { time: "Updating Soon", title: "Technix 8.0 DJ Night & Starlight Celebration", venue: "BMSIT Festival Grounds", category: "Cultural" },
+        ...allCompetitionEvents,
+        { time: "Updating Soon", title: "Valedictory Ceremony & Prize Distribution", venue: "Updating Soon", category: "Ceremony" },
+        { time: "Updating Soon", title: "Technix 8.0 DJ Night & Starlight Celebration", venue: "Updating Soon", category: "Cultural" },
       ],
     },
   ];
@@ -55,7 +62,7 @@ export default function SchedulePage() {
         <div className="w-full bg-black/60 border-b border-white/10 text-[#CCCCCC] py-2 px-4 flex items-center justify-center text-[11px] sm:text-xs font-mono-code tracking-widest uppercase select-none z-20 relative">
           <span className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-            STREAM TECHNIX 8.0 EXCLUSIVELY AT FEST ARENAS • NOVEMBER 17 – 18, 2026 • BMSIT YELAHANKA BENGALURU
+            STREAM TECHNIX 8.0 EXCLUSIVELY AT FEST ARENAS • NOVEMBER 23 – 24, 2026 • BMSITM YELAHANKA BENGALURU
           </span>
         </div>
 
@@ -118,12 +125,12 @@ export default function SchedulePage() {
             </h1>
 
             <p className="text-slate-200 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mt-4 font-sans font-normal tracking-wide leading-relaxed drop-shadow-md">
-              Official Itinerary & Timeline for the 9 Heroic Arenas of TECHNIX 8.0
+              Official Itinerary & Timeline for the 10 Heroic Arenas of TECHNIX 8.0
             </p>
 
             <div className="mt-5 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white/90 text-xs font-mono-code uppercase tracking-wider">
               <Calendar className="w-3.5 h-3.5 text-amber-400" />
-              <span>NOVEMBER 17 – 18, 2026 • BMSIT YELAHANKA BENGALURU</span>
+              <span>NOVEMBER 23 – 24, 2026 • BMSITM YELAHANKA BENGALURU</span>
             </div>
           </div>
         </div>
@@ -142,17 +149,16 @@ export default function SchedulePage() {
                     tab === "All"
                       ? "ALL SESSIONS"
                       : tab === "Day 1"
-                      ? "DAY 1 — NOV 17"
-                      : "DAY 2 — NOV 18";
+                        ? "DAY 1 — NOV 23"
+                        : "DAY 2 — NOV 24";
                   return (
                     <button
                       key={tab}
                       onClick={() => setSelectedDayTab(tab)}
-                      className={`relative px-4 py-2 text-xs sm:text-sm font-tech font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                        isActive
+                      className={`relative px-4 py-2 text-xs sm:text-sm font-tech font-bold uppercase tracking-wider transition-colors cursor-pointer ${isActive
                           ? "text-red-500 after:absolute after:bottom-0 after:left-2 after:right-2 after:h-[3px] after:bg-red-500 after:rounded-full"
                           : "text-slate-400 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {label}
                     </button>
@@ -170,7 +176,7 @@ export default function SchedulePage() {
             {/* Countdown Timer Box */}
             <div className="mb-12 p-6 rounded-2xl bg-slate-950 text-white shadow-xl border border-slate-800 text-center max-w-xl mx-auto">
               <span className="font-mono-code text-xs text-amber-400 uppercase tracking-widest block mb-2 font-bold">
-                CONVERGENCE COUNTDOWN // NOVEMBER 17, 2026
+                CONVERGENCE COUNTDOWN // NOVEMBER 23, 2026
               </span>
               <CountdownTimer />
             </div>
@@ -188,7 +194,7 @@ export default function SchedulePage() {
                         {dayGroup.day}
                       </h2>
                       <p className="font-mono-code text-xs font-semibold text-red-600 mt-1 uppercase tracking-wider">
-                        {dayGroup.date} • BMSIT Yelahanka Bengaluru
+                        {dayGroup.date} • BMSITM Yelahanka Bengaluru
                       </p>
                     </div>
 
@@ -244,7 +250,7 @@ export default function SchedulePage() {
                 </div>
                 <div>
                   <h4 className="font-heading text-sm sm:text-base font-bold uppercase text-white">
-                    CENTRAL VENUE // BMSIT YELAHANKA BENGALURU
+                    CENTRAL VENUE // BMSITM YELAHANKA BENGALURU
                   </h4>
                   <p className="text-xs text-slate-400 font-sans mt-0.5">
                     Doddaballapur Main Road, Avalahalli, Yelahanka, Bengaluru, Karnataka 560064
@@ -252,9 +258,14 @@ export default function SchedulePage() {
                 </div>
               </div>
 
-              <div className="px-3.5 py-1.5 rounded-lg bg-white/10 text-xs font-mono-code text-amber-300 border border-white/15 whitespace-nowrap">
-                COORDINATES: 13.1332° N, 77.5678° E
-              </div>
+              <a
+                href="https://maps.app.goo.gl/UtdErCJ9P2auiEQ49"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3.5 py-1.5 rounded-lg bg-white/10 text-xs font-mono-code text-amber-300 border border-white/15 whitespace-nowrap hover:bg-white/20 transition-colors"
+              >
+                📍 OPEN IN GOOGLE MAPS
+              </a>
             </div>
           </div>
         </div>

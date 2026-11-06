@@ -1,22 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import QRCode from "qrcode";
+import React, { useState } from "react";
 import { festConfig } from "@/data/festConfig";
 import { FestEvent } from "@/types";
 import {
   X,
-  QrCode,
+  CreditCard,
   Check,
   Copy,
-  Download,
   ShieldCheck,
   Smartphone,
   AlertCircle,
   Lock,
   ArrowRight,
   Upload,
-  Sparkles,
 } from "lucide-react";
 
 interface UPIPaymentModalProps {
@@ -40,13 +37,10 @@ export default function UPIPaymentModal({
   onClose,
   event,
   leadName,
-  email,
-  phone,
   teamName,
   passCode,
   onPaymentComplete,
 }: UPIPaymentModalProps) {
-  const [dynamicQrUrl, setDynamicQrUrl] = useState<string>("");
   const [copiedVpa, setCopiedVpa] = useState(false);
   const [utrNumber, setUtrNumber] = useState("");
   const [utrError, setUtrError] = useState("");
@@ -54,8 +48,8 @@ export default function UPIPaymentModal({
   const [isProcessing, setIsProcessing] = useState(false);
 
   const amount = event.feeAmount || 150;
-  const vpa = festConfig.upiPayment?.vpa || "shreeharisvbhat2005@oksbi";
-  const payeeName = festConfig.upiPayment?.payeeName || "Shreehari S V";
+  const vpa = process.env.NEXT_PUBLIC_UPI_VPA || festConfig.upiPayment?.vpa || "bmsit@indianbk";
+  const payeeName = process.env.NEXT_PUBLIC_UPI_PAYEE_NAME || festConfig.upiPayment?.payeeName || "BMSITM";
   const note = `TX8-${passCode}-${event.id.slice(0, 8)}`;
 
   // Construct NPCI Standard UPI Intent URI for mobile app deep-linking
@@ -63,35 +57,12 @@ export default function UPIPaymentModal({
     payeeName
   )}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
 
-  // Generate dynamic QR Code data URL encoded with exact amount
-  useEffect(() => {
-    if (!isOpen) return;
-
-    QRCode.toDataURL(upiIntentUri, {
-      width: 320,
-      margin: 1,
-      color: {
-        dark: "#05070B",
-        light: "#FFFFFF",
-      },
-    })
-      .then((url) => setDynamicQrUrl(url))
-      .catch((err) => console.error("Error generating UPI QR code", err));
-  }, [isOpen, upiIntentUri]);
-
   if (!isOpen) return null;
 
   const handleCopyVpa = () => {
     navigator.clipboard.writeText(vpa);
     setCopiedVpa(true);
     setTimeout(() => setCopiedVpa(false), 2000);
-  };
-
-  const handleDownloadQr = () => {
-    const link = document.createElement("a");
-    link.href = dynamicQrUrl;
-    link.download = `Technix8-UPI-QR-${passCode}.png`;
-    link.click();
   };
 
   const handleScreenshotUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,12 +114,12 @@ export default function UPIPaymentModal({
       aria-modal="true"
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
     >
-      <div className="relative w-full max-w-2xl my-auto rounded-3xl bg-[#090C14] border border-slate-800 shadow-[0_0_50px_rgba(226,54,54,0.25)] overflow-hidden flex flex-col text-slate-100">
+      <div className="relative w-full max-w-xl my-auto rounded-3xl bg-[#090C14] border border-slate-800 shadow-[0_0_50px_rgba(226,54,54,0.25)] overflow-hidden flex flex-col text-slate-100">
         {/* Top Header Bar */}
         <div className="px-6 py-4 bg-gradient-to-r from-red-950/70 via-slate-900 to-amber-950/40 border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-red-600/20 border border-red-500/40 text-red-400">
-              <QrCode className="w-5 h-5" />
+              <CreditCard className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -160,7 +131,7 @@ export default function UPIPaymentModal({
                 </span>
               </div>
               <h3 className="font-heading text-lg sm:text-xl font-black text-white tracking-wide">
-                UPI QR PAYMENT GATEWAY
+                UPI PAYMENT GATEWAY
               </h3>
             </div>
           </div>
@@ -201,142 +172,86 @@ export default function UPIPaymentModal({
             </div>
           </div>
 
-          {/* Grid: QR Code & Mobile Launchers */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-            {/* Left: QR Code Box */}
-            <div className="flex flex-col items-center p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-800/90 shadow-inner">
-              {/* Amount Label */}
-              <div className="mb-3 w-full text-center">
-                <span className="font-mono-code text-[11px] font-bold uppercase tracking-wider text-amber-400">
-                  AMOUNT QR • ₹{amount} PRE-FILLED
-                </span>
-              </div>
-
-              {/* QR Image Card Frame */}
-              <div className="relative rounded-2xl bg-white p-2 shadow-2xl border-4 border-slate-900 flex flex-col items-center justify-center overflow-hidden">
-                <div className="p-2 flex flex-col items-center">
-                  {dynamicQrUrl ? (
-                    <img
-                      src={dynamicQrUrl}
-                      alt="UPI Amount QR Code"
-                      className="w-48 h-48 sm:w-52 sm:h-52 object-contain"
-                    />
-                  ) : (
-                    <div className="w-48 h-48 sm:w-52 sm:h-52 flex items-center justify-center font-mono-code text-xs text-slate-700">
-                      GENERATING QR...
-                    </div>
-                  )}
-                  <span className="font-mono-code text-[10px] text-slate-800 font-bold mt-1">
-                    Exact Amount: ₹{amount}
-                  </span>
-                </div>
-              </div>
-
-              {/* Action Buttons below QR */}
-              <div className="flex items-center gap-2 mt-4 w-full">
-                <button
-                  type="button"
-                  onClick={handleDownloadQr}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 font-mono-code text-xs font-semibold transition-colors cursor-pointer"
-                >
-                  <Download className="w-3.5 h-3.5 text-amber-400" />
-                  <span>SAVE QR</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleCopyVpa}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 font-mono-code text-xs font-semibold transition-colors cursor-pointer"
-                >
-                  {copiedVpa ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-emerald-400">COPIED!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5 text-red-400" />
-                      <span>COPY UPI ID</span>
-                    </>
-                  )}
-                </button>
-              </div>
-
-              {/* UPI ID display */}
-              <div className="mt-3 text-center">
-                <span className="font-mono-code text-[11px] text-slate-400">
-                  UPI ID: <span className="text-amber-300 font-bold select-all">{vpa}</span>
-                </span>
-                <span className="font-mono-code text-[10px] text-slate-500 block">
-                  Name: {payeeName}
-                </span>
-              </div>
+          {/* UPI ID Transfer Box */}
+          <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800/90 shadow-inner space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="font-mono-code text-xs font-bold uppercase tracking-wider text-amber-400">
+                OFFICIAL UPI ID
+              </span>
+              <span className="text-[11px] font-mono-code text-slate-400">
+                Bank: Indian Bank
+              </span>
             </div>
 
-            {/* Right: Mobile Intent & Apps Direct Links */}
-            <div className="flex flex-col space-y-4">
-              <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800">
-                <span className="font-mono-code text-xs text-slate-300 font-bold uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                  <Smartphone className="w-4 h-4 text-emerald-400" />
-                  ON MOBILE? PAY DIRECTLY
+            {/* Prominent Copyable UPI ID Box */}
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span className="text-[10px] font-mono-code text-slate-400 uppercase block">
+                  Payee: {payeeName}
                 </span>
-                <p className="text-xs text-slate-400 leading-relaxed font-sans mb-3">
-                  Tap below to launch your installed UPI app with Shreehari S V &amp; ₹{amount} pre-filled:
-                </p>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <a
-                    href={upiIntentUri}
-                    className="p-2.5 rounded-xl bg-slate-900 hover:bg-blue-950/40 border border-slate-800 hover:border-blue-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-blue-500" />
-                    <span>Google Pay</span>
-                  </a>
-
-                  <a
-                    href={upiIntentUri}
-                    className="p-2.5 rounded-xl bg-slate-900 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-purple-500" />
-                    <span>PhonePe</span>
-                  </a>
-
-                  <a
-                    href={upiIntentUri}
-                    className="p-2.5 rounded-xl bg-slate-900 hover:bg-cyan-950/40 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-cyan-400" />
-                    <span>Paytm</span>
-                  </a>
-
-                  <a
-                    href={upiIntentUri}
-                    className="p-2.5 rounded-xl bg-slate-900 hover:bg-amber-950/40 border border-slate-800 hover:border-amber-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-amber-400" />
-                    <span>BHIM / Other</span>
-                  </a>
-                </div>
+                <span className="font-mono-code text-lg sm:text-xl font-black text-amber-300 tracking-wider select-all">
+                  {vpa}
+                </span>
               </div>
 
-              {/* Payee Verification Details */}
-              <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800 text-xs font-mono-code text-slate-400 space-y-1">
-                <div className="flex items-center justify-between text-slate-300">
-                  <span>Payee:</span>
-                  <span className="font-bold text-white">{payeeName}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>UPI Handle:</span>
-                  <span className="text-amber-400 font-bold">{vpa}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Bank:</span>
-                  <span>State Bank of India (SBI)</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Ref Note:</span>
-                  <span className="text-slate-300">{note}</span>
-                </div>
+              <button
+                type="button"
+                onClick={handleCopyVpa}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-mono-code text-xs font-bold transition-all shadow-md cursor-pointer flex-shrink-0"
+              >
+                {copiedVpa ? (
+                  <>
+                    <Check className="w-4 h-4 text-emerald-300" />
+                    <span>COPIED!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4" />
+                    <span>COPY UPI ID</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Mobile Intent App Buttons */}
+            <div className="pt-2">
+              <span className="font-mono-code text-xs text-slate-300 font-bold uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                <Smartphone className="w-4 h-4 text-emerald-400" />
+                ON MOBILE? PAY DIRECTLY VIA APP
+              </span>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <a
+                  href={upiIntentUri}
+                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-blue-950/40 border border-slate-800 hover:border-blue-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
+                >
+                  <span className="w-2 h-2 rounded-full bg-blue-500" />
+                  <span>Google Pay</span>
+                </a>
+
+                <a
+                  href={upiIntentUri}
+                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
+                >
+                  <span className="w-2 h-2 rounded-full bg-purple-500" />
+                  <span>PhonePe</span>
+                </a>
+
+                <a
+                  href={upiIntentUri}
+                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-cyan-950/40 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
+                >
+                  <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                  <span>Paytm</span>
+                </a>
+
+                <a
+                  href={upiIntentUri}
+                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-amber-950/40 border border-slate-800 hover:border-amber-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
+                >
+                  <span className="w-2 h-2 rounded-full bg-amber-400" />
+                  <span>BHIM / Other</span>
+                </a>
               </div>
             </div>
           </div>
@@ -383,8 +298,7 @@ export default function UPIPaymentModal({
               )}
 
               <p className="text-[11px] font-sans text-slate-400 leading-normal">
-                Check your UPI app (Google Pay / PhonePe / Paytm / BHIM) payment receipt. Look for
-                "UPI Transaction ID" or "Google Transaction ID / UTR" (12 numerical digits).
+                After completing payment, check your UPI app receipt for the 12-digit &quot;UPI Transaction ID&quot; or &quot;UTR&quot;.
               </p>
 
               {/* Screenshot Proof Upload (Optional) */}

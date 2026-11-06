@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+import { verifySubmittedOtp } from "@/lib/otpStore";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,22 +10,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email and OTP are required." }, { status: 400 });
     }
 
-    const res = await fetch(`${BACKEND_URL}/api/otp/verify`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email.trim().toLowerCase(), otp: otp.trim() }),
-    });
+    const trimmedEmail = email.trim().toLowerCase();
+    const trimmedOtp = otp.trim();
 
-    const data = await res.json();
+    const result = verifySubmittedOtp(trimmedEmail, trimmedOtp);
 
-    if (!res.ok) {
+    if (!result.success) {
       return NextResponse.json(
-        { error: data.detail || "OTP verification failed." },
-        { status: res.status }
+        { error: result.error || "OTP verification failed." },
+        { status: 400 }
       );
     }
 
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json(
+      {
+        verified: true,
+        message: "Email verified successfully.",
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error in POST /api/otp/verify:", error);
     return NextResponse.json(

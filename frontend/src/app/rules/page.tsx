@@ -120,7 +120,7 @@ export default function RulesPage() {
         <div className="w-full bg-black/60 border-b border-white/10 text-[#CCCCCC] py-2 px-4 flex items-center justify-center text-[11px] sm:text-xs font-mono-code tracking-widest uppercase select-none z-20 relative">
           <span className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-            TECHNIX 8.0 GENERAL RULES &amp; REGULATIONS • BMSIT YELAHANKA
+            TECHNIX 8.0 GENERAL RULES &amp; REGULATIONS • BMSITM YELAHANKA
           </span>
         </div>
 

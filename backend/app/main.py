@@ -43,10 +43,11 @@ The official high-performance Python FastAPI backend for TECHNIX 8.0 — BMS Ins
 )
 
 # CORS Middleware for Next.js frontend communication
+is_wildcard_cors = "*" in settings.CORS_ORIGINS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
-    allow_credentials=True,
+    allow_credentials=not is_wildcard_cors,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -74,7 +75,7 @@ async def root():
         "status": "online",
         "service": "TECHNIX 8.0 FastAPI Backend",
         "version": "1.0.0",
-        "institution": "BMSIT&M Department of MCA",
+        "institution": "BMSITM Department of MCA",
         "documentation": "/docs",
         "redoc": "/redoc",
     }

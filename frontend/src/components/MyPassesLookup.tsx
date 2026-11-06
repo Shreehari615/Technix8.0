@@ -67,11 +67,10 @@ function RegistrationCard({ reg }: { reg: RegistrationRow }) {
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono-code font-bold uppercase tracking-widest border ${
-            isVerified
+          <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono-code font-bold uppercase tracking-widest border ${isVerified
               ? "bg-emerald-950/40 text-emerald-400 border-emerald-500/40"
               : "bg-amber-950/40 text-amber-400 border-amber-500/40"
-          }`}>
+            }`}>
             {isVerified ? "✓ Verified" : "⏳ Pending"}
           </span>
           <button
@@ -91,11 +90,11 @@ function RegistrationCard({ reg }: { reg: RegistrationRow }) {
         </span>
         <span className="flex items-center gap-1.5">
           <CalendarDays className="w-3.5 h-3.5 text-amber-400" />
-          Nov 17–18, 2026
+          Nov 23–24, 2026
         </span>
         <span className="flex items-center gap-1.5">
           <MapPin className="w-3.5 h-3.5 text-blue-400" />
-          BMSIT Yelahanka
+          BMSITM Yelahanka
         </span>
         {members.length > 0 && (
           <span className="flex items-center gap-1.5">

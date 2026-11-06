@@ -2,31 +2,32 @@ export const festConfig = {
   name: "TECHNIX 8.0",
   edition: "8.0",
   type: "Intercollegiate Technical & Cultural Fest",
-  tagline: "ONE UNIVERSE. LIMITLESS POSSIBILITIES.",
-  supportingTagline: "Assemble. Innovate. Conquer.",
+  tagline: "Where Universes Collide, Legends Rise.",
+  supportingTagline: "Where Universes Collide, Legends Rise.",
   heroCopy: "Where technology meets imagination. Assemble your team and take on the ultimate challenge.",
-  
+
   // Event Date (Set for upcoming fest countdown)
   // Can be easily changed by coordinators here
-  eventDate: "2026-11-17T09:00:00+05:30",
-  eventDateDisplay: "November 17–18, 2026",
-  
+  eventDate: "2026-11-23T09:00:00+05:30",
+  eventDateDisplay: "November 23–24, 2026",
+
   // Institutional Information
   institution: {
-    collegeName: "BMS Institute of Technology and Management (BMSIT)",
-    universityName: "BMSIT",
-    campus: "BMSIT, Yelahanka, Bengaluru",
+    collegeName: "BMS Institute of Technology and Management (BMSITM)",
+    universityName: "BMSITM",
+    campus: "BMSITM, Yelahanka, Bengaluru",
     city: "Yelahanka, Bengaluru",
-    address: "BMS Institute of Technology & Management, Doddaballapur Main Road, Avalahalli, Yelahanka, Bengaluru, Karnataka 560064",
+    address: "BMSITM, Doddaballapur Main Road, Avalahalli, Yelahanka, Bengaluru, Karnataka 560064",
     coordinates: "13.1332° N, 77.5678° E",
+    mapUrl: "https://maps.app.goo.gl/UtdErCJ9P2auiEQ49",
   },
 
   // Key Fest Stats / Highlights
   highlights: [
     {
       label: "Galactic Events",
-      value: "9",
-      numericValue: 9,
+      value: "10",
+      numericValue: 10,
       suffix: "",
       subtext: "Technical, Gaming & Cultural",
       iconName: "Zap",
@@ -70,8 +71,8 @@ export const festConfig = {
     patron: "Dr. K. S. Ramanathan, Principal & Dean of Technology",
     convenor: "Prof. Ananya Sen, Head of Department",
     facultyCoordinators: [
-      { name: "Dr. Drakshaveni G", phone: "+91 99728 84530", email: "drakshaveni.g@bmsit.in" },
-      { name: "Prof. Nirupama B K", phone: "+91 96867 73741", email: "nirupama.bk@bmsit.in" },
+      { name: "Dr. Drakshaveni G", phone: "+91 99728 84530", email: "drakshaveni.g@BMSITM.in" },
+      { name: "Prof. Nirupama B K", phone: "+91 96867 73741", email: "nirupama.bk@BMSITM.in" },
     ],
     studentPresidents: [
       { name: "Arjun Sharma", role: "Student President", phone: "+91 98450 12345" },
@@ -81,13 +82,13 @@ export const festConfig = {
 
   // Official Contacts
   contact: {
-    officialEmail: "technix8.0@technixfest.org",
-    inquiryEmail: "helpdesk@technixfest.org",
+    officialEmail: "technix8.0team@gmail.com",
+    inquiryEmail: "technix8.0team@gmail.com",
     sponsorshipEmail: "sponsors@technixfest.org",
     phonePrimary: "+91 98765 43210",
     phoneSecondary: "+91 98450 12345",
     whatsappSupport: "+91 98765 43210",
-    instagram: "https://instagram.com/technix_fest",
+    instagram: "https://www.instagram.com/technix8.0?xtok=MWRoeDZ0MmV4Z2g2Yw==",
     linkedin: "https://linkedin.com/company/technix-fest",
     youtube: "https://youtube.com/@technix_fest",
     github: "https://github.com/technix-fest",
@@ -95,13 +96,13 @@ export const festConfig = {
 
   // UPI Payment Gateway Configuration
   upiPayment: {
-    vpa: "shreeharisvbhat2005@oksbi",
-    payeeName: "Shreehari S V",
+    vpa: "bmsit@indianbk",
+    payeeName: "BMSITM",
     qrImage: "/images/upi-qr-scanner.png",
     merchantCode: "5399",
     currency: "INR",
     supportContact: "+91 98765 43210",
-    bankName: "State Bank of India (SBI UPI)",
+    bankName: "Indian Bank",
   },
 
   // Theme Disclaimer

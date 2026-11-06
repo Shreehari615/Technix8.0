@@ -83,10 +83,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/logo.jpeg", type: "image/jpeg" },
+      { url: "/favicon.ico" },
+      { url: "/images/bmsit-logo-clean.png", type: "image/png" },
     ],
-    apple: "/logo.jpeg",
-    shortcut: "/logo.jpeg",
+    apple: "/images/bmsit-logo-clean.png",
+    shortcut: "/images/bmsit-logo-clean.png",
   },
 };
 

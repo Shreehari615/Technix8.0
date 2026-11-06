@@ -34,7 +34,7 @@ export async function sendRegistrationConfirmationEmail(
   }
 
   const senderEmail = process.env.BREVO_SENDER_EMAIL || "technix8.0team@gmail.com";
-  const senderName = process.env.BREVO_SENDER_NAME || "TECHNIX 8.0 — BMSIT";
+  const senderName = process.env.BREVO_SENDER_NAME || "TECHNIX 8.0 — BMSITM";
 
   const membersHtml =
     data.members && data.members.length > 0
@@ -186,7 +186,7 @@ export async function sendRegistrationConfirmationEmail(
                 <span style="color:#94a3b8;font-size:11px;font-family:monospace;text-transform:uppercase;letter-spacing:1px;">DATES</span>
               </td>
               <td style="padding:10px 16px;background:#111827;color:#e2e8f0;font-size:13px;">
-                November 17 – 18, 2026
+                November 23 – 24, 2026
               </td>
             </tr>
           </table>
@@ -218,7 +218,7 @@ export async function sendRegistrationConfirmationEmail(
         <!-- FOOTER -->
         <tr><td style="background:#030712;padding:24px 32px;text-align:center;border-top:1px solid #1f2937;">
           <p style="margin:0 0 6px;color:#64748b;font-size:11px;font-family:monospace;">
-            TECHNIX 8.0 · Department of MCA · BMSIT&amp;M · Yelahanka, Bengaluru
+            TECHNIX 8.0 · Department of MCA · BMSITM · Yelahanka, Bengaluru
           </p>
           <p style="margin:0;color:#475569;font-size:10px;font-family:monospace;">
             This is an automated confirmation sent via Brevo. For queries, contact the coordinators.
@@ -243,8 +243,8 @@ Event: ${data.eventTitle}
 Fee Paid: ₹${data.feeAmount} (UPI)
 UTR: ${data.utrNumber}
 ${data.teamName ? `Team: ${data.teamName}\n` : ""}${data.members && data.members.length > 0 ? `Allies: ${data.members.join(", ")}\n` : ""}
-Venue: BMS Institute of Technology & Management, Yelahanka, Bengaluru
-Dates: November 17 – 18, 2026
+Venue: BMSITM, Yelahanka, Bengaluru
+Dates: November 23 – 24, 2026
 
 Please carry your original College ID card.
 View your pass anytime: http://localhost:3000/passes?tab=mypasses
@@ -279,6 +279,145 @@ View your pass anytime: http://localhost:3000/passes?tab=mypasses
     }
 
     console.log(`[Email] ✅ Brevo confirmation sent to ${data.toEmail} — Message ID: ${result.messageId}`);
+    return { success: true, messageId: result.messageId };
+  } catch (err) {
+    console.error("[Email] ❌ Failed to call Brevo API:", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Unknown email error",
+    };
+  }
+}
+
+export interface OtpEmailData {
+  toEmail: string;
+  name: string;
+  otp: string;
+}
+
+export async function sendOtpEmail(
+  data: OtpEmailData
+): Promise<{ success: boolean; messageId?: string; error?: string }> {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) {
+    console.warn("[Email] BREVO_API_KEY not configured — skipping OTP email.");
+    return { success: false, error: "Email service not configured." };
+  }
+
+  const senderEmail = process.env.BREVO_SENDER_EMAIL || "technix8.0team@gmail.com";
+  const senderName = process.env.BREVO_SENDER_NAME || "TECHNIX 8.0 — BMSITM";
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TECHNIX 8.0 — Email Verification OTP</title>
+</head>
+<body style="margin:0;padding:0;background:#030712;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#030712;padding:32px 0;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;border-radius:16px;overflow:hidden;border:1px solid #1f2937;background:#0b0f19;">
+
+        <!-- HEADER -->
+        <tr><td style="background:linear-gradient(135deg,#1a0000 0%,#0d0d1a 50%,#0a0000 100%);padding:32px 32px 20px;text-align:center;">
+          <div style="width:48px;height:4px;background:#dc2626;border-radius:2px;margin:0 auto 18px;"></div>
+          <h1 style="margin:0;color:#ffffff;font-size:28px;font-weight:900;letter-spacing:0.15em;font-family:'Arial Black',Arial,sans-serif;text-transform:uppercase;">
+            TECHNIX <span style="color:#dc2626;">8.0</span>
+          </h1>
+          <p style="margin:6px 0 0;color:#94a3b8;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;font-family:monospace;">
+            DEPARTMENT OF MCA · BMS INSTITUTE OF TECHNOLOGY
+          </p>
+        </td></tr>
+
+        <!-- STATUS BANNER -->
+        <tr><td style="background:#0f172a;border-top:1px solid #dc2626;border-bottom:1px solid #1f2937;padding:12px 32px;text-align:center;">
+          <span style="color:#f87171;font-size:12px;font-weight:bold;letter-spacing:0.12em;text-transform:uppercase;font-family:monospace;">
+            🔐 EMAIL VERIFICATION · SECURITY PROTOCOL
+          </span>
+        </td></tr>
+
+        <!-- BODY -->
+        <tr><td style="padding:28px 32px 16px;">
+          <p style="margin:0 0 8px;color:#e2e8f0;font-size:15px;line-height:1.5;">
+            Greetings Agent <strong style="color:#ffffff;">${data.name}</strong>,
+          </p>
+          <p style="margin:0;color:#94a3b8;font-size:13px;line-height:1.6;">
+            Your one-time verification code for <strong style="color:#ffffff;">TECHNIX 8.0</strong> registration is ready. Enter this code to confirm your email address.
+          </p>
+        </td></tr>
+
+        <!-- OTP CODE BOX -->
+        <tr><td style="padding:8px 32px 24px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#030712;border:2px dashed #dc2626;border-radius:14px;">
+            <tr><td style="padding:24px;text-align:center;">
+              <span style="display:block;color:#94a3b8;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;font-family:monospace;margin-bottom:10px;">
+                ONE-TIME VERIFICATION CODE
+              </span>
+              <span style="display:block;color:#fbbf24;font-size:38px;font-weight:900;letter-spacing:0.45em;font-family:monospace;">
+                ${data.otp}
+              </span>
+              <span style="display:block;color:#6b7280;font-size:11px;margin-top:10px;font-family:monospace;">
+                Valid for <strong style="color:#f87171;">10 minutes</strong> · Do not share this code
+              </span>
+            </td></tr>
+          </table>
+        </td></tr>
+
+        <!-- WARNING NOTE -->
+        <tr><td style="padding:0 32px 24px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a0a00;border-radius:10px;border:1px solid #92400e;">
+            <tr><td style="padding:12px 16px;">
+              <span style="color:#fbbf24;font-size:12px;font-family:monospace;display:block;">
+                ⚠️ &nbsp;If you did not attempt to register for TECHNIX 8.0, please ignore this email. This code will expire automatically.
+              </span>
+            </td></tr>
+          </table>
+        </td></tr>
+
+        <!-- FOOTER -->
+        <tr><td style="background:#030712;padding:20px 32px;text-align:center;border-top:1px solid #1f2937;">
+          <p style="margin:0 0 4px;color:#64748b;font-size:11px;font-family:monospace;">
+            TECHNIX 8.0 · Department of MCA · BMSITM · Yelahanka, Bengaluru
+          </p>
+          <div style="margin:14px auto 0;width:32px;height:2px;background:#dc2626;border-radius:1px;"></div>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  const text = `TECHNIX 8.0 — Email Verification\n\nGreetings Agent ${data.name},\n\nYour OTP: ${data.otp}\n\nThis code is valid for 10 minutes. Do not share it with anyone.`;
+
+  try {
+    const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "api-key": apiKey,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        sender: { name: senderName, email: senderEmail },
+        to: [{ email: data.toEmail, name: data.name }],
+        subject: `[TECHNIX 8.0] 🔐 Your Verification Code: ${data.otp}`,
+        htmlContent: html,
+        textContent: text,
+      }),
+    });
+
+    const result = await res.json();
+    if (!res.ok) {
+      console.error("[Email] ❌ Brevo OTP API error:", result);
+      return {
+        success: false,
+        error: result.message || "Failed to send OTP email via Brevo",
+      };
+    }
+
+    console.log(`[Email] ✅ Brevo OTP sent to ${data.toEmail} — Message ID: ${result.messageId}`);
     return { success: true, messageId: result.messageId };
   } catch (err) {
     console.error("[Email] ❌ Failed to call Brevo API:", err);

@@ -330,8 +330,8 @@ export default function AdminPage() {
         const membersStr = Array.isArray(r.members)
           ? r.members.join(" ")
           : typeof r.members === "string"
-          ? r.members
-          : "";
+            ? r.members
+            : "";
         const matches =
           r.lead_name.toLowerCase().includes(q) ||
           r.email.toLowerCase().includes(q) ||
@@ -554,11 +554,10 @@ export default function AdminPage() {
         <div className="flex gap-2 mb-6 overflow-x-auto bg-[#0E1528] border-2 border-slate-700/80 p-2 rounded-2xl shadow-lg">
           <button
             onClick={() => setActiveTab("registrations")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono-code text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
-              activeTab === "registrations"
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono-code text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${activeTab === "registrations"
                 ? "bg-red-600 text-white shadow-md"
                 : "bg-transparent text-slate-300 hover:text-white hover:bg-slate-800"
-            }`}
+              }`}
           >
             <Users className="w-4 h-4" />
             <span>Registrations &amp; Transactions ({filteredRegistrations.length})</span>
@@ -566,11 +565,10 @@ export default function AdminPage() {
 
           <button
             onClick={() => setActiveTab("events")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono-code text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
-              activeTab === "events"
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono-code text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${activeTab === "events"
                 ? "bg-red-600 text-white shadow-md"
                 : "bg-transparent text-slate-300 hover:text-white hover:bg-slate-800"
-            }`}
+              }`}
           >
             <Settings className="w-4 h-4" />
             <span>Event Controls &amp; Edit ({events.length || 11})</span>
@@ -578,11 +576,10 @@ export default function AdminPage() {
 
           <button
             onClick={() => setActiveTab("export")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono-code text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
-              activeTab === "export"
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono-code text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${activeTab === "export"
                 ? "bg-red-600 text-white shadow-md"
                 : "bg-transparent text-slate-300 hover:text-white hover:bg-slate-800"
-            }`}
+              }`}
           >
             <Download className="w-4 h-4" />
             <span>Export Dossier (CSV &amp; PDF)</span>
@@ -882,11 +879,10 @@ export default function AdminPage() {
                           {event.category}
                         </span>
                         <span
-                          className={`font-mono-code text-xs font-black px-3 py-1 rounded border-2 ${
-                            event.isOpen
+                          className={`font-mono-code text-xs font-black px-3 py-1 rounded border-2 ${event.isOpen
                               ? "bg-emerald-950 text-emerald-300 border-emerald-500"
                               : "bg-red-950 text-red-300 border-red-500"
-                          }`}
+                            }`}
                         >
                           {event.isOpen ? "REGISTRATION OPEN" : "CLOSED"}
                         </span>
@@ -1038,12 +1034,12 @@ export default function AdminPage() {
                     Executive PDF Dossier
                   </h3>
                   <p className="font-sans text-xs sm:text-sm text-slate-200 mt-2 leading-relaxed font-medium">
-                    Generates a formal A4 Landscape PDF with BMSIT institutional branding, executive financial summary bar, participant roster, and transaction statuses.
+                    Generates a formal A4 Landscape PDF with BMSITM institutional branding, executive financial summary bar, participant roster, and transaction statuses.
                   </p>
                   <ul className="mt-4 space-y-2 text-xs font-mono-code text-slate-200 font-bold">
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-red-400 shrink-0" />
-                      <span>Formal BMSIT Department of MCA Header</span>
+                      <span>Formal BMSITM Department of MCA Header</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-red-400 shrink-0" />

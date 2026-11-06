@@ -105,12 +105,25 @@ export default function ContactSection() {
               <div className="absolute inset-0 bg-hex-grid opacity-30" />
               <div className="relative z-10 flex flex-col items-center">
                 <Navigation className="w-8 h-8 text-cyan-400 animate-pulse mb-2" />
-                <span className="font-heading text-sm font-bold text-white">
-                  CAMPUS SECTOR GRID: BMSIT YELAHANKA BENGALURU
-                </span>
+                <a
+                  href={festConfig.institution.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-heading text-sm font-bold text-white hover:text-cyan-400 transition-colors"
+                >
+                  CAMPUS SECTOR GRID: BMSITM YELAHANKA BENGALURU
+                </a>
                 <span className="font-mono-code text-xs text-slate-400 mt-1">
                   GPS: {festConfig.institution.coordinates}
                 </span>
+                <a
+                  href={festConfig.institution.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] font-mono-code text-cyan-400 mt-2 px-3 py-1 rounded bg-slate-950 border border-slate-800 hover:border-cyan-500 transition-colors"
+                >
+                  📍 OPEN IN GOOGLE MAPS
+                </a>
                 <span className="text-[11px] font-mono-code text-amber-400 mt-2 px-3 py-1 rounded bg-slate-950 border border-slate-800">
                   SHUTTLE BUS SERVICE AVAILABLE FROM METRO STATION
                 </span>

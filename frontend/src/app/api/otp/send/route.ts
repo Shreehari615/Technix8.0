@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+import { requestOtp } from "@/lib/otpStore";
+import { sendOtpEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,22 +11,40 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "A valid email address is required." }, { status: 400 });
     }
 
-    const res = await fetch(`${BACKEND_URL}/api/otp/send`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email.trim().toLowerCase(), name: name || "Agent" }),
-    });
+    const trimmedEmail = email.trim().toLowerCase();
+    const candidateName = (name || "Agent").trim();
 
-    const data = await res.json();
-
-    if (!res.ok) {
+    const otpResult = requestOtp(trimmedEmail);
+    if (!otpResult.success || !otpResult.otp) {
       return NextResponse.json(
-        { error: data.detail || "Failed to send OTP." },
-        { status: res.status }
+        { error: otpResult.error || "Failed to generate OTP." },
+        { status: 429 }
       );
     }
 
-    return NextResponse.json(data, { status: 200 });
+    // Dispatch OTP email via Brevo transactional API
+    const emailResult = await sendOtpEmail({
+      toEmail: trimmedEmail,
+      name: candidateName,
+      otp: otpResult.otp,
+    });
+
+    if (!emailResult.success) {
+      console.warn(`[OTP Backup] Could not send via Brevo for ${trimmedEmail}. Error: ${emailResult.error}`);
+      return NextResponse.json(
+        { error: emailResult.error || "Failed to send OTP email. Please try again." },
+        { status: 502 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: `OTP sent to ${trimmedEmail}. Valid for 10 minutes.`,
+        expires_in_minutes: 10,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error in POST /api/otp/send:", error);
     return NextResponse.json(

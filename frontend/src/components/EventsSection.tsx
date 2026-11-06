@@ -121,16 +121,16 @@ export default function EventsSection({
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Soft Warm Left Lamp Glow (Matching Reference Living Room Lighting) */}
         <div className="absolute -top-24 -left-20 w-[480px] h-[480px] rounded-full bg-amber-600/12 blur-[130px]" />
-        
+
         {/* Soft Warm Right Lamp Glow */}
         <div className="absolute top-1/4 -right-24 w-[520px] h-[520px] rounded-full bg-amber-500/10 blur-[140px]" />
-        
+
         {/* Center Subdued Blue/Violet Atmospheric Light */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[650px] h-[450px] rounded-full bg-indigo-900/15 blur-[150px]" />
 
         {/* Floor Depth Shadow & Table Surface Reflection Gradient */}
         <div className="absolute bottom-0 inset-x-0 h-72 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90" />
-        
+
         {/* Subtle Room Perspective Lines */}
         <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
       </div>
@@ -149,11 +149,10 @@ export default function EventsSection({
                   setSelectedCategory(cat);
                   setActiveIndex(0);
                 }}
-                className={`px-4 py-1.5 rounded-full text-xs font-mono-code uppercase tracking-wider transition-all cursor-pointer ${
-                  isActive
+                className={`px-4 py-1.5 rounded-full text-xs font-mono-code uppercase tracking-wider transition-all cursor-pointer ${isActive
                     ? "bg-white/20 text-white font-bold border border-white/30 shadow-[0_0_15px_rgba(255,255,255,0.25)] scale-105"
                     : "bg-white/[0.06] text-slate-300 hover:text-white hover:bg-white/15 border border-white/10"
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -278,9 +277,8 @@ export default function EventsSection({
                   onClick={() => {
                     if (!isCenter) setActiveIndex(index);
                   }}
-                  className={`absolute top-1/2 -translate-y-1/2 w-[90vw] max-w-[360px] sm:max-w-[400px] md:max-w-[440px] rounded-[32px] overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${
-                    isCenter ? "cursor-default" : "cursor-pointer"
-                  }`}
+                  className={`absolute top-1/2 -translate-y-1/2 w-[90vw] max-w-[360px] sm:max-w-[400px] md:max-w-[440px] rounded-[32px] overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${isCenter ? "cursor-default" : "cursor-pointer"
+                    }`}
                   style={{
                     transform: `translateX(${translateX}) translateZ(${translateZ}) rotateY(${rotateY}) scale(${scale})`,
                     opacity,
@@ -292,11 +290,10 @@ export default function EventsSection({
                 >
                   {/* Solid Opaque Dark Glass Chassis (Prevents any background content bleed-through) */}
                   <div
-                    className={`relative w-full h-full rounded-[32px] p-3 sm:p-4 flex flex-col justify-between text-left overflow-hidden border transition-all ${
-                      isCenter
+                    className={`relative w-full h-full rounded-[32px] p-3 sm:p-4 flex flex-col justify-between text-left overflow-hidden border transition-all ${isCenter
                         ? "bg-[#0A0C12] border-white/[0.26] shadow-[0_35px_90px_rgba(0,0,0,0.95),inset_0_1px_1px_rgba(255,255,255,0.25)]"
                         : "bg-[#0E1017] border-white/[0.12] shadow-[0_20px_50px_rgba(0,0,0,0.7)]"
-                    }`}
+                      }`}
                     style={{
                       boxShadow: isCenter
                         ? `0 35px 90px rgba(0,0,0,0.95), 0 0 35px ${event.heroTheme.glowColor}, inset 0 1px 1px rgba(255,255,255,0.25)`
@@ -390,7 +387,7 @@ export default function EventsSection({
                             <div className="flex items-center gap-1.5 text-[11px] font-mono-code text-slate-400 truncate">
                               <MapPin className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
                               <span className="truncate">
-                                BMSIT Yelahanka, Bengaluru • 13.1327° N, 77.5684° E
+                                BMSITM Yelahanka, Bengaluru • 13.1327° N, 77.5684° E
                               </span>
                             </div>
 
@@ -541,7 +538,7 @@ export default function EventsSection({
                 {activeEvent.title.split("—")[0].trim()}
               </p>
               <p className="text-[10px] font-mono-code text-slate-400 truncate">
-                TECHNIX 8.0 • BMSIT YELAHANKA
+                TECHNIX 8.0 • BMSITM YELAHANKA
               </p>
             </div>
           </div>
@@ -566,11 +563,10 @@ export default function EventsSection({
                 key={ev.id}
                 onClick={() => setActiveIndex(i)}
                 title={`Go to ${ev.title.split("—")[0].trim()}`}
-                className={`transition-all duration-300 cursor-pointer ${
-                  isActive
+                className={`transition-all duration-300 cursor-pointer ${isActive
                     ? "w-6 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
                     : "w-1.5 h-1.5 rounded-full bg-white/30 hover:bg-white/60"
-                }`}
+                  }`}
                 aria-label={`Go to slide ${i + 1}`}
               />
             );
