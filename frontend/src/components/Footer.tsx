@@ -22,7 +22,6 @@ export default function Footer({ onOpenEventDetails }: FooterProps) {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Cultural Arena", href: "/cultural" },
     { name: "Sports & Gaming", href: "/sports" },
     { name: "All Events", href: "/events" },
     { name: "Fest Schedule", href: "/schedule" },

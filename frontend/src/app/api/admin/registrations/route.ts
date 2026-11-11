@@ -56,6 +56,7 @@ export async function GET(req: NextRequest) {
         count: filtered.length,
         total: rows.length,
         registrations: filtered,
+        source: "neon_db",
       });
     }
 
@@ -90,6 +91,8 @@ export async function GET(req: NextRequest) {
       count: all.length,
       total: mockRegistrations.size,
       registrations: all,
+      source: "in_memory_fallback",
+      warning: "DATABASE_URL is not configured. Registrations are stored in memory only and will be lost on restart. Set DATABASE_URL in Vercel environment variables to persist data.",
     });
   } catch (error) {
     console.error("Error in GET /api/admin/registrations:", error);

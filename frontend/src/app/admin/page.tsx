@@ -62,6 +62,7 @@ export default function AdminPage() {
   const [events, setEvents] = useState<AdminEvent[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
+  const [dbWarning, setDbWarning] = useState<string | null>(null);
 
   // Filters & Tabs
   const [activeTab, setActiveTab] = useState<"registrations" | "events" | "export">("registrations");
@@ -152,6 +153,14 @@ export default function AdminPage() {
 
       if (regData.success) {
         setRegistrations(regData.registrations || []);
+        // Warn if running without a database (in-memory fallback)
+        if (regData.source === "in_memory_fallback" || regData.warning) {
+          setDbWarning(regData.warning || "⚠️ No database connected — running in memory mode. Set DATABASE_URL in Vercel environment variables.");
+        } else {
+          setDbWarning(null);
+        }
+      } else {
+        setFetchError(regData.error || "Failed to load registrations.");
       }
       if (eventData.success) {
         setEvents(eventData.events || []);
@@ -512,6 +521,23 @@ export default function AdminPage() {
         </div>
 
         {/* METRICS OVERVIEW CARDS - 100% SOLID BACKGROUND */}
+        {/* DB Warning Banner */}
+        {dbWarning && (
+          <div className="mb-4 rounded-xl border-2 border-amber-500/60 bg-amber-950/40 px-4 py-3 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-mono-code text-xs font-black text-amber-300 uppercase tracking-wider mb-0.5">Database Not Connected</p>
+              <p className="font-sans text-xs text-amber-200/80">{dbWarning}</p>
+              <p className="font-sans text-xs text-amber-200/60 mt-1">Go to <strong>Vercel → Project → Settings → Environment Variables</strong> and add <code className="bg-black/40 px-1 rounded">DATABASE_URL</code> with your Neon PostgreSQL connection string.</p>
+            </div>
+          </div>
+        )}
+        {fetchError && (
+          <div className="mb-4 rounded-xl border-2 border-red-500/60 bg-red-950/40 px-4 py-3 flex items-start gap-3">
+            <XCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+            <p className="font-sans text-xs text-red-200">{fetchError}</p>
+          </div>
+        )}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4 mb-6">
           <StatCard
             label="Total Candidates"
