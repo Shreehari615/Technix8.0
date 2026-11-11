@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { usePageTransition } from "./PageTransitionContext";
 import TechnixGraffitiLogo from "./TechnixGraffitiLogo";
-import { Menu, X, Play, Shield } from "lucide-react";
+import { Menu, X, Play } from "lucide-react";
 
 interface NavbarProps {
   onReplaySplash?: () => void;
@@ -106,19 +106,6 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
                 </a>
               );
             })}
-
-            {/* Admin Command Portal */}
-            <a
-              href="/admin"
-              onClick={(e) => handleNavClick(e, "/admin", "ADMIN COMMAND MAINFRAME")}
-              title="Admin Command Center"
-              className={`p-1.5 rounded-full transition-all cursor-pointer ${pathname === "/admin"
-                  ? "text-red-400 bg-red-950/40 border border-red-500/40"
-                  : "text-slate-400 hover:text-red-400 hover:bg-white/5"
-                }`}
-            >
-              <Shield className="w-3.5 h-3.5" />
-            </a>
 
             {/* Replay Splash Intro Trigger */}
             {onReplaySplash && (

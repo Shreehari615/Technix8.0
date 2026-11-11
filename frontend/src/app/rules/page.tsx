@@ -16,7 +16,7 @@ const rules = [
     id: 2,
     title: "Registration",
     content:
-      "Participants may register online or offline. On-the-spot registration will also be available, subject to slot availability. The deadline for online registration is 15 November. On-the-spot registration will take place on 17 November, from 8:00 AM to 9:30 AM.",
+      "Participants may register online or offline. On-the-spot registration will also be available, subject to slot availability. The deadline for online registration is 21 November. On-the-spot registration will take place on 23 and 24 November, from 8:00 AM to 9:30 AM.",
   },
   {
     id: 3,

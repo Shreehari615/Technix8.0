@@ -12,9 +12,9 @@ from app.services.auth_service import verify_admin_key, is_valid_admin_token
 router = APIRouter(prefix="/api/registrations", tags=["Registrations"])
 
 def generate_passcode() -> str:
-    rnd = uuid.uuid4().hex[:4].upper()
-    ts = str(int(datetime.now().timestamp()))[-4:]
-    return f"TX8-{rnd}-{ts}"
+    import random
+    digits = random.randint(10000, 99999)
+    return f"TX8-{digits}"
 
 @router.post("", status_code=status.HTTP_201_CREATED)
 async def create_registration(

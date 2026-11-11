@@ -28,7 +28,6 @@ export default function Footer({ onOpenEventDetails }: FooterProps) {
     { name: "Fest Schedule", href: "/schedule" },
     { name: "My Passes", href: "/passes" },
     { name: "Rules & Regulations", href: "/rules" },
-    { name: "Admin Portal", href: "/admin" },
   ];
 
   return (

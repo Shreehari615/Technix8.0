@@ -87,11 +87,8 @@ export default function RegistrationSection({
     e.preventDefault();
     if (!agreedToTerms) return;
 
-    // Generate pending pass code
-    const passCode = `TX8-${currentEvent.marvelCharacter
-      .slice(0, 4)
-      .toUpperCase()
-      .replace(/[^A-Z]/g, "")}-${Math.floor(1000 + Math.random() * 9000)}`;
+    // Generate easily memorable 5-digit pass code: e.g. TX8-54321
+    const passCode = `TX8-${Math.floor(10000 + Math.random() * 90000)}`;
 
     setPendingPassCode(passCode);
     setIsPaymentModalOpen(true);
