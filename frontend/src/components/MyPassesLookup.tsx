@@ -161,7 +161,8 @@ function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: strin
 }
 
 export default function MyPassesLookup() {
-  const [emailInput, setEmailInput] = useState("");
+  const [mode, setMode] = useState<"email" | "passcode">("email");
+  const [lookupInput, setLookupInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [registrations, setRegistrations] = useState<RegistrationRow[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -169,7 +170,8 @@ export default function MyPassesLookup() {
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!emailInput.trim()) return;
+    const query = lookupInput.trim();
+    if (!query) return;
 
     setIsLoading(true);
     setError(null);
@@ -177,16 +179,33 @@ export default function MyPassesLookup() {
     setSearched(false);
 
     try {
-      const res = await fetch(
-        `/api/registrations?email=${encodeURIComponent(emailInput.trim().toLowerCase())}`
-      );
-      const data = await res.json();
+      if (mode === "email") {
+        const res = await fetch(
+          `/api/registrations?email=${encodeURIComponent(query.toLowerCase())}`
+        );
+        const data = await res.json();
 
-      if (!res.ok) {
-        setError(data.error || "Failed to look up registrations.");
+        if (!res.ok) {
+          setError(data.error || "Failed to look up registrations.");
+        } else {
+          setRegistrations(data.registrations || []);
+          setSearched(true);
+        }
       } else {
-        setRegistrations(data.registrations || []);
-        setSearched(true);
+        const res = await fetch(
+          `/api/registrations/${encodeURIComponent(query.toUpperCase())}`
+        );
+        const data = await res.json();
+
+        if (!res.ok) {
+          setError(data.error || `No registration found with pass code ${query.toUpperCase()}`);
+        } else if (data.registration) {
+          setRegistrations([data.registration]);
+          setSearched(true);
+        } else {
+          setRegistrations([]);
+          setSearched(true);
+        }
       }
     } catch {
       setError("Network error. Please try again.");
@@ -198,7 +217,7 @@ export default function MyPassesLookup() {
   return (
     <section className="w-full px-4 sm:px-6 pb-8 pt-6">
       {/* Section Header */}
-      <div className="flex items-center gap-2.5 mb-6">
+      <div className="flex items-center gap-2.5 mb-5">
         <div className="w-7 h-7 rounded-lg bg-red-600/20 border border-red-500/30 flex items-center justify-center">
           <Ticket className="w-4 h-4 text-red-400" />
         </div>
@@ -207,28 +226,70 @@ export default function MyPassesLookup() {
             My Passes
           </h2>
           <p className="text-slate-300 text-xs font-mono-code">
-            Look up your registered events by email
+            Look up your registered events by email or pass code
           </p>
         </div>
+      </div>
+
+      {/* Mode Switcher Tabs */}
+      <div className="flex gap-2 p-1 bg-black/40 border border-white/10 rounded-xl mb-4 max-w-xs">
+        <button
+          type="button"
+          onClick={() => {
+            setMode("email");
+            setError(null);
+            setSearched(false);
+          }}
+          className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-mono-code font-bold transition-all cursor-pointer ${
+            mode === "email"
+              ? "bg-red-600 text-white shadow-md"
+              : "text-slate-400 hover:text-white"
+          }`}
+        >
+          By Email
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setMode("passcode");
+            setError(null);
+            setSearched(false);
+          }}
+          className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-mono-code font-bold transition-all cursor-pointer ${
+            mode === "passcode"
+              ? "bg-red-600 text-white shadow-md"
+              : "text-slate-400 hover:text-white"
+          }`}
+        >
+          By Passcode
+        </button>
       </div>
 
       {/* Search Form */}
       <form onSubmit={handleSearch} className="flex gap-2 mb-6">
         <div className="relative flex-1">
-          <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+          {mode === "email" ? (
+            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+          ) : (
+            <Ticket className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+          )}
           <input
-            type="email"
+            type={mode === "email" ? "email" : "text"}
             required
-            value={emailInput}
-            onChange={(e) => setEmailInput(e.target.value)}
-            placeholder="Enter your registration email..."
-            className="w-full bg-black/60 border border-white/20 hover:border-white/30 focus:border-red-500/70 rounded-xl pl-10 pr-4 py-3 text-white text-sm placeholder:text-slate-400 outline-none transition-colors"
+            value={lookupInput}
+            onChange={(e) => setLookupInput(e.target.value)}
+            placeholder={
+              mode === "email"
+                ? "Enter your registration email..."
+                : "Enter Passcode (e.g. TX8-12345)..."
+            }
+            className="w-full bg-black/60 border border-white/20 hover:border-white/30 focus:border-red-500/70 rounded-xl pl-10 pr-4 py-3 text-white text-sm placeholder:text-slate-400 outline-none transition-colors font-mono-code"
           />
         </div>
         <button
           type="submit"
-          disabled={isLoading || !emailInput.trim()}
-          className="px-5 py-3 rounded-xl bg-red-600 hover:bg-red-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-heading font-bold text-sm uppercase tracking-wider transition-all flex items-center gap-2 shrink-0"
+          disabled={isLoading || !lookupInput.trim()}
+          className="px-5 py-3 rounded-xl bg-red-600 hover:bg-red-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-heading font-bold text-sm uppercase tracking-wider transition-all flex items-center gap-2 shrink-0 cursor-pointer"
         >
           <Search className="w-4 h-4" />
           {isLoading ? "..." : "Lookup"}
