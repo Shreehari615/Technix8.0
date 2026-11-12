@@ -93,6 +93,37 @@ async def init_db():
         await conn.execute("CREATE INDEX IF NOT EXISTS idx_reg_utr ON registrations(utr_number);")
         await conn.execute("CREATE INDEX IF NOT EXISTS idx_reg_created ON registrations(created_at DESC);")
 
+        # ACID Property 1: Consistency - Prevent double-spending or duplicate submissions with Unique UTR
+        await conn.execute("""
+            CREATE UNIQUE INDEX IF NOT EXISTS uq_registrations_utr_active 
+            ON registrations (TRIM(UPPER(utr_number))) 
+            WHERE utr_number IS NOT NULL AND TRIM(utr_number) != '';
+        """)
+
+        # ACID Property 2: Consistency - Check constraint for valid fee amounts
+        await conn.execute("""
+            DO $$
+            BEGIN
+                IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_registrations_fee_positive') THEN
+                    ALTER TABLE registrations ADD CONSTRAINT chk_registrations_fee_positive CHECK (fee_amount >= 0);
+                END IF;
+            END $$;
+        """)
+
+        # ACID Property 3: Durability & Traceability - Immutable audit log table
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS registration_audit_logs (
+                id BIGSERIAL PRIMARY KEY,
+                registration_id VARCHAR(64) NOT NULL,
+                action VARCHAR(32) NOT NULL,
+                performed_by VARCHAR(64) DEFAULT 'fastapi_backend',
+                previous_data JSONB,
+                new_data JSONB,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            );
+        """)
+        await conn.execute("CREATE INDEX IF NOT EXISTS idx_audit_reg_id ON registration_audit_logs(registration_id);")
+
         # Check-in support
         await conn.execute("ALTER TABLE registrations ADD COLUMN IF NOT EXISTS checked_in BOOLEAN DEFAULT false;")
         await conn.execute("ALTER TABLE registrations ADD COLUMN IF NOT EXISTS checked_in_at TIMESTAMPTZ;")

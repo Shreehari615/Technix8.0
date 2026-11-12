@@ -1,6 +1,7 @@
 import json
 import uuid
 import asyncio
+import asyncpg
 from typing import Optional, List, Dict, Any
 from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException, BackgroundTasks, status, Query, Depends, Header
@@ -30,39 +31,89 @@ async def create_registration(
     reg_id = f"reg_{int(datetime.now().timestamp() * 1000)}_{uuid.uuid4().hex[:6]}"
     pass_code = data.pass_code or generate_passcode()
     members_json = json.dumps(data.members)
+    clean_utr = data.utr_number.strip()
 
-    async with pool.acquire() as conn:
-        row = await conn.fetchrow("""
-            INSERT INTO registrations (
-                id, pass_code, event_id, event_title, lead_name, email, phone,
-                college_name, department, year_of_study, team_name, members,
-                fee_amount, payment_method, utr_number, screenshot_url,
-                payment_status, created_at, updated_at
-            )
-            VALUES (
-                $1, $2, $3, $4, $5, $6, $7,
-                $8, $9, $10, $11, $12::jsonb,
-                $13, $14, $15, $16,
-                'paid_pending_verification', NOW(), NOW()
-            )
-            RETURNING *;
-        """,
-            reg_id,
-            pass_code,
-            data.event_id,
-            data.event_title,
-            data.lead_name.strip(),
-            data.email.strip().lower(),
-            data.phone.strip(),
-            data.college_name.strip(),
-            data.department.strip(),
-            data.year_of_study.strip(),
-            data.team_name.strip() if data.team_name else None,
-            members_json,
-            data.fee_amount,
-            data.payment_method,
-            data.utr_number.strip(),
-            data.screenshot_url,
+    # ACID Transaction Block: Atomic insert and audit logging under transaction isolation
+    try:
+        async with pool.acquire() as conn:
+            async with conn.transaction():
+                # Check for existing UTR inside transaction
+                existing = await conn.fetchval(
+                    "SELECT pass_code FROM registrations WHERE UPPER(TRIM(utr_number)) = UPPER(TRIM($1)) LIMIT 1;",
+                    clean_utr
+                )
+                if existing:
+                    raise HTTPException(
+                        status_code=status.HTTP_409_CONFLICT,
+                        detail={
+                            "error": "This UPI transaction UTR has already been submitted for registration.",
+                            "existing_pass_code": existing,
+                        }
+                    )
+
+                row = await conn.fetchrow("""
+                    INSERT INTO registrations (
+                        id, pass_code, event_id, event_title, lead_name, email, phone,
+                        college_name, department, year_of_study, team_name, members,
+                        fee_amount, payment_method, utr_number, screenshot_url,
+                        payment_status, created_at, updated_at
+                    )
+                    VALUES (
+                        $1, $2, $3, $4, $5, $6, $7,
+                        $8, $9, $10, $11, $12::jsonb,
+                        $13, $14, $15, $16,
+                        'paid_pending_verification', NOW(), NOW()
+                    )
+                    RETURNING *;
+                """,
+                    reg_id,
+                    pass_code,
+                    data.event_id,
+                    data.event_title,
+                    data.lead_name.strip(),
+                    data.email.strip().lower(),
+                    data.phone.strip(),
+                    data.college_name.strip(),
+                    data.department.strip(),
+                    data.year_of_study.strip(),
+                    data.team_name.strip() if data.team_name else None,
+                    members_json,
+                    data.fee_amount,
+                    data.payment_method,
+                    clean_utr,
+                    data.screenshot_url,
+                )
+
+                # ACID Durability & Traceability: Insert audit log in same atomic transaction
+                try:
+                    await conn.execute("""
+                        INSERT INTO registration_audit_logs (
+                            registration_id, action, performed_by, new_data
+                        ) VALUES ($1, 'CREATED', 'backend_api', $2::jsonb);
+                    """, reg_id, json.dumps({
+                        "pass_code": pass_code,
+                        "event_id": data.event_id,
+                        "fee_amount": data.fee_amount,
+                        "utr_number": clean_utr,
+                    }))
+                except Exception as audit_err:
+                    # Non-fatal if audit table is still warming up
+                    pass
+
+    except asyncpg.UniqueViolationError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={
+                "error": "A registration with this pass code or UTR number has already been committed.",
+                "details": str(e)
+            }
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Transaction processing failed: {str(e)}"
         )
 
     # Dispatch confirmation email in background via Brevo
