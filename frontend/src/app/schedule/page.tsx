@@ -41,7 +41,7 @@ export default function SchedulePage() {
       events: [
         ...allCompetitionEvents,
         { time: "Updating Soon", title: "Valedictory Ceremony & Prize Distribution", venue: "Updating Soon", category: "Ceremony" },
-        { time: "Updating Soon", title: "Technix 8.0 DJ Night & Starlight Celebration", venue: "Updating Soon", category: "Cultural" },
+        { time: "Updating Soon", title: "Technix 8.0 DJ Night & Starlight Celebration", venue: "Updating Soon", category: "Non-Technical" },
       ],
     },
   ];

@@ -24,6 +24,13 @@ export default function MarvelTechnixBranding({
     <div
       className={`relative flex flex-col items-center w-full select-none ${className}`}
     >
+      {/* Department Banner */}
+      <div className="mb-2 sm:mb-3">
+        <p className="font-mono-code text-[11px] sm:text-xs md:text-sm tracking-[0.25em] sm:tracking-[0.35em] uppercase text-amber-300/90 font-bold drop-shadow-[0_2px_12px_rgba(245,158,11,0.5)]">
+          DEPARTMENT OF MCA PRESENTS
+        </p>
+      </div>
+
       {/* 1. Authentic Official Marvel Red Box Logo (Appears FIRST at the top) */}
       <div className="relative w-36 sm:w-44 md:w-52 aspect-[2.22/1] rounded-sm overflow-hidden shadow-[0_0_35px_rgba(226,54,54,0.7)] ring-1 ring-red-500/50 mb-1.5 sm:mb-2 hover:scale-105 transition-transform duration-300">
         <Image

@@ -1,7 +1,7 @@
 export const festConfig = {
   name: "TECHNIX 8.0",
   edition: "8.0",
-  type: "Intercollegiate Technical & Cultural Fest",
+  type: "Intercollegiate Technical & Gaming Fest",
   tagline: "Where Universes Collide, Legends Rise.",
   supportingTagline: "Where Universes Collide, Legends Rise.",
   heroCopy: "Where technology meets imagination. Assemble your team and take on the ultimate challenge.",
@@ -29,7 +29,7 @@ export const festConfig = {
       value: "10",
       numericValue: 10,
       suffix: "",
-      subtext: "Technical, Gaming & Cultural",
+      subtext: "Technical & Gaming Events",
       iconName: "Zap",
       color: "from-amber-400 to-red-500",
       status: "confirmed",

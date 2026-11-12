@@ -31,7 +31,7 @@ export default function EventsSection({
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [viewMode, setViewMode] = useState<"spatial" | "grid">("spatial");
 
-  const categories = ["All", "Technical", "Non-Technical", "Gaming", "Cultural"];
+  const categories = ["All", "Technical", "Non-Technical", "Gaming"];
 
   const filteredEvents = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
