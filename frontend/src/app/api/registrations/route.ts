@@ -75,77 +75,111 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const inserted = await sql`
-        INSERT INTO registrations (
-          id,
-          pass_code,
-          event_id,
-          event_title,
-          lead_name,
-          email,
-          phone,
-          college_name,
-          department,
-          year_of_study,
-          team_name,
-          members,
-          fee_amount,
-          payment_method,
-          utr_number,
-          screenshot_url,
-          payment_status,
-          created_at,
-          updated_at
-        ) VALUES (
-          ${id},
-          ${cleanPassCode},
-          ${eventId},
-          ${eventTitle},
-          ${leadName.trim()},
-          ${email.trim().toLowerCase()},
-          ${phone.trim()},
-          ${collegeName.trim()},
-          ${department.trim()},
-          ${yearOfStudy},
-          ${teamName ? teamName.trim() : null},
-          ${JSON.stringify(members)},
-          ${Number(feeAmount) || 150},
-          ${paymentMethod},
-          ${cleanUtr},
-          ${screenshotUrl || null},
-          'paid_pending_verification',
-          NOW(),
-          NOW()
-        )
-        RETURNING *;
-      `;
+      try {
+        const inserted = await sql`
+          INSERT INTO registrations (
+            id,
+            pass_code,
+            event_id,
+            event_title,
+            lead_name,
+            email,
+            phone,
+            college_name,
+            department,
+            year_of_study,
+            team_name,
+            members,
+            fee_amount,
+            payment_method,
+            utr_number,
+            screenshot_url,
+            payment_status,
+            created_at,
+            updated_at
+          ) VALUES (
+            ${id},
+            ${cleanPassCode},
+            ${eventId},
+            ${eventTitle},
+            ${leadName.trim()},
+            ${email.trim().toLowerCase()},
+            ${phone.trim()},
+            ${collegeName.trim()},
+            ${department.trim()},
+            ${yearOfStudy},
+            ${teamName ? teamName.trim() : null},
+            ${JSON.stringify(members)},
+            ${Number(feeAmount) || 150},
+            ${paymentMethod},
+            ${cleanUtr},
+            ${screenshotUrl || null},
+            'paid_pending_verification',
+            NOW(),
+            NOW()
+          )
+          RETURNING *;
+        `;
 
-      // Send confirmation email (non-blocking — failure doesn't block registration)
-      const emailResult = await sendRegistrationConfirmationEmail({
-        toEmail: email.trim().toLowerCase(),
-        leadName: leadName.trim(),
-        eventTitle,
-        eventCategory: "",
-        passCode: cleanPassCode,
-        feeAmount: Number(feeAmount) || 150,
-        utrNumber: cleanUtr,
-        teamName: teamName ? teamName.trim() : undefined,
-        members: Array.isArray(members) ? members.filter(Boolean) : [],
-        collegeName: collegeName.trim(),
-        department: department.trim(),
-        yearOfStudy,
-      }).catch((e) => ({ success: false, error: String(e) }));
+        // ACID Audit Record (Durability & Traceability)
+        try {
+          await sql`
+            INSERT INTO registration_audit_logs (
+              registration_id,
+              action,
+              performed_by,
+              new_data
+            ) VALUES (
+              ${id},
+              'CREATED',
+              'participant_checkout',
+              ${JSON.stringify({ pass_code: cleanPassCode, utr: cleanUtr, fee: feeAmount, lead: leadName })}
+            );
+          `;
+        } catch (auditErr) {
+          console.warn("Non-fatal: Audit log entry skipped:", auditErr);
+        }
 
-      return NextResponse.json(
-        {
-          success: true,
-          message: "Registration successfully recorded in Neon PostgreSQL database.",
-          registration: inserted[0],
-          source: "neon_database",
-          emailSent: emailResult.success,
-        },
-        { status: 201 }
-      );
+        // Send confirmation email (non-blocking — failure never rolls back valid DB commit)
+        const emailResult = await sendRegistrationConfirmationEmail({
+          toEmail: email.trim().toLowerCase(),
+          leadName: leadName.trim(),
+          eventTitle,
+          eventCategory: "",
+          passCode: cleanPassCode,
+          feeAmount: Number(feeAmount) || 150,
+          utrNumber: cleanUtr,
+          teamName: teamName ? teamName.trim() : undefined,
+          members: Array.isArray(members) ? members.filter(Boolean) : [],
+          collegeName: collegeName.trim(),
+          department: department.trim(),
+          yearOfStudy,
+        }).catch((e) => ({ success: false, error: String(e) }));
+
+        return NextResponse.json(
+          {
+            success: true,
+            message: "Registration successfully recorded in Neon PostgreSQL database.",
+            registration: inserted[0],
+            source: "neon_database",
+            emailSent: emailResult.success,
+          },
+          { status: 201 }
+        );
+      } catch (dbErr: any) {
+        // ACID Protection: Check for Unique Constraint Violations (UTR collision or Passcode collision)
+        const errStr = String(dbErr || "");
+        if (errStr.includes("unique") || errStr.includes("uq_registrations_utr") || errStr.includes("23505")) {
+          return NextResponse.json(
+            {
+              error: "This UPI transaction UTR has already been committed to the database. Duplicate submissions are strictly prevented.",
+              code: "UTR_ALREADY_COMMITTED",
+            },
+            { status: 409 }
+          );
+        }
+        throw dbErr; // Forward to global handler
+      }
     }
 
     // 3. Fallback in-memory mode when DATABASE_URL is not yet set

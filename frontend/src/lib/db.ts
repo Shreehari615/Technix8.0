@@ -105,6 +105,27 @@ export async function initDatabase(): Promise<{ success: boolean; message: strin
   await sql`CREATE INDEX IF NOT EXISTS idx_registrations_utr ON registrations(utr_number);`;
   await sql`CREATE INDEX IF NOT EXISTS idx_registrations_created_at ON registrations(created_at DESC);`;
 
+  // ACID Enhancement: Unique active UTR to eliminate double-spend race conditions at DB engine level
+  await sql`
+    CREATE UNIQUE INDEX IF NOT EXISTS uq_registrations_utr_active 
+    ON registrations (TRIM(UPPER(utr_number))) 
+    WHERE utr_number IS NOT NULL AND TRIM(utr_number) != '';
+  `;
+
+  // ACID Audit Trail: Immutable historical log of all registration lifecycle states
+  await sql`
+    CREATE TABLE IF NOT EXISTS registration_audit_logs (
+      id BIGSERIAL PRIMARY KEY,
+      registration_id VARCHAR(64) NOT NULL,
+      action VARCHAR(32) NOT NULL,
+      performed_by VARCHAR(64) DEFAULT 'system',
+      previous_data JSONB,
+      new_data JSONB,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+  `;
+  await sql`CREATE INDEX IF NOT EXISTS idx_audit_reg_id ON registration_audit_logs(registration_id);`;
+
   await sql`
     CREATE TABLE IF NOT EXISTS contact_queries (
       id VARCHAR(64) PRIMARY KEY,
