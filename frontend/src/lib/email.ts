@@ -194,7 +194,7 @@ export async function sendRegistrationConfirmationEmail(
 
         <!-- MY PASSES LINK BUTTON -->
         <tr><td style="padding:0 32px 28px;text-align:center;">
-          <a href="http://localhost:3000/passes?tab=mypasses"
+          <a href="https://technix8.vercel.app/passes"
              style="display:inline-block;background:linear-gradient(90deg,#dc2626,#991b1b);color:#ffffff;text-decoration:none;font-weight:900;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;padding:12px 28px;border-radius:9999px;font-family:monospace;box-shadow:0 0 20px rgba(220,38,38,0.4);">
             VIEW MY PASSES ON PORTAL →
           </a>
@@ -247,7 +247,7 @@ Venue: BMSITM, Yelahanka, Bengaluru
 Dates: November 23 – 24, 2026
 
 Please carry your original College ID card.
-View your pass anytime: http://localhost:3000/passes?tab=mypasses
+View your pass anytime: https://technix8.vercel.app/passes
 
 — TECHNIX 8.0 Team`;
 
