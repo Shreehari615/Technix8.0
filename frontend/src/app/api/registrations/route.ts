@@ -51,6 +51,12 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    if (!screenshotUrl || typeof screenshotUrl !== "string" || screenshotUrl.trim().length < 10) {
+      return NextResponse.json(
+        { error: "A clear payment confirmation screenshot with UTR number is mandatory." },
+        { status: 400 }
+      );
+    }
 
     const cleanUtr = utrNumber.trim();
     const cleanPassCode = passCode || `TX8-${Math.floor(10000 + Math.random() * 90000)}`;

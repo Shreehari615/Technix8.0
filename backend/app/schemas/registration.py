@@ -19,7 +19,7 @@ class RegistrationCreate(BaseModel):
     fee_amount: int = Field(default=150, ge=0, description="Registration fee in INR")
     payment_method: str = Field(default="UPI_QR", description="UPI payment method")
     utr_number: str = Field(..., min_length=6, description="UPI transaction 12-digit reference number")
-    screenshot_url: Optional[str] = None
+    screenshot_url: str = Field(..., min_length=10, description="Mandatory payment confirmation screenshot (Base64 data URI or image URL)")
     pass_code: Optional[str] = None
 
 class RegistrationUpdate(BaseModel):
