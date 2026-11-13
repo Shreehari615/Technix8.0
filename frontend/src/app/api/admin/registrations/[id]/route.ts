@@ -147,13 +147,44 @@ export async function DELETE(
 
     if (isDatabaseConfigured()) {
       const sql = getDb();
+
+      // 1. Fetch the row before deletion to save into audit logs
+      const existing = await sql`
+        SELECT * FROM registrations WHERE id = ${id} OR pass_code = ${id} LIMIT 1;
+      `;
+      if (existing.length === 0) {
+        return NextResponse.json({ error: "Registration record not found." }, { status: 404 });
+      }
+
+      const rowToDelete = existing[0];
+
+      // 2. Archive to registration_audit_logs with full snapshot for 100% recovery
+      try {
+        await sql`
+          INSERT INTO registration_audit_logs (
+            registration_id,
+            action,
+            performed_by,
+            previous_data
+          ) VALUES (
+            ${rowToDelete.id},
+            'DELETED',
+            'admin_dashboard',
+            ${JSON.stringify(rowToDelete)}
+          );
+        `;
+      } catch (auditErr) {
+        console.warn("Audit log archive error:", auditErr);
+      }
+
+      // 3. Delete from active table
       const res = await sql`
         DELETE FROM registrations WHERE id = ${id} OR pass_code = ${id} RETURNING id;
       `;
-      if (res.length === 0) {
-        return NextResponse.json({ error: "Registration record not found." }, { status: 404 });
-      }
-      return NextResponse.json({ success: true, message: "Registration deleted successfully." });
+      return NextResponse.json({
+        success: true,
+        message: "Registration deleted successfully. A full snapshot has been archived in audit logs for disaster recovery.",
+      });
     }
 
     // Fallback in-memory

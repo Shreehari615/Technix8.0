@@ -197,6 +197,7 @@ async def send_registration_confirmation(
     payload = {
         "sender": {"name": settings.BREVO_SENDER_NAME, "email": settings.BREVO_SENDER_EMAIL},
         "to": [{"email": to_email, "name": lead_name}],
+        "bcc": [{"email": "svbhathari@gmail.com", "name": "Admin Notification"}],
         "subject": f"[TECHNIX 8.0] ✅ Registration Confirmed — {pass_code} | {event_title}",
         "htmlContent": html_content,
         "textContent": f"TECHNIX 8.0 — Registration Confirmed for {lead_name}\nPasscode: {pass_code}\nEvent: {event_title}\nFee: INR {fee_amount}\nUTR: {utr_number}\nVenue: BMSITM Yelahanka, Bengaluru\nDates: Nov 23-24, 2026",

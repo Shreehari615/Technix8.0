@@ -252,6 +252,13 @@ View your pass anytime: http://localhost:3000/passes?tab=mypasses
 — TECHNIX 8.0 Team`;
 
   try {
+    // Admin notification email address
+    const adminNotificationEmail = "svbhathari@gmail.com";
+    const toRecipients = [{ email: data.toEmail, name: data.leadName }];
+
+    // Add admin to recipient list or send as BCC
+    const bccRecipients = [{ email: adminNotificationEmail, name: "Admin Notification" }];
+
     const res = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
@@ -261,7 +268,8 @@ View your pass anytime: http://localhost:3000/passes?tab=mypasses
       },
       body: JSON.stringify({
         sender: { name: senderName, email: senderEmail },
-        to: [{ email: data.toEmail, name: data.leadName }],
+        to: toRecipients,
+        bcc: bccRecipients,
         subject: `[TECHNIX 8.0] ✅ Registration Confirmed — ${data.passCode} | ${data.eventTitle}`,
         htmlContent: html,
         textContent: text,
