@@ -75,9 +75,9 @@ export const eventsData: FestEvent[] = [
     eligibility: "Undergraduate and postgraduate students enrolled in BCA, B.Sc., BBA, B.Com. and MCA programmes.",
     coordinators: [
       {
-        name: "Shreehari S V",
+        name: "Darshan T Hegde",
         role: "Event Lead",
-        phone: "+91 93539 19651",
+        phone: "+91 8088672553",
         email: "shreehari.technix@BMSITM.in",
       },
       {
