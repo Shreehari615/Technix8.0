@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import QRCode from "qrcode";
 import { festConfig } from "@/data/festConfig";
 import { FestEvent } from "@/types";
 import {
@@ -47,6 +48,8 @@ export default function UPIPaymentModal({
   const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null);
   const [screenshotError, setScreenshotError] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [dynamicQrUrl, setDynamicQrUrl] = useState<string>("");
+  const [activeQrMode, setActiveQrMode] = useState<"dynamic" | "static">("dynamic");
 
   const amount = event.feeAmount || 150;
   const vpa = process.env.NEXT_PUBLIC_UPI_VPA || festConfig.upiPayment?.vpa || "bmsit@indianbk";
@@ -57,6 +60,26 @@ export default function UPIPaymentModal({
   const upiIntentUri = `upi://pay?pa=${vpa}&pn=${encodeURIComponent(
     payeeName
   )}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
+
+  // Standard NPCI URI embedded directly inside the Dynamic QR code with exact registration amount
+  const dynamicUpiUri = `upi://pay?pa=${vpa}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR`;
+
+  useEffect(() => {
+    // Generate high-resolution Dynamic QR code containing the exact amount
+    QRCode.toDataURL(dynamicUpiUri, {
+      width: 400,
+      margin: 2,
+      color: {
+        dark: "#000000",
+        light: "#ffffff",
+      },
+      errorCorrectionLevel: "M",
+    })
+      .then((url) => setDynamicQrUrl(url))
+      .catch((err) => {
+        console.error("Failed to generate dynamic UPI QR:", err);
+      });
+  }, [dynamicUpiUri]);
 
   if (!isOpen) return null;
 
@@ -195,29 +218,87 @@ export default function UPIPaymentModal({
               </span>
             </div>
 
+            {/* QR Mode Selector Tabs */}
+            <div className="flex items-center justify-center p-1 rounded-xl bg-slate-900 border border-slate-800 gap-1">
+              <button
+                type="button"
+                onClick={() => setActiveQrMode("dynamic")}
+                className={`flex-1 py-1.5 px-3 rounded-lg font-mono-code text-xs font-bold transition-all cursor-pointer ${
+                  activeQrMode === "dynamic"
+                    ? "bg-gradient-to-r from-red-600 to-amber-600 text-white shadow-sm"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                ⚡ EXACT ₹{amount} AUTO-FILLED QR
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveQrMode("static")}
+                className={`flex-1 py-1.5 px-3 rounded-lg font-mono-code text-xs font-bold transition-all cursor-pointer ${
+                  activeQrMode === "static"
+                    ? "bg-gradient-to-r from-red-600 to-amber-600 text-white shadow-sm"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                🏛️ ORIGINAL BANK QR
+              </button>
+            </div>
+
             {/* QR Code + Amount */}
             <div className="flex flex-col items-center gap-3">
               {/* Amount Badge above QR */}
               <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500/10 border border-amber-500/40">
-                <span className="font-mono-code text-xs text-amber-400 uppercase font-bold tracking-wider">Pay Exactly</span>
+                <span className="font-mono-code text-xs text-amber-400 uppercase font-bold tracking-wider">
+                  {activeQrMode === "dynamic" ? "Auto Pre-filled Fee:" : "Pay Exactly:"}
+                </span>
                 <span className="font-heading text-2xl font-black text-amber-300">₹{amount}</span>
               </div>
 
-              {/* QR Image */}
-              <div className="relative p-3 rounded-2xl bg-white shadow-[0_0_30px_rgba(245,158,11,0.3)] border-4 border-amber-400/60">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/payment-qr.jpg"
-                  alt="BMSITM UPI Payment QR Code"
-                  width={200}
-                  height={200}
-                  className="w-48 h-48 object-contain"
-                />
+              {/* QR Image Box */}
+              <div className="relative p-3 rounded-2xl bg-white shadow-[0_0_30px_rgba(245,158,11,0.35)] border-4 border-amber-400/70">
+                {activeQrMode === "dynamic" ? (
+                  dynamicQrUrl ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={dynamicQrUrl}
+                      alt={`Dynamic UPI QR Code for ₹${amount}`}
+                      width={200}
+                      height={200}
+                      className="w-48 h-48 object-contain"
+                    />
+                  ) : (
+                    <div className="w-48 h-48 flex flex-col items-center justify-center gap-2 text-slate-800">
+                      <span className="w-6 h-6 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+                      <span className="font-mono-code text-[11px] font-bold">Generating QR...</span>
+                    </div>
+                  )
+                ) : (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src="/images/payment-qr.jpg"
+                    alt="BMSITM Official UPI Bank QR Code"
+                    width={200}
+                    height={200}
+                    className="w-48 h-48 object-contain"
+                  />
+                )}
               </div>
 
-              <p className="font-mono-code text-[11px] text-slate-400 text-center leading-relaxed max-w-xs">
-                Open any UPI app → <span className="text-white font-bold">Scan QR</span> → Enter exact amount <span className="text-amber-400 font-black">₹{amount}</span> → Pay
-              </p>
+              {activeQrMode === "dynamic" ? (
+                <div className="text-center space-y-1 max-w-sm">
+                  <p className="font-mono-code text-xs text-emerald-400 font-bold flex items-center justify-center gap-1.5">
+                    <Check className="w-4 h-4 text-emerald-400" />
+                    <span>Exact amount ₹{amount} is pre-encoded in this QR</span>
+                  </p>
+                  <p className="font-mono-code text-[11px] text-slate-400">
+                    Scan with GPay, PhonePe, Paytm or BHIM — amount is locked automatically.
+                  </p>
+                </div>
+              ) : (
+                <p className="font-mono-code text-[11px] text-slate-400 text-center leading-relaxed max-w-xs">
+                  Scan QR with any UPI app → manually enter exact fee <span className="text-amber-400 font-black">₹{amount}</span> → Pay
+                </p>
+              )}
             </div>
 
             {/* Copyable UPI ID fallback */}
