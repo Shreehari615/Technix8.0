@@ -184,24 +184,49 @@ export default function UPIPaymentModal({
             </div>
           </div>
 
-          {/* UPI ID Transfer Box */}
+          {/* QR Code Payment Section */}
           <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800/90 shadow-inner space-y-4">
             <div className="flex items-center justify-between">
               <span className="font-mono-code text-xs font-bold uppercase tracking-wider text-amber-400">
-                OFFICIAL UPI ID
+                SCAN QR CODE TO PAY
               </span>
               <span className="text-[11px] font-mono-code text-slate-400">
-                Bank: Indian Bank
+                Any UPI App
               </span>
             </div>
 
-            {/* Prominent Copyable UPI ID Box */}
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            {/* QR Code + Amount */}
+            <div className="flex flex-col items-center gap-3">
+              {/* Amount Badge above QR */}
+              <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500/10 border border-amber-500/40">
+                <span className="font-mono-code text-xs text-amber-400 uppercase font-bold tracking-wider">Pay Exactly</span>
+                <span className="font-heading text-2xl font-black text-amber-300">₹{amount}</span>
+              </div>
+
+              {/* QR Image */}
+              <div className="relative p-3 rounded-2xl bg-white shadow-[0_0_30px_rgba(245,158,11,0.3)] border-4 border-amber-400/60">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/payment-qr.jpg"
+                  alt="BMSITM UPI Payment QR Code"
+                  width={200}
+                  height={200}
+                  className="w-48 h-48 object-contain"
+                />
+              </div>
+
+              <p className="font-mono-code text-[11px] text-slate-400 text-center leading-relaxed max-w-xs">
+                Open any UPI app → <span className="text-white font-bold">Scan QR</span> → Enter exact amount <span className="text-amber-400 font-black">₹{amount}</span> → Pay
+              </p>
+            </div>
+
+            {/* Copyable UPI ID fallback */}
+            <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <span className="text-[10px] font-mono-code text-slate-400 uppercase block">
-                  Payee: {payeeName}
+                  Or pay manually — Payee: {payeeName}
                 </span>
-                <span className="font-mono-code text-lg sm:text-xl font-black text-amber-300 tracking-wider select-all">
+                <span className="font-mono-code text-base font-black text-amber-300 tracking-wider select-all">
                   {vpa}
                 </span>
               </div>
@@ -226,10 +251,10 @@ export default function UPIPaymentModal({
             </div>
 
             {/* Mobile Intent App Buttons */}
-            <div className="pt-2">
+            <div className="pt-1">
               <span className="font-mono-code text-xs text-slate-300 font-bold uppercase tracking-wider block mb-2 flex items-center gap-1.5">
                 <Smartphone className="w-4 h-4 text-emerald-400" />
-                ON MOBILE? PAY DIRECTLY VIA APP
+                ON MOBILE? TAP TO OPEN UPI APP DIRECTLY
               </span>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
