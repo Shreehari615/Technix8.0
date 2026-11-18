@@ -8,9 +8,7 @@ import {
   X,
   CreditCard,
   Check,
-  Copy,
   ShieldCheck,
-  Smartphone,
   AlertCircle,
   Lock,
   ArrowRight,
@@ -42,24 +40,16 @@ export default function UPIPaymentModal({
   passCode,
   onPaymentComplete,
 }: UPIPaymentModalProps) {
-  const [copiedVpa, setCopiedVpa] = useState(false);
   const [utrNumber, setUtrNumber] = useState("");
   const [utrError, setUtrError] = useState("");
   const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null);
   const [screenshotError, setScreenshotError] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [dynamicQrUrl, setDynamicQrUrl] = useState<string>("");
-  const [activeQrMode, setActiveQrMode] = useState<"dynamic" | "static">("dynamic");
 
   const amount = event.feeAmount || 150;
   const vpa = process.env.NEXT_PUBLIC_UPI_VPA || festConfig.upiPayment?.vpa || "bmsit@indianbk";
   const payeeName = process.env.NEXT_PUBLIC_UPI_PAYEE_NAME || festConfig.upiPayment?.payeeName || "BMSITM";
-  const note = `TX8-${passCode}-${event.id.slice(0, 8)}`;
-
-  // Construct NPCI Standard UPI Intent URI for mobile app deep-linking
-  const upiIntentUri = `upi://pay?pa=${vpa}&pn=${encodeURIComponent(
-    payeeName
-  )}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
 
   // Standard NPCI URI embedded directly inside the Dynamic QR code with exact registration amount
   const dynamicUpiUri = `upi://pay?pa=${vpa}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR`;
@@ -67,7 +57,7 @@ export default function UPIPaymentModal({
   useEffect(() => {
     // Generate high-resolution Dynamic QR code containing the exact amount
     QRCode.toDataURL(dynamicUpiUri, {
-      width: 400,
+      width: 440,
       margin: 2,
       color: {
         dark: "#000000",
@@ -82,12 +72,6 @@ export default function UPIPaymentModal({
   }, [dynamicUpiUri]);
 
   if (!isOpen) return null;
-
-  const handleCopyVpa = () => {
-    navigator.clipboard.writeText(vpa);
-    setCopiedVpa(true);
-    setTimeout(() => setCopiedVpa(false), 2000);
-  };
 
   const handleScreenshotUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -207,170 +191,56 @@ export default function UPIPaymentModal({
             </div>
           </div>
 
-          {/* QR Code Payment Section */}
-          <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800/90 shadow-inner space-y-4">
-            <div className="flex items-center justify-between">
+          {/* QR Code Payment Section - QR CODE ONLY */}
+          <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800/90 shadow-inner flex flex-col items-center gap-4">
+            <div className="flex items-center justify-between w-full">
               <span className="font-mono-code text-xs font-bold uppercase tracking-wider text-amber-400">
                 SCAN QR CODE TO PAY
               </span>
-              <span className="text-[11px] font-mono-code text-slate-400">
-                Any UPI App
+              <span className="text-[11px] font-mono-code text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+                Auto Amount Pre-Filled
               </span>
             </div>
 
-            {/* QR Mode Selector Tabs */}
-            <div className="flex items-center justify-center p-1 rounded-xl bg-slate-900 border border-slate-800 gap-1">
-              <button
-                type="button"
-                onClick={() => setActiveQrMode("dynamic")}
-                className={`flex-1 py-1.5 px-3 rounded-lg font-mono-code text-xs font-bold transition-all cursor-pointer ${
-                  activeQrMode === "dynamic"
-                    ? "bg-gradient-to-r from-red-600 to-amber-600 text-white shadow-sm"
-                    : "text-slate-400 hover:text-slate-200"
-                }`}
-              >
-                ⚡ EXACT ₹{amount} AUTO-FILLED QR
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveQrMode("static")}
-                className={`flex-1 py-1.5 px-3 rounded-lg font-mono-code text-xs font-bold transition-all cursor-pointer ${
-                  activeQrMode === "static"
-                    ? "bg-gradient-to-r from-red-600 to-amber-600 text-white shadow-sm"
-                    : "text-slate-400 hover:text-slate-200"
-                }`}
-              >
-                🏛️ ORIGINAL BANK QR
-              </button>
+            {/* Amount Badge above QR */}
+            <div className="flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-gradient-to-r from-red-600/20 via-amber-600/20 to-red-600/20 border border-amber-500/50 shadow-md">
+              <span className="font-mono-code text-xs text-amber-300 uppercase font-bold tracking-wider">
+                Registration Fee:
+              </span>
+              <span className="font-heading text-3xl font-black text-amber-400">₹{amount}</span>
             </div>
 
-            {/* QR Code + Amount */}
-            <div className="flex flex-col items-center gap-3">
-              {/* Amount Badge above QR */}
-              <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500/10 border border-amber-500/40">
-                <span className="font-mono-code text-xs text-amber-400 uppercase font-bold tracking-wider">
-                  {activeQrMode === "dynamic" ? "Auto Pre-filled Fee:" : "Pay Exactly:"}
-                </span>
-                <span className="font-heading text-2xl font-black text-amber-300">₹{amount}</span>
-              </div>
-
-              {/* QR Image Box */}
-              <div className="relative p-3 rounded-2xl bg-white shadow-[0_0_30px_rgba(245,158,11,0.35)] border-4 border-amber-400/70">
-                {activeQrMode === "dynamic" ? (
-                  dynamicQrUrl ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
-                      src={dynamicQrUrl}
-                      alt={`Dynamic UPI QR Code for ₹${amount}`}
-                      width={200}
-                      height={200}
-                      className="w-48 h-48 object-contain"
-                    />
-                  ) : (
-                    <div className="w-48 h-48 flex flex-col items-center justify-center gap-2 text-slate-800">
-                      <span className="w-6 h-6 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
-                      <span className="font-mono-code text-[11px] font-bold">Generating QR...</span>
-                    </div>
-                  )
-                ) : (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src="/images/payment-qr.jpg"
-                    alt="BMSITM Official UPI Bank QR Code"
-                    width={200}
-                    height={200}
-                    className="w-48 h-48 object-contain"
-                  />
-                )}
-              </div>
-
-              {activeQrMode === "dynamic" ? (
-                <div className="text-center space-y-1 max-w-sm">
-                  <p className="font-mono-code text-xs text-emerald-400 font-bold flex items-center justify-center gap-1.5">
-                    <Check className="w-4 h-4 text-emerald-400" />
-                    <span>Exact amount ₹{amount} is pre-encoded in this QR</span>
-                  </p>
-                  <p className="font-mono-code text-[11px] text-slate-400">
-                    Scan with GPay, PhonePe, Paytm or BHIM — amount is locked automatically.
-                  </p>
-                </div>
+            {/* QR Image Box */}
+            <div className="relative p-4 rounded-3xl bg-white shadow-[0_0_35px_rgba(245,158,11,0.35)] border-4 border-amber-400/80">
+              {dynamicQrUrl ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={dynamicQrUrl}
+                  alt={`UPI Payment QR Code for ₹${amount}`}
+                  width={240}
+                  height={240}
+                  className="w-56 h-56 object-contain"
+                />
               ) : (
-                <p className="font-mono-code text-[11px] text-slate-400 text-center leading-relaxed max-w-xs">
-                  Scan QR with any UPI app → manually enter exact fee <span className="text-amber-400 font-black">₹{amount}</span> → Pay
-                </p>
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src="/images/payment-qr.jpg"
+                  alt="UPI Payment QR Code"
+                  width={240}
+                  height={240}
+                  className="w-56 h-56 object-contain"
+                />
               )}
             </div>
 
-            {/* Copyable UPI ID fallback */}
-            <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <span className="text-[10px] font-mono-code text-slate-400 uppercase block">
-                  Or pay manually — Payee: {payeeName}
-                </span>
-                <span className="font-mono-code text-base font-black text-amber-300 tracking-wider select-all">
-                  {vpa}
-                </span>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleCopyVpa}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-mono-code text-xs font-bold transition-all shadow-md cursor-pointer flex-shrink-0"
-              >
-                {copiedVpa ? (
-                  <>
-                    <Check className="w-4 h-4 text-emerald-300" />
-                    <span>COPIED!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4" />
-                    <span>COPY UPI ID</span>
-                  </>
-                )}
-              </button>
-            </div>
-
-            {/* Mobile Intent App Buttons */}
-            <div className="pt-1">
-              <span className="font-mono-code text-xs text-slate-300 font-bold uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                <Smartphone className="w-4 h-4 text-emerald-400" />
-                ON MOBILE? TAP TO OPEN UPI APP DIRECTLY
-              </span>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <a
-                  href={upiIntentUri}
-                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-blue-950/40 border border-slate-800 hover:border-blue-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
-                >
-                  <span className="w-2 h-2 rounded-full bg-blue-500" />
-                  <span>Google Pay</span>
-                </a>
-
-                <a
-                  href={upiIntentUri}
-                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
-                >
-                  <span className="w-2 h-2 rounded-full bg-purple-500" />
-                  <span>PhonePe</span>
-                </a>
-
-                <a
-                  href={upiIntentUri}
-                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-cyan-950/40 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
-                >
-                  <span className="w-2 h-2 rounded-full bg-cyan-400" />
-                  <span>Paytm</span>
-                </a>
-
-                <a
-                  href={upiIntentUri}
-                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-amber-950/40 border border-slate-800 hover:border-amber-500/50 flex items-center justify-center gap-2 text-xs font-mono-code font-bold text-slate-200 transition-all hover:scale-[1.02]"
-                >
-                  <span className="w-2 h-2 rounded-full bg-amber-400" />
-                  <span>BHIM / Other</span>
-                </a>
-              </div>
+            <div className="text-center space-y-1.5 max-w-sm">
+              <p className="font-mono-code text-xs text-white font-bold flex items-center justify-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-400" />
+                <span>Scan with Any UPI App</span>
+              </p>
+              <p className="font-mono-code text-[11px] text-slate-400 leading-relaxed">
+                Open Google Pay, PhonePe, Paytm, or BHIM. The exact amount <span className="text-amber-400 font-bold">₹{amount}</span> is locked automatically.
+              </p>
             </div>
           </div>
 

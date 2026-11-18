@@ -32,6 +32,7 @@ import {
   Settings,
   X,
   Plus,
+  Eye,
 } from "lucide-react";
 import { RegistrationRow } from "@/lib/db";
 import { exportToCSV, exportToPDF } from "@/lib/exportUtils";
@@ -73,6 +74,16 @@ export default function AdminPage() {
   // Modals State
   const [editingRegistration, setEditingRegistration] = useState<RegistrationRow | null>(null);
   const [editingEvent, setEditingEvent] = useState<AdminEvent | null>(null);
+  const [selectedProof, setSelectedProof] = useState<{
+    url: string;
+    passCode: string;
+    leadName: string;
+    utr: string;
+    fee: number;
+    event: string;
+    status: string;
+    regId: string;
+  } | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [successToast, setSuccessToast] = useState<string | null>(null);
 
@@ -704,6 +715,7 @@ export default function AdminPage() {
                         <th className="py-4 px-4 text-white">Institution</th>
                         <th className="py-4 px-4 text-white">Event &amp; Squad</th>
                         <th className="py-4 px-4 text-white">Fee &amp; UTR</th>
+                        <th className="py-4 px-4 text-white">Payment Proof</th>
                         <th className="py-4 px-4 text-white">Status</th>
                         <th className="py-4 px-4 text-right text-white">Actions</th>
                       </tr>
@@ -790,6 +802,63 @@ export default function AdminPage() {
                                 <CreditCard className="w-3.5 h-3.5 text-amber-400" />
                                 <span>{reg.utr_number || "N/A"}</span>
                               </div>
+                            </td>
+
+                            {/* Payment Proof Photo */}
+                            <td className="py-4 px-4 whitespace-nowrap">
+                              {reg.screenshot_url ? (
+                                <div className="flex items-center gap-2">
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setSelectedProof({
+                                        url: reg.screenshot_url!,
+                                        passCode: reg.pass_code,
+                                        leadName: reg.lead_name,
+                                        utr: reg.utr_number || "N/A",
+                                        fee: reg.fee_amount,
+                                        event: reg.event_title,
+                                        status: reg.payment_status,
+                                        regId: reg.id,
+                                      })
+                                    }
+                                    className="group relative w-12 h-12 rounded-xl overflow-hidden border-2 border-slate-700 hover:border-amber-400 bg-slate-900 transition-all cursor-pointer shadow-md flex-shrink-0"
+                                    title="Click to view full payment screenshot"
+                                  >
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                      src={reg.screenshot_url}
+                                      alt={`Proof for ${reg.pass_code}`}
+                                      className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                                    />
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                      <Eye className="w-4 h-4 text-amber-300" />
+                                    </div>
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setSelectedProof({
+                                        url: reg.screenshot_url!,
+                                        passCode: reg.pass_code,
+                                        leadName: reg.lead_name,
+                                        utr: reg.utr_number || "N/A",
+                                        fee: reg.fee_amount,
+                                        event: reg.event_title,
+                                        status: reg.payment_status,
+                                        regId: reg.id,
+                                      })
+                                    }
+                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-amber-500/50 text-amber-300 text-[11px] font-mono-code font-bold transition-all cursor-pointer"
+                                  >
+                                    <Eye className="w-3.5 h-3.5" />
+                                    <span>View Photo</span>
+                                  </button>
+                                </div>
+                              ) : (
+                                <span className="text-[11px] font-mono-code text-slate-500 italic">No photo</span>
+                              )}
                             </td>
 
                             {/* Status & Quick Toggle */}
@@ -1284,6 +1353,38 @@ export default function AdminPage() {
                     <option value="rejected" className="bg-[#0E1528] text-red-400 font-bold">Rejected (rejected)</option>
                   </select>
                 </div>
+
+                {/* Payment Screenshot Preview in Edit Modal */}
+                {editingRegistration.screenshot_url ? (
+                  <div className="sm:col-span-2 pt-3 border-t-2 border-slate-700">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="block font-mono-code text-xs font-bold text-amber-300 uppercase">
+                        Uploaded Payment Confirmation Photo
+                      </label>
+                      <a
+                        href={editingRegistration.screenshot_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[11px] font-mono-code text-sky-400 hover:text-sky-300 inline-flex items-center gap-1 font-bold hover:underline"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>Open Full Size</span>
+                      </a>
+                    </div>
+                    <div className="p-2 rounded-2xl bg-black border-2 border-slate-700 flex justify-center max-h-72 overflow-hidden shadow-inner">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={editingRegistration.screenshot_url}
+                        alt="Payment Confirmation Photo"
+                        className="max-h-64 w-auto object-contain rounded-xl"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="sm:col-span-2 text-xs font-mono-code text-slate-500 italic">
+                    No payment confirmation photo uploaded.
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-5 border-t-2 border-slate-800">
@@ -1472,6 +1573,116 @@ export default function AdminPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* =================================================================== */}
+      {/* MODAL 3: PAYMENT CONFIRMATION SCREENSHOT LIGHTBOX */}
+      {/* =================================================================== */}
+      {selectedProof && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
+          onClick={() => setSelectedProof(null)}
+        >
+          <div
+            className="w-full max-w-3xl bg-[#0E1528] border-2 border-slate-600 rounded-3xl p-5 sm:p-7 shadow-2xl relative my-auto max-h-[92vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400">
+                  <CreditCard className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="font-mono-code text-[11px] font-bold text-amber-400 uppercase tracking-widest block">
+                    PAYMENT CONFIRMATION AUDIT
+                  </span>
+                  <h3 className="font-heading font-black text-lg sm:text-xl text-white">
+                    {selectedProof.leadName} • {selectedProof.passCode}
+                  </h3>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSelectedProof(null)}
+                className="p-2 rounded-xl bg-slate-800 hover:bg-red-600 text-slate-300 hover:text-white transition-all cursor-pointer"
+                title="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Info Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 py-3 border-b border-slate-800 text-xs font-mono-code">
+              <div className="p-2 rounded-lg bg-[#070B16] border border-slate-800">
+                <span className="text-slate-400 block text-[10px] uppercase">Registered Arena</span>
+                <span className="text-white font-bold truncate block">{selectedProof.event}</span>
+              </div>
+              <div className="p-2 rounded-lg bg-[#070B16] border border-slate-800">
+                <span className="text-slate-400 block text-[10px] uppercase">Amount Due</span>
+                <span className="text-emerald-400 font-black block">₹{selectedProof.fee}</span>
+              </div>
+              <div className="p-2 rounded-lg bg-[#070B16] border border-slate-800">
+                <span className="text-slate-400 block text-[10px] uppercase">Submitted UTR</span>
+                <span className="text-amber-300 font-black block truncate select-all">{selectedProof.utr}</span>
+              </div>
+              <div className="p-2 rounded-lg bg-[#070B16] border border-slate-800">
+                <span className="text-slate-400 block text-[10px] uppercase">Status</span>
+                <span className="text-sky-300 font-bold block uppercase">{selectedProof.status}</span>
+              </div>
+            </div>
+
+            {/* Photo Container */}
+            <div className="my-4 flex-1 overflow-auto rounded-2xl bg-black border-2 border-slate-700 p-2 flex items-center justify-center min-h-[300px] max-h-[55vh]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={selectedProof.url}
+                alt={`Payment screenshot for ${selectedProof.passCode}`}
+                className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
+              />
+            </div>
+
+            {/* Actions Bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-800">
+              <a
+                href={selectedProof.url}
+                target="_blank"
+                rel="noreferrer"
+                download={`receipt-${selectedProof.passCode}.jpg`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-300 text-xs font-mono-code font-bold transition-all border border-slate-700"
+              >
+                <ExternalLink className="w-4 h-4" />
+                <span>Open / Download Full Photo</span>
+              </a>
+
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleStatusChange(selectedProof.regId, "rejected");
+                    setSelectedProof(null);
+                  }}
+                  className="flex-1 sm:flex-none px-4 py-2 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-mono-code font-bold transition-all cursor-pointer shadow-md"
+                >
+                  Reject Payment
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleStatusChange(selectedProof.regId, "verified");
+                    setSelectedProof(null);
+                  }}
+                  className="flex-1 sm:flex-none px-5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-mono-code font-black transition-all cursor-pointer shadow-md"
+                >
+                  ✓ Approve &amp; Verify Payment
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
