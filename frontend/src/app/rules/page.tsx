@@ -10,7 +10,7 @@ const rules = [
     id: 1,
     title: "Eligibility",
     content:
-      "Undergraduate and postgraduate students enrolled in BCA, B.Sc., BBA, B.Com., engineering and MCA programmes are eligible to take part.",
+      "Undergraduate and postgraduate students enrolled in BCA, B.Sc., BBA, B.Com., and MCA programmes are eligible to take part.",
   },
   {
     id: 2,
