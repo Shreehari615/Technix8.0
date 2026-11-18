@@ -10,18 +10,18 @@ import { Calendar, Clock, MapPin, AlertCircle, Sparkles } from "lucide-react";
 export default function SchedulePage() {
   const [selectedDayTab, setSelectedDayTab] = useState<"All" | "Day 1" | "Day 2">("All");
 
-  // All 10 competition events run across both days
+  // All 10 competition events running during event slots
   const allCompetitionEvents = [
-    { time: "Updating Soon", title: "Stark Protocol — Coding & Debugging", venue: "Updating Soon", category: "Technical" },
-    { time: "Updating Soon", title: "Shield: Command The Chaos — IT Manager", venue: "Updating Soon", category: "Technical" },
-    { time: "Updating Soon", title: "The Infinity IQ Challenge — IT Quiz", venue: "Updating Soon", category: "Technical" },
-    { time: "Updating Soon", title: "Stark Labs: Interface Infinity — Web Designing", venue: "Updating Soon", category: "Technical" },
-    { time: "Updating Soon", title: "Ultron's Digital Dominion — Hackathon", venue: "Updating Soon", category: "Technical" },
-    { time: "Updating Soon", title: "Civil War: Battle of Ideas — Debate", venue: "Updating Soon", category: "Non-Technical" },
-    { time: "Updating Soon", title: "Marvel In Motion — Photography & Videography", venue: "Updating Soon", category: "Non-Technical" },
-    { time: "Updating Soon", title: "The Tesseract Heist — Treasure Hunt", venue: "Updating Soon", category: "Non-Technical" },
-    { time: "Updating Soon", title: "Avengers: Battleworld — Gaming & Esports", venue: "Updating Soon", category: "Gaming" },
-    { time: "Updating Soon", title: "Project: What If...? — Surprise Protocol", venue: "Updating Soon", category: "Classified" },
+    { title: "Stark Protocol — Coding & Debugging", venue: "Computer Lab 1", category: "Technical" },
+    { title: "Shield: Command The Chaos — IT Manager", venue: "Seminar Hall 2", category: "Technical" },
+    { title: "The Infinity IQ Challenge — IT Quiz", venue: "Main Auditorium", category: "Technical" },
+    { title: "Stark Labs: Interface Infinity — Web Designing", venue: "Computer Lab 2", category: "Technical" },
+    { title: "Ultron's Digital Dominion — Hackathon", venue: "Incubation Center", category: "Technical" },
+    { title: "Civil War: Battle of Ideas — Debate", venue: "Conference Room", category: "Non-Technical" },
+    { title: "Marvel In Motion — Photography & Videography", venue: "Campus Wide", category: "Non-Technical" },
+    { title: "The Tesseract Heist — Treasure Hunt", venue: "Campus Grounds", category: "Non-Technical" },
+    { title: "Avengers: Battleworld — Gaming & Esports", venue: "E-Sports Arena", category: "Gaming" },
+    { title: "Project: What If...? — Surprise Protocol", venue: "Mystery Arena", category: "Classified" },
   ];
 
   const scheduleDays = [
@@ -30,8 +30,46 @@ export default function SchedulePage() {
       dayKey: "Day 1" as const,
       date: "November 23, 2026",
       events: [
-        { time: "Updating Soon", title: "Grand Inauguration & Quantum Opening", venue: "Updating Soon", category: "Ceremony" },
-        ...allCompetitionEvents,
+        {
+          time: "08:00 AM – 09:30 AM",
+          title: "On-Spot Registration & Check-in",
+          description: "Candidate reporting, delegate kit distribution & spot entry registrations",
+          venue: "Main Registration Desk (Ground Floor)",
+          category: "Registration",
+          highlight: false,
+        },
+        {
+          time: "10:00 AM – 11:00 AM",
+          title: "Introduction & Grand Inauguration Ceremony",
+          description: "Welcome address, lamp lighting, dignitary keynote & official opening of TECHNIX 8.0",
+          venue: "Main Auditorium (Seminar Hall)",
+          category: "Inauguration",
+          highlight: true,
+        },
+        {
+          time: "11:00 AM Onwards",
+          title: "Event Will Start // Competition Arenas Kickoff",
+          description: "Technical, Non-Technical, and Gaming competitions begin across all designated arenas & computer labs",
+          venue: "Respective Event Arenas & Labs",
+          category: "Arena Rounds",
+          highlight: true,
+        },
+        {
+          time: "12:30 PM – 02:00 PM",
+          title: "Lunch Break",
+          description: "Buffet lunch & networking break for delegates, participants & faculty coordinators",
+          venue: "Campus Dining Hall / Food Court",
+          category: "Break",
+          highlight: false,
+        },
+        {
+          time: "02:00 PM – 05:00 PM",
+          title: "Afternoon Arena Battles & Qualifier Heats",
+          description: "Continuation of hackathon sprints, coding heats, debating clashes & qualifier rounds",
+          venue: "Respective Event Arenas",
+          category: "Arena Rounds",
+          highlight: false,
+        },
       ],
     },
     {
@@ -39,9 +77,38 @@ export default function SchedulePage() {
       dayKey: "Day 2" as const,
       date: "November 24, 2026",
       events: [
-        ...allCompetitionEvents,
-        { time: "Updating Soon", title: "Valedictory Ceremony & Prize Distribution", venue: "Updating Soon", category: "Ceremony" },
-        { time: "Updating Soon", title: "Technix 8.0 DJ Night & Starlight Celebration", venue: "Updating Soon", category: "Non-Technical" },
+        {
+          time: "09:00 AM – 11:00 AM",
+          title: "Event Start // Knockouts & Semi-Finals",
+          description: "Morning competitive showdowns, technical presentations & semi-final eliminators",
+          venue: "Respective Event Arenas & Labs",
+          category: "Arena Rounds",
+          highlight: true,
+        },
+        {
+          time: "11:00 AM – 12:30 PM",
+          title: "Grand Finals & Championship Face-Offs",
+          description: "Final rounds to crown the champion colleges & best managers",
+          venue: "Main Arenas & Auditorium",
+          category: "Championship",
+          highlight: false,
+        },
+        {
+          time: "12:30 PM – 02:00 PM",
+          title: "Lunch Break",
+          description: "Lunch & networking break for participants, judges & organizers",
+          venue: "Campus Dining Hall / Food Court",
+          category: "Break",
+          highlight: false,
+        },
+        {
+          time: "After 03:30 PM",
+          title: "Valedictory Ceremony & Grand Prize Distribution",
+          description: "Official valediction, award presentation, trophy handover & closing festivities",
+          venue: "Main Auditorium",
+          category: "Valedictory",
+          highlight: true,
+        },
       ],
     },
   ];
@@ -166,10 +233,10 @@ export default function SchedulePage() {
                 })}
               </div>
 
-              {/* Alert notice box */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-900/30 border border-amber-500/50 text-amber-300 text-xs font-mono-code font-bold">
-                <AlertCircle className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
-                <span>TIMINGS: UPDATING SOON</span>
+              {/* Confirmed schedule badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-emerald-950/50 border border-emerald-500/50 text-emerald-300 text-xs font-mono-code font-bold shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>OFFICIAL TIMELINE CONFIRMED</span>
               </div>
             </div>
 
@@ -199,7 +266,7 @@ export default function SchedulePage() {
                     </div>
 
                     <span className="font-mono-code text-xs font-bold text-slate-300 bg-slate-800 border border-slate-600 px-3 py-1 rounded-full shadow-sm w-fit">
-                      {dayGroup.events.length} SESSIONS
+                      {dayGroup.events.length} TIMELINE PHASES
                     </span>
                   </div>
 
@@ -207,39 +274,89 @@ export default function SchedulePage() {
                     {dayGroup.events.map((evt, eIdx) => (
                       <div
                         key={eIdx}
-                        className="group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-slate-900/70 border border-slate-700 hover:border-red-500 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 gap-3"
+                        className={`group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 rounded-2xl bg-slate-900/80 border ${
+                          evt.highlight
+                            ? "border-amber-500/40 shadow-[0_0_20px_rgba(245,158,11,0.12)]"
+                            : "border-slate-800"
+                        } hover:border-red-500 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 gap-3`}
                       >
                         {/* Red Left Accent Indicator on Hover */}
-                        <div className="absolute left-0 inset-y-0 w-1 bg-red-600 rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="absolute left-0 inset-y-0 w-1 bg-red-600 rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                        <div className="flex items-center gap-3 pl-2 sm:pl-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 pl-2 sm:pl-0 flex-1">
                           {/* Time Badge */}
-                          <div className="flex items-center gap-1.5 font-mono-code text-xs font-bold text-amber-700 bg-amber-50 border border-amber-300 px-3 py-1.5 rounded-lg whitespace-nowrap shadow-xs">
-                            <Clock className="w-3.5 h-3.5 text-amber-600" />
+                          <div className="flex items-center gap-1.5 font-mono-code text-xs font-bold text-amber-300 bg-amber-950/70 border border-amber-500/40 px-3.5 py-2 rounded-xl whitespace-nowrap shadow-xs w-fit">
+                            <Clock className="w-3.5 h-3.5 text-amber-400" />
                             <span>{evt.time}</span>
                           </div>
 
-                          {/* Event Title */}
+                          {/* Event Title & Description */}
                           <div>
-                            <span className="font-heading font-black text-sm sm:text-base text-white group-hover:text-red-400 transition-colors uppercase tracking-tight block">
-                              {evt.title}
-                            </span>
-                            <span className="text-[10px] font-mono-code text-slate-400 uppercase tracking-wider">
-                              {evt.category}
-                            </span>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="font-heading font-black text-sm sm:text-base text-white group-hover:text-red-400 transition-colors uppercase tracking-tight">
+                                {evt.title}
+                              </span>
+                              <span className="text-[10px] font-mono-code px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 uppercase tracking-wider font-bold">
+                                {evt.category}
+                              </span>
+                            </div>
+                            {evt.description && (
+                              <p className="text-xs text-slate-400 font-sans mt-1 leading-relaxed">
+                                {evt.description}
+                              </p>
+                            )}
                           </div>
                         </div>
 
                         {/* Venue */}
-                        <div className="flex items-center gap-1.5 font-mono-code text-xs text-slate-400 sm:self-center pl-2 sm:pl-0">
-                          <MapPin className="w-3.5 h-3.5 text-red-600 flex-shrink-0" />
-                          <span className="font-medium">{evt.venue}</span>
+                        <div className="flex items-center gap-1.5 font-mono-code text-xs text-slate-300 sm:self-center pl-2 sm:pl-0 shrink-0 bg-slate-950/60 px-3 py-1.5 rounded-lg border border-slate-800">
+                          <MapPin className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
+                          <span className="font-semibold">{evt.venue}</span>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* 10 Competition Arenas Quick Matrix */}
+            <div className="mt-12 rounded-2xl border border-slate-700/60 bg-slate-900/60 backdrop-blur-sm p-6 sm:p-8 shadow-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-slate-700 gap-2">
+                <div>
+                  <h3 className="font-heading text-lg sm:text-xl font-black text-white tracking-tight uppercase">
+                    10 HEROIC BATTLEGROUNDS &amp; ARENAS
+                  </h3>
+                  <p className="font-mono-code text-xs text-slate-400 mt-0.5">
+                    Competitions running simultaneously across Day 1 &amp; Day 2
+                  </p>
+                </div>
+                <span className="font-mono-code text-xs font-bold text-amber-400 bg-amber-950/80 border border-amber-500/50 px-3 py-1 rounded-full w-fit">
+                  10 COMPETITIONS
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {allCompetitionEvents.map((comp, cIdx) => (
+                  <div
+                    key={cIdx}
+                    className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-amber-500/50 transition-colors flex flex-col justify-between"
+                  >
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <span className="font-heading text-xs sm:text-sm font-bold text-white">
+                        {comp.title}
+                      </span>
+                      <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-700 uppercase flex-shrink-0 font-bold">
+                        {comp.category}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-[11px] font-mono-code text-slate-400 mt-1">
+                      <MapPin className="w-3 h-3 text-red-500 flex-shrink-0" />
+                      <span>{comp.venue}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Bottom Venue Footer Banner */}
