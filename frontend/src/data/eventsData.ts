@@ -309,7 +309,7 @@ export const eventsData: FestEvent[] = [
       "Participants should have a sound understanding of HTML, CSS and JavaScript.",
       "Familiarity with Figma or other wireframing concepts is recommended.",
       "Participants must bring their own laptops or other required devices.",
-      "CSS/UI libraries and frameworks are not permitted.",
+      "CSS/UI libraries and frameworks are  permitted.",
       "Internet access will be provided by the organisers.",
       "AI tools may be used only during time slots specifically authorised by the organisers. Use outside those permitted timings is prohibited.",
       "Participants must finish and submit their designs within the allotted time.",
