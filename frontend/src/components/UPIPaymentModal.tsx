@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import QRCode from "qrcode";
 import { festConfig } from "@/data/festConfig";
 import { FestEvent } from "@/types";
+import { compressScreenshot } from "@/lib/imageCompress";
 import {
   X,
   CreditCard,
@@ -45,6 +46,7 @@ export default function UPIPaymentModal({
   const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null);
   const [screenshotError, setScreenshotError] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isCompressing, setIsCompressing] = useState(false);
   const [dynamicQrUrl, setDynamicQrUrl] = useState<string>("");
 
   const amount = event.feeAmount || 150;
@@ -73,19 +75,29 @@ export default function UPIPaymentModal({
 
   if (!isOpen) return null;
 
-  const handleScreenshotUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleScreenshotUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        setScreenshotError("Screenshot image size exceeds 5MB. Please choose a smaller file.");
+      if (file.size > 15 * 1024 * 1024) {
+        setScreenshotError("Screenshot image size exceeds 15MB. Please choose a smaller file.");
         return;
       }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setScreenshotPreview(reader.result as string);
-        setScreenshotError("");
-      };
-      reader.readAsDataURL(file);
+      setIsCompressing(true);
+      setScreenshotError("");
+      try {
+        // Compress & optimize image on the client side (keeps crystal-clear quality under 200KB)
+        const optimizedBase64 = await compressScreenshot(file, 1280, 1280, 0.8);
+        setScreenshotPreview(optimizedBase64);
+      } catch (err) {
+        console.warn("Client image compression fallback:", err);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setScreenshotPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      } finally {
+        setIsCompressing(false);
+      }
     }
   };
 
@@ -358,10 +370,15 @@ export default function UPIPaymentModal({
             {/* Submit Action */}
             <button
               type="submit"
-              disabled={isProcessing}
+              disabled={isProcessing || isCompressing}
               className="w-full group relative inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-gradient-to-r from-red-600 via-red-700 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-heading font-black text-sm sm:text-base tracking-widest uppercase transition-all duration-300 shadow-[0_0_25px_rgba(239,68,68,0.4)] hover:shadow-[0_0_35px_rgba(245,158,11,0.6)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {isProcessing ? (
+              {isCompressing ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>OPTIMIZING SCREENSHOT...</span>
+                </>
+              ) : isProcessing ? (
                 <>
                   <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   <span>VERIFYING UPI CREDENTIALS...</span>

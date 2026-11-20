@@ -332,7 +332,8 @@ export default function EventRegistrationModal({
       screenshotUrl: paymentData.screenshotUrl,
     };
 
-    let confirmedPassCode = pendingPassCode;
+    let confirmedRegistration: any = null;
+    let submitErrorMsg = "";
 
     try {
       const res = await fetch("/api/registrations", {
@@ -341,24 +342,44 @@ export default function EventRegistrationModal({
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
-      if (res.ok && data.registration) {
-        confirmedPassCode =
-          data.registration.pass_code ||
-          data.registration.passCode ||
-          pendingPassCode;
-      } else if (!res.ok) {
-        console.warn("Backend registration notice:", data.error || data);
+      let data: any = {};
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        throw new Error(
+          `Server response error (${res.status} ${res.statusText || ""}). The payload or screenshot was rejected by the server.`
+        );
       }
-    } catch (err) {
-      console.warn("Registration network notice, generating ticket:", err);
+
+      if (res.ok && data.registration) {
+        confirmedRegistration = data.registration;
+      } else {
+        submitErrorMsg =
+          data.error ||
+          data.details ||
+          "Registration could not be recorded in database. Please verify your details and try again.";
+      }
+    } catch (err: any) {
+      submitErrorMsg =
+        err?.message ||
+        "Network connection failed while saving registration. Please try again.";
     } finally {
       setIsSubmitting(false);
     }
 
+    // STRICT ACID GUARANTEE: If database commit did not succeed, NEVER generate a ticket!
+    if (!confirmedRegistration) {
+      alert(
+        `⚠️ REGISTRATION NOT COMPLETED\n\n${submitErrorMsg}\n\nYour pass was NOT generated because the data could not be saved to the database. Please verify your UTR and retry.`
+      );
+      // Re-open payment modal so user can fix and retry
+      setIsPaymentModalOpen(true);
+      return;
+    }
+
     const newSubmission: RegistrationSubmission = {
-      id: `reg-${Date.now()}`,
-      timestamp: new Date().toISOString(),
+      id: confirmedRegistration.id || `reg-${Date.now()}`,
+      timestamp: confirmedRegistration.created_at || new Date().toISOString(),
       eventId: activeEvent.id,
       eventTitle: activeEvent.title,
       teamName: teamName || undefined,
@@ -369,12 +390,12 @@ export default function EventRegistrationModal({
       department,
       yearOfStudy,
       members: members.filter((m) => m.trim().length > 0),
-      passCode: confirmedPassCode,
-      feeAmount: paymentData.feeAmount,
+      passCode: confirmedRegistration.pass_code || pendingPassCode,
+      feeAmount: confirmedRegistration.fee_amount || paymentData.feeAmount,
       paymentMethod: "UPI_QR",
-      utrNumber: paymentData.utrNumber,
-      screenshotUrl: paymentData.screenshotUrl,
-      paymentStatus: "paid_pending_verification",
+      utrNumber: confirmedRegistration.utr_number || paymentData.utrNumber,
+      screenshotUrl: confirmedRegistration.screenshot_url || paymentData.screenshotUrl,
+      paymentStatus: confirmedRegistration.payment_status || "paid_pending_verification",
     };
 
     setTicketData(newSubmission);
@@ -411,6 +432,21 @@ export default function EventRegistrationModal({
         if (e.target === e.currentTarget) onClose();
       }}
     >
+      {/* Full-Screen Loading Overlay during Database Commit */}
+      {isSubmitting && (
+        <div className="fixed inset-0 z-[70] bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 animate-in fade-in">
+          <div className="p-7 rounded-3xl bg-[#090C14] border-2 border-red-500/70 shadow-[0_0_60px_rgba(239,68,68,0.5)] flex flex-col items-center text-center max-w-sm">
+            <Loader2 className="w-12 h-12 text-amber-400 animate-spin mb-4" />
+            <h3 className="font-heading text-lg font-black text-white uppercase tracking-wider">
+              SECURING REGISTRATION...
+            </h3>
+            <p className="font-mono-code text-xs text-slate-300 mt-2 leading-relaxed">
+              Committing transaction to Neon PostgreSQL and generating official admission pass...
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Background image overlay — full-bleed D:\Technix8.0\background.jpeg */}
       <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden select-none">
         {/* eslint-disable-next-line @next/next/no-img-element */}
