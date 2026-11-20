@@ -9,14 +9,14 @@ import uvicorn
 
 if __name__ == "__main__":
     # Robust port resolution: handles Render, Railway, Cloud Run, Heroku, Docker
-    raw_port = os.getenv("PORT", "8000")
+    raw_port = os.getenv("PORT", "8080")
     try:
         # Strip any accidental whitespace or quotes
         cleaned_port = str(raw_port).strip().strip("'\"")
         port = int(cleaned_port)
     except (ValueError, TypeError):
-        print(f"[Warning] PORT value '{raw_port}' could not be parsed as integer. Falling back to port 8000.")
-        port = 8000
+        print(f"[Warning] PORT value '{raw_port}' could not be parsed as integer. Falling back to port 8080.")
+        port = 8080
 
     host = os.getenv("HOST", "0.0.0.0")
     is_debug = os.getenv("DEBUG", "false").lower() in ("true", "1")

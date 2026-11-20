@@ -8,6 +8,9 @@ START_TIME = time.time()
 
 @router.get("/health")
 @router.get("/api/health")
+@router.get("/healthz")
+@router.head("/health")
+@router.head("/")
 async def health_check():
     """Returns the operational status of the FastAPI backend and Neon PostgreSQL."""
     db_status = "connected"

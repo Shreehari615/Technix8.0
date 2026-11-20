@@ -18,9 +18,10 @@ COPY run.py .
 
 # Environment defaults
 ENV HOST=0.0.0.0
-ENV PORT=8000
+ENV PORT=8080
 ENV PYTHONUNBUFFERED=1
 
+EXPOSE 8080
 EXPOSE 8000
 
 CMD ["python", "run.py"]
