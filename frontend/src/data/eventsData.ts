@@ -60,7 +60,7 @@ export const eventsData: FestEvent[] = [
     rules: [
       "The competition will take place over two days.",
       "There will be four rounds in the competition.",
-      "Participants should have a basic understanding of C, C++ or Java.",
+      "Participants should have a basic understanding of C and Java.",
       "The task or problem statement for each round will be disclosed before that round begins.",
       "The challenges will cover both coding and debugging.",
       "Participants must use only the computer systems supplied by the organisers.",
