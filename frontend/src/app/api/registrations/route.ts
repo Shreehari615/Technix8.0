@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb, isDatabaseConfigured, mockRegistrations, RegistrationRow } from "@/lib/db";
-import { sendRegistrationConfirmationEmail, isEmailConfigured } from "@/lib/email";
+import { sendRegistrationConfirmationEmail, sendAdminSystemAlertEmail, isEmailConfigured } from "@/lib/email";
 import { isAuthorizedAdmin } from "@/lib/auth";
 
 
 export async function POST(req: NextRequest) {
+  let body: any = null;
   try {
-    const body = await req.json();
+    body = await req.json();
 
     const {
       eventId,
@@ -241,6 +242,27 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.error("Error in POST /api/registrations:", error);
+
+    // Automatically dispatch emergency alert to admin (svbhathari@gmail.com)
+    sendAdminSystemAlertEmail({
+      errorType: "Registration System Failure (500)",
+      errorMessage: error instanceof Error ? error.message : String(error),
+      endpoint: "POST /api/registrations",
+      context: body
+        ? {
+            leadName: body.leadName,
+            email: body.email,
+            phone: body.phone,
+            eventTitle: body.eventTitle,
+            utrNumber: body.utrNumber,
+            feeAmount: body.feeAmount,
+            passCode: body.passCode,
+            collegeName: body.collegeName,
+          }
+        : undefined,
+      stackTrace: error instanceof Error ? error.stack : undefined,
+    }).catch((e) => console.error("Admin alert send failed:", e));
+
     return NextResponse.json(
       {
         error: "Failed to process registration submission.",

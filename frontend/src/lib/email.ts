@@ -435,3 +435,113 @@ export async function sendOtpEmail(
     };
   }
 }
+
+export interface AdminErrorAlertData {
+  errorType: string;
+  errorMessage: string;
+  stackTrace?: string;
+  context?: Record<string, any>;
+  endpoint?: string;
+}
+
+/**
+ * Dispatches an immediate emergency alert email to the admin (svbhathari@gmail.com)
+ * whenever a backend database error, registration failure, or unhandled exception occurs.
+ */
+export async function sendAdminSystemAlertEmail(
+  data: AdminErrorAlertData
+): Promise<{ success: boolean; error?: string }> {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) return { success: false, error: "Email service not configured" };
+
+  const senderEmail = process.env.BREVO_SENDER_EMAIL || "technix8.0team@gmail.com";
+  const senderName = process.env.BREVO_SENDER_NAME || "TECHNIX 8.0 — System Monitor";
+  const adminEmail = "svbhathari@gmail.com";
+
+  const contextFormatted = data.context
+    ? Object.entries(data.context)
+        .map(([k, v]) => `<tr><td style="padding:6px 12px;color:#94a3b8;font-weight:bold;width:160px;vertical-align:top;">${k}:</td><td style="padding:6px 12px;color:#f1f5f9;">${typeof v === "object" ? JSON.stringify(v) : String(v)}</td></tr>`)
+        .join("")
+    : "<tr><td colspan='2' style='padding:8px 12px;color:#94a3b8;'>No context provided</td></tr>";
+
+  const html = `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"/></head>
+<body style="margin:0;padding:24px;background:#030712;font-family:'Segoe UI',Arial,monospace;color:#f8fafc;">
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td align="center">
+      <table width="620" cellpadding="0" cellspacing="0" style="max-width:620px;width:100%;background:#0b0f19;border:2px solid #ef4444;border-radius:16px;overflow:hidden;box-shadow:0 0 40px rgba(239,68,68,0.3);">
+        <tr>
+          <td style="background:linear-gradient(135deg,#7f1d1d 0%,#1e1b4b 100%);padding:20px 24px;text-align:center;">
+            <span style="font-family:monospace;font-size:11px;font-weight:bold;letter-spacing:2px;color:#fca5a5;text-transform:uppercase;background:#450a0a;padding:4px 12px;border-radius:99px;border:1px solid #dc2626;">
+              🚨 CRITICAL BACKEND SYSTEM ALERT
+            </span>
+            <h1 style="margin:12px 0 0;color:#ffffff;font-size:22px;font-weight:900;">
+              ${data.errorType}
+            </h1>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:24px;">
+            <p style="margin:0 0 16px;color:#cbd5e1;font-size:14px;line-height:1.6;">
+              An error was encountered during execution. The system intercepted this event and logged the payload details below for rapid diagnosis:
+            </p>
+
+            <div style="background:#1e1b4b;border-left:4px solid #ef4444;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
+              <span style="color:#fca5a5;font-size:11px;font-family:monospace;text-transform:uppercase;font-weight:bold;display:block;margin-bottom:4px;">Error Message</span>
+              <span style="color:#ffffff;font-size:14px;font-weight:bold;font-family:monospace;">${data.errorMessage}</span>
+            </div>
+
+            <div style="background:#090d16;border:1px solid #1e293b;border-radius:10px;padding:12px;margin-bottom:20px;">
+              <span style="color:#38bdf8;font-size:11px;font-family:monospace;text-transform:uppercase;font-weight:bold;display:block;margin-bottom:8px;">Endpoint / Action</span>
+              <span style="color:#e2e8f0;font-family:monospace;font-size:13px;">${data.endpoint || "N/A"}</span>
+            </div>
+
+            <span style="color:#fbbf24;font-size:12px;font-family:monospace;text-transform:uppercase;font-weight:bold;display:block;margin-bottom:8px;">Execution Context / Candidate Data</span>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#090d16;border:1px solid #1e293b;border-radius:10px;font-size:12px;margin-bottom:20px;">
+              ${contextFormatted}
+            </table>
+
+            ${data.stackTrace ? `
+            <span style="color:#94a3b8;font-size:12px;font-family:monospace;text-transform:uppercase;font-weight:bold;display:block;margin-bottom:8px;">Stack Details</span>
+            <pre style="background:#050811;border:1px solid #1e293b;border-radius:8px;padding:12px;font-size:11px;color:#fca5a5;overflow-x:auto;max-height:220px;white-space:pre-wrap;">${data.stackTrace.slice(0, 1800)}</pre>
+            ` : ""}
+
+            <div style="margin-top:24px;padding-top:16px;border-top:1px solid #1e293b;text-align:center;">
+              <a href="https://technix8.vercel.app/admin" style="display:inline-block;background:#dc2626;color:#ffffff;text-decoration:none;font-weight:bold;font-size:12px;font-family:monospace;padding:10px 20px;border-radius:8px;">
+                OPEN ADMIN DASHBOARD
+              </a>
+              <p style="margin:12px 0 0;font-size:10px;font-family:monospace;color:#64748b;">
+                Dispatched automatically to svbhathari@gmail.com • ${new Date().toISOString()}
+              </p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  try {
+    const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "api-key": apiKey,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        sender: { name: senderName, email: senderEmail },
+        to: [{ email: adminEmail, name: "Technix Admin (Shreehari)" }],
+        subject: `[CRITICAL ALERT] 🚨 TECHNIX 8.0 Backend Issue: ${data.errorType}`,
+        htmlContent: html,
+      }),
+    });
+    return { success: res.ok };
+  } catch (err: any) {
+    console.error("[Email] Failed to dispatch admin alert email:", err);
+    return { success: false, error: err?.message };
+  }
+}

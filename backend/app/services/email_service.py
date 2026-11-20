@@ -342,3 +342,113 @@ async def send_otp_email(to_email: str, name: str, otp: str) -> bool:
     except Exception as e:
         logger.error(f"❌ Exception sending OTP email via Brevo: {e}")
         return False
+
+
+async def send_admin_error_alert(
+    error_type: str,
+    error_message: str,
+    endpoint: Optional[str] = None,
+    context: Optional[dict] = None,
+    stack_trace: Optional[str] = None,
+) -> bool:
+    """
+    Dispatches a critical error alert email directly to the admin (svbhathari@gmail.com)
+    via Brevo REST API v3 when a backend or database exception occurs.
+    """
+    if not settings.BREVO_API_KEY:
+        logger.warning("BREVO_API_KEY not configured. Cannot dispatch admin error alert.")
+        return False
+
+    admin_email = "svbhathari@gmail.com"
+    context_rows = ""
+    if context:
+        for k, v in context.items():
+            context_rows += f"<tr><td style='padding:6px 12px;color:#94a3b8;font-weight:bold;width:160px;vertical-align:top;'>{k}:</td><td style='padding:6px 12px;color:#f1f5f9;'>{v}</td></tr>"
+    else:
+        context_rows = "<tr><td colspan='2' style='padding:8px 12px;color:#94a3b8;'>No context provided</td></tr>"
+
+    stack_block = ""
+    if stack_trace:
+        stack_block = f"""
+        <span style="color:#94a3b8;font-size:12px;font-family:monospace;text-transform:uppercase;font-weight:bold;display:block;margin-bottom:8px;">Stack Details</span>
+        <pre style="background:#050811;border:1px solid #1e293b;border-radius:8px;padding:12px;font-size:11px;color:#fca5a5;overflow-x:auto;max-height:220px;white-space:pre-wrap;">{stack_trace[:1800]}</pre>
+        """
+
+    html_content = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"/></head>
+<body style="margin:0;padding:24px;background:#030712;font-family:'Segoe UI',Arial,monospace;color:#f8fafc;">
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td align="center">
+      <table width="620" cellpadding="0" cellspacing="0" style="max-width:620px;width:100%;background:#0b0f19;border:2px solid #ef4444;border-radius:16px;overflow:hidden;box-shadow:0 0 40px rgba(239,68,68,0.3);">
+        <tr>
+          <td style="background:linear-gradient(135deg,#7f1d1d 0%,#1e1b4b 100%);padding:20px 24px;text-align:center;">
+            <span style="font-family:monospace;font-size:11px;font-weight:bold;letter-spacing:2px;color:#fca5a5;text-transform:uppercase;background:#450a0a;padding:4px 12px;border-radius:99px;border:1px solid #dc2626;">
+              🚨 CRITICAL BACKEND SYSTEM ALERT
+            </span>
+            <h1 style="margin:12px 0 0;color:#ffffff;font-size:22px;font-weight:900;">
+              {error_type}
+            </h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:24px;">
+            <p style="margin:0 0 16px;color:#cbd5e1;font-size:14px;line-height:1.6;">
+              A critical backend exception was captured by the TECHNIX 8.0 server mainframe. Payload and stack trace details:
+            </p>
+            <div style="background:#1e1b4b;border-left:4px solid #ef4444;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
+              <span style="color:#fca5a5;font-size:11px;font-family:monospace;text-transform:uppercase;font-weight:bold;display:block;margin-bottom:4px;">Error Message</span>
+              <span style="color:#ffffff;font-size:14px;font-weight:bold;font-family:monospace;">{error_message}</span>
+            </div>
+            <div style="background:#090d16;border:1px solid #1e293b;border-radius:10px;padding:12px;margin-bottom:20px;">
+              <span style="color:#38bdf8;font-size:11px;font-family:monospace;text-transform:uppercase;font-weight:bold;display:block;margin-bottom:8px;">Endpoint / Action</span>
+              <span style="color:#e2e8f0;font-family:monospace;font-size:13px;">{endpoint or "N/A"}</span>
+            </div>
+            <span style="color:#fbbf24;font-size:12px;font-family:monospace;text-transform:uppercase;font-weight:bold;display:block;margin-bottom:8px;">Execution Context</span>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#090d16;border:1px solid #1e293b;border-radius:10px;font-size:12px;margin-bottom:20px;">
+              {context_rows}
+            </table>
+            {stack_block}
+            <div style="margin-top:24px;padding-top:16px;border-top:1px solid #1e293b;text-align:center;">
+              <a href="https://technix8.vercel.app/admin" style="display:inline-block;background:#dc2626;color:#ffffff;text-decoration:none;font-weight:bold;font-size:12px;font-family:monospace;padding:10px 20px;border-radius:8px;">
+                OPEN ADMIN DASHBOARD
+              </a>
+              <p style="margin:12px 0 0;font-size:10px;font-family:monospace;color:#64748b;">
+                Dispatched automatically to svbhathari@gmail.com
+              </p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>"""
+
+    payload = {
+        "sender": {"name": settings.BREVO_SENDER_NAME or "TECHNIX 8.0 — System Monitor", "email": settings.BREVO_SENDER_EMAIL or "technix8.0team@gmail.com"},
+        "to": [{"email": admin_email, "name": "Technix Admin (Shreehari)"}],
+        "subject": f"[CRITICAL ALERT] 🚨 TECHNIX 8.0 Backend Issue: {error_type}",
+        "htmlContent": html_content,
+        "textContent": f"CRITICAL ALERT: {error_type}\n\nEndpoint: {endpoint}\nError: {error_message}\n\nCheck admin dashboard: https://technix8.vercel.app/admin",
+    }
+
+    headers = {
+        "accept": "application/json",
+        "api-key": settings.BREVO_API_KEY,
+        "content-type": "application/json",
+    }
+
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            res = await client.post(BREVO_API_URL, headers=headers, json=payload)
+            if res.status_code in [200, 201, 202]:
+                logger.info(f"✅ Admin critical error alert email sent to {admin_email}")
+                return True
+            else:
+                logger.error(f"❌ Brevo admin alert email failed: {res.status_code} {res.text}")
+                return False
+    except Exception as e:
+        logger.error(f"❌ Exception sending admin alert email: {e}")
+        return False
+

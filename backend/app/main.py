@@ -1,9 +1,12 @@
 import logging
+import traceback
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.database import connect_db, disconnect_db
+from app.services.email_service import send_admin_error_alert
 from app.routers import health, registrations, events, admin, export, contact, otp
 
 # Configure logging
@@ -68,6 +71,28 @@ app.include_router(admin.router)
 app.include_router(export.router)
 app.include_router(contact.router)
 app.include_router(otp.router)
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    stack = traceback.format_exc()
+    logger.error(f"Unhandled server error on {request.method} {request.url.path}: {exc}\n{stack}")
+
+    # Dispatch critical alert to admin (svbhathari@gmail.com)
+    try:
+        await send_admin_error_alert(
+            error_type="Unhandled Server Exception (500)",
+            error_message=str(exc),
+            endpoint=f"{request.method} {request.url.path}",
+            context={"query_params": str(request.query_params), "client": str(request.client)},
+            stack_trace=stack,
+        )
+    except Exception as mail_err:
+        logger.error(f"Failed to dispatch admin error alert: {mail_err}")
+
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal Server Error. System administrators have been automatically notified via emergency alert dispatch."},
+    )
 
 @app.get("/", tags=["Root"])
 async def root():

@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException, BackgroundTasks, status, Query, Depends, Header
 from app.database import get_pool
 from app.schemas.registration import RegistrationCreate, RegistrationListResponse
-from app.services.email_service import send_registration_confirmation
+from app.services.email_service import send_registration_confirmation, send_admin_error_alert
 from app.services.auth_service import verify_admin_key, is_valid_admin_token
 
 router = APIRouter(prefix="/api/registrations", tags=["Registrations"])
@@ -111,6 +111,23 @@ async def create_registration(
     except HTTPException:
         raise
     except Exception as e:
+        import traceback
+        stack = traceback.format_exc()
+        background_tasks.add_task(
+            send_admin_error_alert,
+            error_type="Backend Registration DB Commit Failure (500)",
+            error_message=str(e),
+            endpoint="POST /api/registrations",
+            context={
+                "lead_name": data.lead_name,
+                "email": data.email,
+                "phone": data.phone,
+                "event_title": data.event_title,
+                "utr_number": clean_utr,
+                "fee_amount": data.fee_amount,
+            },
+            stack_trace=stack,
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Transaction processing failed: {str(e)}"
