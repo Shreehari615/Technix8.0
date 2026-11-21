@@ -71,6 +71,8 @@ export const eventsData: FestEvent[] = [
       "Participants are expected to behave responsibly and maintain professionalism throughout the competition.",
       "UG and PG participants will compete separately, with winners announced independently for each category.",
       "The decisions of the judges and event coordinators will be final and binding on all participants.",
+     "However, if the number of registered teams in either category is insufficient, the organizers reserve the right to combine UG and PG participants into a single competition category.",
+     "The decision regarding category separation or merging will be made by the organizers based on the number of registrations and will be final.",
     ],
     eligibility: "Undergraduate and postgraduate students enrolled in BCA, B.Sc., BBA, B.Com. and MCA programmes.",
     coordinators: [
@@ -150,6 +152,8 @@ export const eventsData: FestEvent[] = [
       "Participants must maintain discipline and professional conduct throughout the event.",
       "UG and PG participants will compete separately, and winners will be announced independently for each category.",
       "The decisions of the judges and event coordinators will be final and binding on all participants.",
+     "However, if the number of registered teams in either category is insufficient, the organizers reserve the right to combine UG and PG participants into a single competition category.",
+     "The decision regarding category separation or merging will be made by the organizers based on the number of registrations and will be final.", 
     ],
     eligibility: "Open to undergraduate and postgraduate students enrolled in eligible programmes.",
     coordinators: [
@@ -317,6 +321,8 @@ export const eventsData: FestEvent[] = [
       "Malpractice, plagiarism or the use of unfair means will result in immediate disqualification.",
       "UG and PG participants will compete separately, and winners will be announced independently for each category.",
       "The decisions of the judges and event coordinators will be final and binding on all participants.",
+      "However, if the number of registered teams in either category is insufficient, the organizers reserve the right to combine UG and PG participants into a single competition category.",
+     "The decision regarding category separation or merging will be made by the organizers based on the number of registrations and will be final.",
     ],
     eligibility: "Open to undergraduate and postgraduate students enrolled in eligible degree programmes.",
     coordinators: [
