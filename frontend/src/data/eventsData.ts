@@ -721,7 +721,7 @@ export const eventsData: FestEvent[] = [
       },
     ],
     rules: [
-      "The tournament will be played over two rounds.",
+      "The tournament will be played over multiple rounds.",
       "Participants must reach the venue before the scheduled reporting time.",
       "All required game maps and updates must be downloaded before the tournament begins.",
       "Only Android and iOS mobile phones may be used. Emulators and tablets are not allowed.",
