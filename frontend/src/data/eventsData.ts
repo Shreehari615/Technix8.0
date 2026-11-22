@@ -584,9 +584,9 @@ export const eventsData: FestEvent[] = [
         email: "shashank.technix@BMSITM.in",
       },
       {
-        name: "Rajeev",
+        name: "Aishwarya",
         role: "Student Coordinator",
-        phone: "+91 93537 72342",
+        phone: "+91 7899312975",
         email: "rajeev.technix@BMSITM.in",
       },
     ],
