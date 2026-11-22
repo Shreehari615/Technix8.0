@@ -12,16 +12,16 @@ export default function SchedulePage() {
 
   // All 10 competition events running during event slots
   const allCompetitionEvents = [
-    { title: "Stark Protocol — Coding & Debugging", venue: "Updating Soon", category: "Technical" },
-    { title: "Shield: Command The Chaos — IT Manager", venue: "Updating Soon", category: "Technical" },
-    { title: "The Infinity IQ Challenge — IT Quiz", venue: "Updating Soon", category: "Technical" },
-    { title: "Stark Labs: Interface Infinity — Web Designing", venue: "Updating Soon", category: "Technical" },
-    { title: "Ultron's Digital Dominion — Hackathon", venue: "Updating Soon", category: "Technical" },
-    { title: "Civil War: Battle of Ideas — Debate", venue: "Updating Soon", category: "Non-Technical" },
-    { title: "Marvel In Motion — Photography & Videography", venue: "Updating Soon", category: "Non-Technical" },
-    { title: "The Tesseract Heist — Treasure Hunt", venue: "Updating Soon", category: "Non-Technical" },
-    { title: "Avengers: Battleworld — Gaming & Esports", venue: "Updating Soon", category: "Gaming" },
-    { title: "Project: What If...? — Surprise Protocol", venue: "Updating Soon", category: "Classified" },
+    { title: "Stark Protocol — Coding & Debugging", venue: "MCA Lab 212(BSN Block)", category: "Technical" },
+    { title: "Shield: Command The Chaos — IT Manager", venue: "BSN CR 204", category: "Technical" },
+    { title: "The Infinity IQ Challenge — IT Quiz", venue: "BSN CR 206", category: "Technical" },
+    { title: "Stark Labs: Interface Infinity — Web Designing", venue: "MBA Lab 210(BSN Block)", category: "Technical" },
+    { title: "Ultron's Digital Dominion — Hackathon", venue: "MCA Lab 211(BSN Block)", category: "Technical" },
+    { title: "Civil War: Battle of Ideas — Debate", venue: "BSN CR 203", category: "Non-Technical" },
+    { title: "Marvel In Motion — Photography & Videography", venue: "BSN CR 104", category: "Non-Technical" },
+    { title: "The Tesseract Heist — Treasure Hunt", venue: "BSN CR 103", category: "Non-Technical" },
+    { title: "Avengers: Battleworld — Gaming & Esports", venue: "APJ Abdul Kalam Central Computing Lab CR 404 (Sir CV Raman Block)", category: "Gaming" },
+    { title: "Project: What If...? — Surprise Protocol", venue: "BSN CR 201", category: "Classified" },
   ];
 
   const scheduleDays = [

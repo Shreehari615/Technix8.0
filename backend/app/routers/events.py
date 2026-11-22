@@ -18,7 +18,7 @@ DEFAULT_EVENTS = [
         "registration_fee": "₹250 per team",
         "winning_prize": "₹2,000",
         "runner_up_prize": "₹1,000",
-        "venue": "Updating Soon",
+        "venue": "MCA Lab 212(BSN Block)",
         "schedule_time": "Day 1 & Day 2",
         "is_open": True,
         "coordinators": [
@@ -37,7 +37,7 @@ DEFAULT_EVENTS = [
         "registration_fee": "₹150 per participant",
         "winning_prize": "₹2,000",
         "runner_up_prize": "None",
-        "venue": "Updating Soon",
+        "venue": "BSN CR 204",
         "schedule_time": "Day 1 & Day 2",
         "is_open": True,
         "coordinators": [
@@ -56,7 +56,7 @@ DEFAULT_EVENTS = [
         "registration_fee": "₹250 per team",
         "winning_prize": "₹2,000",
         "runner_up_prize": "₹1,000",
-        "venue": "Updating Soon",
+        "venue": "BSN CR 206",
         "schedule_time": "Day 1 & Day 2",
         "is_open": True,
         "coordinators": [
@@ -75,7 +75,7 @@ DEFAULT_EVENTS = [
         "registration_fee": "₹250 per team",
         "winning_prize": "₹2,000",
         "runner_up_prize": "₹1,000",
-        "venue": "Updating Soon",
+        "venue": "MBA Lab 210(BSN Block)",
         "schedule_time": "Day 1 & Day 2",
         "is_open": True,
         "coordinators": [
@@ -94,7 +94,7 @@ DEFAULT_EVENTS = [
         "registration_fee": "₹400 per team",
         "winning_prize": "₹3,000",
         "runner_up_prize": "None",
-        "venue": "Updating Soon",
+        "venue": "MCA Lab 211(BSN Block)",
         "schedule_time": "Day 1 & Day 2",
         "is_open": True,
         "coordinators": [
@@ -113,7 +113,7 @@ DEFAULT_EVENTS = [
         "registration_fee": "₹250 per team",
         "winning_prize": "₹2,000",
         "runner_up_prize": "₹1,000",
-        "venue": "Updating Soon",
+        "venue": "BSN CR 203",
         "schedule_time": "Day 1 & Day 2",
         "is_open": True,
         "coordinators": [
@@ -132,7 +132,7 @@ DEFAULT_EVENTS = [
         "registration_fee": "₹150 per participant",
         "winning_prize": "₹2,000",
         "runner_up_prize": "₹1,000",
-        "venue": "Updating Soon",
+        "venue": "BSN CR 104",
         "schedule_time": "Day 1 & Day 2",
         "is_open": True,
         "coordinators": [
@@ -151,7 +151,7 @@ DEFAULT_EVENTS = [
         "registration_fee": "₹400 per team",
         "winning_prize": "₹3,000",
         "runner_up_prize": "None",
-        "venue": "Updating Soon",
+        "venue": "BSN CR 103",
         "schedule_time": "Day 1 & Day 2",
         "is_open": True,
         "coordinators": [
@@ -170,7 +170,7 @@ DEFAULT_EVENTS = [
         "registration_fee": "₹400 per team",
         "winning_prize": "₹3,000",
         "runner_up_prize": "₹1,500",
-        "venue": "Updating Soon",
+        "venue": "APJ Abdul Kalam Central Computing Lab CR 404 (Sir CV Raman Block)",
         "schedule_time": "Day 1 & Day 2",
         "is_open": True,
         "coordinators": [
@@ -189,7 +189,7 @@ DEFAULT_EVENTS = [
         "registration_fee": "₹400 per team",
         "winning_prize": "₹3,000",
         "runner_up_prize": "₹1,500",
-        "venue": "Updating Soon",
+        "venue": "BSN CR 201",
         "schedule_time": "Day 1 & Day 2",
         "is_open": True,
         "coordinators": [

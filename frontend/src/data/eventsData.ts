@@ -1,4 +1,4 @@
-﻿import { FestEvent } from "@/types";
+import { FestEvent } from "@/types";
 
 export const eventsData: FestEvent[] = [
   // 1. STARK PROTOCOL — Coding & Debugging Challenge
@@ -29,7 +29,7 @@ export const eventsData: FestEvent[] = [
     runnerUpPrize: "₹2,000",
     categoriesNote: "UG and PG (separate competitions)",
     tagline: "Think. Code. Debug. Innovate. Become the next Stark!",
-    venue: "Updating Soon",
+    venue: "MCA Lab 212(BSN Block)",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -121,7 +121,7 @@ export const eventsData: FestEvent[] = [
     runnerUpPrize: "₹1,000",
     categoriesNote: "UG and PG (separate competitions)",
     tagline: "Lead with Logic. Command with Confidence. Conquer the Chaos!",
-    venue: "Updating Soon",
+    venue: "BSN CR 204",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -201,7 +201,7 @@ export const eventsData: FestEvent[] = [
     winningPrize: "₹2,000",
     runnerUpPrize: "₹1,000",
     tagline: "Think Fast. Answer Smart. Conquer the Infinity Challenge!",
-    venue: "Updating Soon",
+    venue: "BSN CR 206",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -287,7 +287,7 @@ export const eventsData: FestEvent[] = [
     runnerUpPrize: "₹2,000",
     categoriesNote: "UG and PG (separate competitions)",
     tagline: "Imagine. Design. Innovate. Build the Future with Stark Technology!",
-    venue: "Updating Soon",
+    venue: "MBA Lab 210(BSN Block)",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -371,7 +371,7 @@ export const eventsData: FestEvent[] = [
     runnerUpPrize: "₹2,000",
     eventFormat: "Virtual Cybersecurity Treasure Hunt (4 Rounds)",
     tagline: "Trace the Threat. Crack the Code. Stop the System.",
-    venue: "Updating Soon",
+    venue: "MCA Lab 211(BSN Block)",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -463,7 +463,7 @@ export const eventsData: FestEvent[] = [
     runnerUpPrize: "₹2,000",
     eventFormat: "Technical Debate",
     tagline: "Choose Your Side. Defend Your Ideas. Win the Debate.",
-    venue: "Updating Soon",
+    venue: "BSN CR 203",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -538,7 +538,7 @@ export const eventsData: FestEvent[] = [
     winningPrize: "₹2,000",
     runnerUpPrize: "₹1,000",
     tagline: "Focus. Frame. Capture. Let Every Moment Become Legendary!",
-    venue: "Updating Soon",
+    venue: "BSN CR 104",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -621,7 +621,7 @@ export const eventsData: FestEvent[] = [
     winningPrize: "₹4,000",
     runnerUpPrize: "₹2,000",
     tagline: "Find the Clues. Crack the Code. Steal the Tesseract!",
-    venue: "Updating Soon",
+    venue: "BSN CR 103",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -704,7 +704,7 @@ export const eventsData: FestEvent[] = [
     runnerUpPrize: "₹2,000",
     eventFormat: "Battlegrounds Mobile India (BGMI)",
     tagline: "Drop In. Squad Up. Fight Together. Conquer the Battleworld!",
-    venue: "Updating Soon",
+    venue: "APJ Abdul Kalam Central Computing Lab CR 404 (Sir CV Raman Block)",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
@@ -781,7 +781,7 @@ export const eventsData: FestEvent[] = [
     winningPrize: "₹4,000",
     runnerUpPrize: "₹2,000",
     tagline: "Expect the Unexpected. Embrace the Chaos. Rewrite the Multiverse!",
-    venue: "Updating Soon",
+    venue: "BSN CR 201",
     scheduleTime: "Day 1 & Day 2",
     rounds: [
       {
