@@ -158,9 +158,9 @@ export const eventsData: FestEvent[] = [
     eligibility: "Open to undergraduate and postgraduate students enrolled in eligible programmes.",
     coordinators: [
       {
-        name: "Sharique Raza",
+        name: "Mahima Raj",
         role: "Event Lead",
-        phone: "+91 85215 05619",
+        phone: "+91 7975853550",
         email: "sharique.technix@BMSITM.in",
       },
       {
@@ -740,13 +740,13 @@ export const eventsData: FestEvent[] = [
       {
         name: "Aditya Wagh",
         role: "Event Lead",
-        phone: "+91 70199 432437",
+        phone: "+91 7019432437",
         email: "aditya.technix@BMSITM.in",
       },
       {
-        name: "Mehrooz Zehra",
+        name: "Sharique Raza",
         role: "Student Coordinator",
-        phone: "+91 63637 17806",
+        phone: "+91 85215 05619",
         email: "mehrooz.technix@BMSITM.in",
       },
     ],
