@@ -160,7 +160,7 @@ export const eventsData: FestEvent[] = [
       {
         name: "Sharique Raza",
         role: "Event Lead",
-        phone: "+91 +91 85215 05619",
+        phone: "+91 85215 05619",
         email: "sharique.technix@BMSITM.in",
       },
       {
@@ -245,7 +245,7 @@ export const eventsData: FestEvent[] = [
       {
         name: "Rahul Jangir",
         role: "Event Lead",
-        phone: "+917204554709",
+        phone: "+9 17204554709",
         email: "rahul.technix@BMSITM.in",
       },
       {
