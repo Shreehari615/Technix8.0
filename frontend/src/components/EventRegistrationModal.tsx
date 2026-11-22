@@ -751,6 +751,29 @@ export default function EventRegistrationModal({
 
                       {/* Action Buttons */}
                       <div className="pt-3 space-y-2.5">
+                        {/* Official WhatsApp Community Join Callout */}
+                        <a
+                          href="https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full rounded-2xl p-3 bg-gradient-to-r from-emerald-950/80 to-green-950/80 border border-emerald-500/60 hover:border-emerald-400 text-left transition-all hover:scale-[1.01] block shadow-[0_0_20px_rgba(16,185,129,0.25)] group"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping shrink-0" />
+                              <span className="text-xs font-heading font-black text-white uppercase tracking-wider">
+                                JOIN WHATSAPP COMMUNITY
+                              </span>
+                            </div>
+                            <span className="text-[10px] font-mono-code font-bold text-emerald-400 uppercase group-hover:translate-x-1 transition-transform">
+                              JOIN NOW →
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-slate-300 font-sans mt-1 leading-snug">
+                            Get real-time announcements, schedule &amp; slot updates, and direct coordinator help.
+                          </p>
+                        </a>
+
                         <button
                           onClick={handlePrint}
                           className="w-full rounded-full py-3 text-center text-xs font-heading font-black text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 uppercase tracking-wider cursor-pointer shadow-lg transition-transform hover:scale-[1.01]"

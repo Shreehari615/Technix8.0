@@ -180,6 +180,18 @@ async def send_registration_confirmation(
           </table>
         </td></tr>
 
+        <!-- WHATSAPP & PASS LINKS -->
+        <tr><td style="padding:0 32px 24px;text-align:center;">
+          <a href="https://technix8.vercel.app/passes"
+             style="display:inline-block;background:#dc2626;color:#ffffff;text-decoration:none;font-weight:900;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:12px 24px;border-radius:9999px;font-family:monospace;margin:0 4px 8px;">
+            VIEW PASS ON PORTAL →
+          </a>
+          <a href="https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD"
+             style="display:inline-block;background:#25D366;color:#ffffff;text-decoration:none;font-weight:900;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:12px 24px;border-radius:9999px;font-family:monospace;margin:0 4px 8px;">
+            JOIN WHATSAPP COMMUNITY →
+          </a>
+        </td></tr>
+
         <!-- FOOTER -->
         <tr><td style="background:#030712;padding:24px 32px;text-align:center;border-top:1px solid #1f2937;">
           <p style="margin:0 0 6px;color:#64748b;font-size:11px;font-family:monospace;">
@@ -200,7 +212,7 @@ async def send_registration_confirmation(
         "bcc": [{"email": "svbhathari@gmail.com", "name": "Admin Notification"}],
         "subject": f"[TECHNIX 8.0] ✅ Registration Confirmed — {pass_code} | {event_title}",
         "htmlContent": html_content,
-        "textContent": f"TECHNIX 8.0 — Registration Confirmed for {lead_name}\nPasscode: {pass_code}\nEvent: {event_title}\nFee: INR {fee_amount}\nUTR: {utr_number}\nVenue: BMSITM Yelahanka, Bengaluru\nDates: Nov 23-24, 2026",
+        "textContent": f"TECHNIX 8.0 — Registration Confirmed for {lead_name}\nPasscode: {pass_code}\nEvent: {event_title}\nFee: INR {fee_amount}\nUTR: {utr_number}\nVenue: BMSITM Yelahanka, Bengaluru\nDates: Nov 23-24, 2026\n\nJoin WhatsApp Community for live updates: https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD",
     }
 
     headers = {

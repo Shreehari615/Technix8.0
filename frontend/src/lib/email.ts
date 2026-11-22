@@ -192,11 +192,15 @@ export async function sendRegistrationConfirmationEmail(
           </table>
         </td></tr>
 
-        <!-- MY PASSES LINK BUTTON -->
-        <tr><td style="padding:0 32px 28px;text-align:center;">
+        <!-- MY PASSES & WHATSAPP BUTTONS -->
+        <tr><td style="padding:0 32px 24px;text-align:center;">
           <a href="https://technix8.vercel.app/passes"
-             style="display:inline-block;background:linear-gradient(90deg,#dc2626,#991b1b);color:#ffffff;text-decoration:none;font-weight:900;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;padding:12px 28px;border-radius:9999px;font-family:monospace;box-shadow:0 0 20px rgba(220,38,38,0.4);">
-            VIEW MY PASSES ON PORTAL →
+             style="display:inline-block;background:linear-gradient(90deg,#dc2626,#991b1b);color:#ffffff;text-decoration:none;font-weight:900;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;padding:12px 24px;border-radius:9999px;font-family:monospace;box-shadow:0 0 20px rgba(220,38,38,0.4);margin:0 4px 8px;">
+            VIEW PASS ON PORTAL →
+          </a>
+          <a href="https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD"
+             style="display:inline-block;background:#25D366;color:#ffffff;text-decoration:none;font-weight:900;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:12px 24px;border-radius:9999px;font-family:monospace;box-shadow:0 0 20px rgba(37,211,102,0.4);margin:0 4px 8px;">
+            JOIN WHATSAPP COMMUNITY →
           </a>
         </td></tr>
 
@@ -248,6 +252,7 @@ Dates: November 23 – 24, 2026
 
 Please carry your original College ID card.
 View your pass anytime: https://technix8.vercel.app/passes
+Join the WhatsApp Community for live updates: https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD
 
 — TECHNIX 8.0 Team`;
 

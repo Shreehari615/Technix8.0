@@ -107,6 +107,18 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
               );
             })}
 
+            {/* WhatsApp Community Link */}
+            <a
+              href="https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 hover:text-emerald-300 font-mono-code text-[11px] font-bold tracking-wider uppercase transition-all shadow-[0_0_12px_rgba(16,185,129,0.2)] ml-1"
+              title="Join TECHNIX 8.0 WhatsApp Community"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>WhatsApp Group</span>
+            </a>
+
             {/* Replay Splash Intro Trigger */}
             {onReplaySplash && (
               <button
@@ -153,6 +165,17 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
                 </a>
               );
             })}
+
+            {/* Mobile WhatsApp Community */}
+            <a
+              href="https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 text-white font-mono-code text-xs font-black uppercase tracking-wider shadow-lg shadow-emerald-950/50"
+            >
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              JOIN WHATSAPP COMMUNITY →
+            </a>
 
             {onReplaySplash && (
               <button

@@ -88,6 +88,7 @@ export const festConfig = {
     phonePrimary: "+91 98765 43210",
     phoneSecondary: "+91 98450 12345",
     whatsappSupport: "+91 98765 43210",
+    whatsappCommunity: "https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD",
     instagram: "https://www.instagram.com/technix8.0?xtok=MWRoeDZ0MmV4Z2g2Yw==",
     linkedin: "https://linkedin.com/company/technix-fest",
     youtube: "https://youtube.com/@technix_fest",

@@ -97,6 +97,28 @@ export default function ContactSection() {
                     </p>
                   </div>
                 </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="p-2.5 rounded-xl bg-emerald-950/50 border border-emerald-500/40 text-emerald-400 flex-shrink-0">
+                    <MessageSquare className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="font-mono-code text-xs text-slate-400 block uppercase">
+                      COMMUNITY BROADCAST
+                    </span>
+                    <a
+                      href="https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-emerald-400 hover:text-emerald-300 transition-colors block mt-0.5"
+                    >
+                      Join Official WhatsApp Community →
+                    </a>
+                    <span className="text-slate-400 text-xs">
+                      Live announcements, coordination &amp; schedule updates
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 

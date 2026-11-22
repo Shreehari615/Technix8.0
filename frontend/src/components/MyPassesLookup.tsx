@@ -296,6 +296,29 @@ export default function MyPassesLookup() {
         </button>
       </form>
 
+      {/* WhatsApp Community Callout Banner */}
+      <div className="mb-6 rounded-2xl p-4 bg-gradient-to-r from-emerald-950/40 via-green-950/30 to-black border border-emerald-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="font-heading font-black text-white text-xs uppercase tracking-wider">
+              OFFICIAL PARTICIPANT COMMUNITY
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-300 font-sans mt-0.5">
+            Join the WhatsApp group for real-time slot alerts, round schedules, and event announcements.
+          </p>
+        </div>
+        <a
+          href="https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono-code text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_12px_rgba(16,185,129,0.3)] hover:scale-105"
+        >
+          JOIN GROUP →
+        </a>
+      </div>
+
       {/* Error state */}
       {error && (
         <div className="p-4 rounded-xl bg-red-950/30 border border-red-500/30 text-red-300 text-sm font-mono-code mb-4">

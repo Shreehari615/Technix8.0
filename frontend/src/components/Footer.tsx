@@ -66,8 +66,18 @@ export default function Footer({ onOpenEventDetails }: FooterProps) {
               </a>
             </div>
 
-            {/* Social Links */}
-            <div className="flex items-center gap-3 pt-1">
+            {/* Social & Community Links */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <a
+                href="https://chat.whatsapp.com/JNDtdkEwdKL6Zs3YMzBNFD"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp Community"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/25 transition-all text-xs font-mono-code font-bold"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Join WhatsApp Community
+              </a>
               <a
                 href={festConfig.contact.instagram}
                 target="_blank"
