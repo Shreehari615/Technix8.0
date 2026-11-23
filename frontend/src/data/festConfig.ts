@@ -8,7 +8,7 @@ export const festConfig = {
 
   // Event Date (Set for upcoming fest countdown)
   // Can be easily changed by coordinators here
-  eventDate: "2026-11-23T09:00:00+05:30",
+  eventDate: "2026-11-23T10:00:00+05:30",
   eventDateDisplay: "November 23–24, 2026",
 
   // Institutional Information

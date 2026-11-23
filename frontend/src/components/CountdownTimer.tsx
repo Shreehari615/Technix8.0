@@ -63,16 +63,60 @@ export default function CountdownTimer({
     { label: "SECS", value: String(timeLeft.seconds).padStart(2, "0"), color: "text-cyan-400" },
   ];
 
-  // Expired State
+  // Expired / Fest Live State (Triggers after 10:00 AM on Nov 23)
   if (mounted && timeLeft.isExpired) {
+    if (variant === "hero") {
+      return (
+        <div className="flex flex-col items-center w-full animate-in fade-in zoom-in-95 duration-300">
+          <div className="relative rounded-2xl sm:rounded-3xl bg-black/85 backdrop-blur-xl border-2 border-red-500/70 p-5 sm:p-6 shadow-[0_0_50px_rgba(239,68,68,0.4)] flex flex-col items-center w-full max-w-lg text-center">
+            {/* Pulsing Live Beacon */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-600/25 border border-red-500/60 text-red-400 font-mono-code text-[11px] font-bold tracking-widest uppercase mb-3 shadow-[0_0_15px_rgba(239,68,68,0.35)]">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
+              <span>🔴 TECHNIX 8.0 IS LIVE NOW</span>
+            </div>
+
+            <h3 className="font-heading font-black text-2xl sm:text-3xl text-white uppercase tracking-wider drop-shadow-md">
+              THE ASSEMBLY HAS BEGUN
+            </h3>
+
+            <p className="font-mono-code text-xs sm:text-[13px] text-amber-300 mt-1.5 font-bold tracking-wide">
+              INAUGURATION &amp; ARENA BATTLES IN SESSION
+            </p>
+
+            <p className="font-sans text-xs text-slate-300 mt-2 max-w-sm leading-relaxed">
+              Grand Inauguration at BSN Auditorium. Arena rounds and Day 2 events active across all campus sectors.
+            </p>
+
+            {/* Live Navigation Controls */}
+            <div className="w-full mt-4 flex flex-col sm:flex-row items-center gap-2.5">
+              <button
+                onClick={onActionClick}
+                className="w-full flex-1 group inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-amber-500/50 bg-gradient-to-r from-red-600 via-red-500 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-mono-code text-xs font-black tracking-wider uppercase transition-all duration-300 shadow-[0_0_25px_rgba(239,68,68,0.4)] hover:scale-[1.02] cursor-pointer"
+              >
+                <span>ENTER 10 FEST ARENAS</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <a
+                href="/schedule"
+                className="w-full sm:w-auto px-5 py-3 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-white font-mono-code text-xs font-bold tracking-wider uppercase transition-colors text-center cursor-pointer"
+              >
+                VIEW SCHEDULE
+              </a>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
-      <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-red-950/60 border border-red-500/50 glow-red">
+      <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-red-950/70 border border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.4)]">
         <span className="relative flex h-3 w-3">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
         </span>
-        <span className="font-heading font-bold text-red-100 tracking-wider text-sm sm:text-base">
-          THE ASSEMBLY HAS BEGUN // PROTOCOL ACTIVE
+        <span className="font-heading font-black text-red-100 tracking-wider text-sm sm:text-base uppercase">
+          🔴 TECHNIX 8.0 IS LIVE NOW // ARENAS ACTIVE
         </span>
       </div>
     );
