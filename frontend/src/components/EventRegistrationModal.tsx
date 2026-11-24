@@ -296,6 +296,9 @@ export default function EventRegistrationModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    alert("Registrations for TECHNIX 8.0 have officially concluded. Online and spot entries are now closed.");
+    return;
+
     if (!agreedToTerms) return;
 
     // Easily memorable 5-digit passcode: e.g. TX8-54321
@@ -804,6 +807,16 @@ export default function EventRegistrationModal({
                   /* TRANSPARENT GLASS REGISTRATION FORM                            */
                   /* ============================================================== */
                   <form onSubmit={handleSubmit} className="space-y-4">
+                    {/* Registrations Concluded Notice */}
+                    <div className="p-3.5 mb-2 rounded-2xl bg-red-950/80 border border-red-500/60 text-center shadow-lg">
+                      <p className="font-mono-code text-xs font-black text-red-200 uppercase tracking-wider">
+                        ⚠️ REGISTRATIONS OFFICIALLY CONCLUDED
+                      </p>
+                      <p className="font-sans text-[11px] text-slate-300 mt-1">
+                        Online and spot entries for TECHNIX 8.0 have closed. Existing passes remain fully valid for verification.
+                      </p>
+                    </div>
+
                     {/* Input 1: Full Legal Name */}
                     <div>
                       <input
@@ -1051,13 +1064,12 @@ export default function EventRegistrationModal({
                         </div>
                       )}
                       <button
-                        type="submit"
-                        disabled={isSubmitting || !agreedToTerms || !emailVerified}
-                        className="w-full rounded-full py-3.5 sm:py-4 text-center cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed group bg-gradient-to-r from-amber-500 via-amber-400 to-red-600 hover:from-amber-400 hover:to-red-500 shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-[0.99]"
+                        type="button"
+                        disabled
+                        className="w-full rounded-full py-3.5 sm:py-4 text-center cursor-not-allowed opacity-75 bg-slate-900 border border-slate-700 text-slate-400 shadow-md"
                       >
-                        <span className="font-heading font-black text-sm sm:text-base text-slate-950 uppercase tracking-wider flex items-center justify-center gap-2">
-                          <CreditCard className="w-4 h-4 text-slate-950" />
-                          <span>PROCEED TO UPI PAYMENT (₹{activeEvent.feeAmount})</span>
+                        <span className="font-heading font-black text-sm sm:text-base uppercase tracking-wider flex items-center justify-center gap-2">
+                          <span>REGISTRATIONS OFFICIALLY CLOSED</span>
                         </span>
                       </button>
                     </div>

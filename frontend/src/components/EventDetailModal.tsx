@@ -297,14 +297,11 @@ export default function EventDetailModal({
               CLOSE
             </button>
             <button
-              onClick={() => {
-                onClose();
-                onSelectForRegistration(event.id);
-              }}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white text-xs font-heading font-extrabold tracking-wider glow-red shadow-lg transition-transform hover:scale-105"
+              disabled
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-white/10 text-slate-400 text-xs font-heading font-extrabold tracking-wider border border-white/15 cursor-not-allowed opacity-80"
+              title="Registrations for TECHNIX 8.0 have officially concluded"
             >
-              <Zap className="w-3.5 h-3.5 text-amber-300" />
-              REGISTER FOR THIS PROTOCOL
+              REGISTRATIONS CLOSED
             </button>
           </div>
         </div>

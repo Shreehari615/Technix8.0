@@ -20,7 +20,7 @@ DEFAULT_EVENTS = [
         "runner_up_prize": "₹1,000",
         "venue": "MCA Lab 212(BSN Block)",
         "schedule_time": "Day 1 & Day 2",
-        "is_open": True,
+        "is_open": False,
         "coordinators": [
             {"name": "Shreehari S V", "role": "Event Lead", "phone": "+91 93539 19651", "email": "shreehari.technix@BMSITM.in"},
             {"name": "Keerthana", "role": "Student Coordinator", "phone": "+91 85534 86995", "email": "keerthana.technix@BMSITM.in"},
@@ -39,7 +39,7 @@ DEFAULT_EVENTS = [
         "runner_up_prize": "None",
         "venue": "BSN CR 204",
         "schedule_time": "Day 1 & Day 2",
-        "is_open": True,
+        "is_open": False,
         "coordinators": [
             {"name": "Sharique Raza", "role": "Event Lead", "phone": "+91 62075 84187", "email": "sharique.technix@BMSITM.in"},
             {"name": "Anusha K", "role": "Student Coordinator", "phone": "+91 63632 62375", "email": "anusha.technix@BMSITM.in"},
@@ -58,7 +58,7 @@ DEFAULT_EVENTS = [
         "runner_up_prize": "₹1,000",
         "venue": "BSN CR 206",
         "schedule_time": "Day 1 & Day 2",
-        "is_open": True,
+        "is_open": False,
         "coordinators": [
             {"name": "Rahul Jangir", "role": "Event Lead", "phone": "+91 75045 54709", "email": "rahul.technix@BMSITM.in"},
             {"name": "Srigouri Nadig", "role": "Student Coordinator", "phone": "+91 81232 80889", "email": "srigouri.technix@BMSITM.in"},
@@ -77,7 +77,7 @@ DEFAULT_EVENTS = [
         "runner_up_prize": "₹1,000",
         "venue": "MBA Lab 210(BSN Block)",
         "schedule_time": "Day 1 & Day 2",
-        "is_open": True,
+        "is_open": False,
         "coordinators": [
             {"name": "Samarth S Patil", "role": "Event Lead", "phone": "+91 63602 36750", "email": "samarth.technix@BMSITM.in"},
             {"name": "Harshitha", "role": "Student Coordinator", "phone": "+91 70190 67719", "email": "harshitha.technix@BMSITM.in"},
@@ -96,7 +96,7 @@ DEFAULT_EVENTS = [
         "runner_up_prize": "None",
         "venue": "MCA Lab 211(BSN Block)",
         "schedule_time": "Day 1 & Day 2",
-        "is_open": True,
+        "is_open": False,
         "coordinators": [
             {"name": "M Thanmay", "role": "Event Lead", "phone": "+91 93911 20323", "email": "thanmay.technix@BMSITM.in"},
             {"name": "Nishitha", "role": "Student Coordinator", "phone": "+91 80731 67665", "email": "nishitha.technix@BMSITM.in"},
@@ -115,7 +115,7 @@ DEFAULT_EVENTS = [
         "runner_up_prize": "₹1,000",
         "venue": "BSN CR 203",
         "schedule_time": "Day 1 & Day 2",
-        "is_open": True,
+        "is_open": False,
         "coordinators": [
             {"name": "Madeneni Chetan Sivaram", "role": "Event Lead", "phone": "+91 95159 97994", "email": "chetan.technix@BMSITM.in"},
             {"name": "Shehnaaz Begum", "role": "Student Coordinator", "phone": "+91 89713 88110", "email": "shehnaaz.technix@BMSITM.in"},
@@ -134,7 +134,7 @@ DEFAULT_EVENTS = [
         "runner_up_prize": "₹1,000",
         "venue": "BSN CR 104",
         "schedule_time": "Day 1 & Day 2",
-        "is_open": True,
+        "is_open": False,
         "coordinators": [
             {"name": "Shashank Kodiya", "role": "Event Lead", "phone": "+91 80505 63255", "email": "shashank.technix@BMSITM.in"},
             {"name": "Rajeev", "role": "Student Coordinator", "phone": "+91 93537 72342", "email": "rajeev.technix@BMSITM.in"},
@@ -153,7 +153,7 @@ DEFAULT_EVENTS = [
         "runner_up_prize": "None",
         "venue": "BSN CR 103",
         "schedule_time": "Day 1 & Day 2",
-        "is_open": True,
+        "is_open": False,
         "coordinators": [
             {"name": "Prajwal Kumar Ponarkar", "role": "Event Lead", "phone": "+91 76769 70816", "email": "prajwal.technix@BMSITM.in"},
             {"name": "Gnanesh K C", "role": "Student Coordinator", "phone": "+91 95351 97496", "email": "gnanesh.technix@BMSITM.in"},
@@ -172,7 +172,7 @@ DEFAULT_EVENTS = [
         "runner_up_prize": "₹1,500",
         "venue": "APJ Abdul Kalam Central Computing Lab CR 404 (Sir CV Raman Block)",
         "schedule_time": "Day 1 & Day 2",
-        "is_open": True,
+        "is_open": False,
         "coordinators": [
             {"name": "Aditya Wagh", "role": "Event Lead", "phone": "+91 70199 432437", "email": "aditya.technix@BMSITM.in"},
             {"name": "Mehrooz Zehra", "role": "Student Coordinator", "phone": "+91 63637 17806", "email": "mehrooz.technix@BMSITM.in"},
@@ -191,7 +191,7 @@ DEFAULT_EVENTS = [
         "runner_up_prize": "₹1,500",
         "venue": "BSN CR 201",
         "schedule_time": "Day 1 & Day 2",
-        "is_open": True,
+        "is_open": False,
         "coordinators": [
             {"name": "Khushi Poonja", "role": "Event Lead", "phone": "+91 95900 12306", "email": "khushi.technix@BMSITM.in"},
             {"name": "Vivek Baheti", "role": "Student Coordinator", "phone": "+91 88299 24009", "email": "vivek.technix@BMSITM.in"},

@@ -23,10 +23,13 @@ async def create_registration(
     background_tasks: BackgroundTasks,
 ):
     """
-    Registers a participant for an event, saves to Neon PostgreSQL,
-    and dispatches a confirmation email via Brevo in the background.
-    Returns both nested `registration` object and top-level fields for universal frontend compatibility.
+    Registrations are officially closed for TECHNIX 8.0.
     """
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail="Registrations for TECHNIX 8.0 have officially concluded. Online and spot entries are now closed."
+    )
+
     pool = get_pool()
     reg_id = f"reg_{int(datetime.now().timestamp() * 1000)}_{uuid.uuid4().hex[:6]}"
     pass_code = data.pass_code or generate_passcode()

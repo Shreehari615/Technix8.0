@@ -135,6 +135,16 @@ export default function EventsSection({
         <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
       </div>
 
+      {/* Registrations Closed Announcement Banner */}
+      <div className="relative z-30 max-w-2xl mx-auto mb-4 px-4 w-full">
+        <div className="p-3 sm:p-3.5 rounded-2xl bg-gradient-to-r from-red-950/80 via-black/90 to-red-950/80 border border-red-500/60 shadow-[0_0_30px_rgba(239,68,68,0.3)] flex items-center justify-center gap-2.5 text-center">
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0" />
+          <p className="font-mono-code text-[11px] sm:text-xs font-black text-red-200 uppercase tracking-widest">
+            REGISTRATIONS OFFICIALLY CONCLUDED • ARENAS IN PROGRESS
+          </p>
+        </div>
+      </div>
+
       {/* ================================================================= */}
       {/* 2. CATEGORY PROTOCOL FILTER PILLS                                 */}
       {/* ================================================================= */}
@@ -407,14 +417,11 @@ export default function EventsSection({
 
                               <button
                                 type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  onSelectForRegistration(event.id);
-                                }}
-                                className="flex-1 py-2 px-3 rounded-full bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white text-xs font-heading font-extrabold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-1.5 cursor-pointer"
+                                disabled
+                                className="flex-1 py-2 px-3 rounded-full bg-white/10 text-slate-400 text-xs font-heading font-extrabold uppercase tracking-wider border border-white/15 cursor-not-allowed flex items-center justify-center gap-1.5 opacity-80"
+                                title="Registrations for this event have closed"
                               >
-                                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                                REGISTER
+                                CLOSED
                               </button>
                             </div>
                           </div>
@@ -491,13 +498,11 @@ export default function EventsSection({
                     </button>
                     <button
                       type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onSelectForRegistration(event.id);
-                      }}
-                      className="flex-1 py-2 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs font-heading font-bold uppercase tracking-wider"
+                      disabled
+                      className="flex-1 py-2 rounded-full bg-white/10 text-slate-400 text-xs font-heading font-bold uppercase tracking-wider border border-white/15 cursor-not-allowed opacity-80"
+                      title="Registrations for this event have closed"
                     >
-                      Register
+                      Closed
                     </button>
                   </div>
                 </div>

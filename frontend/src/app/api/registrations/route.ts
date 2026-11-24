@@ -5,6 +5,15 @@ import { isAuthorizedAdmin } from "@/lib/auth";
 
 
 export async function POST(req: NextRequest) {
+  // 0. Strict Gate: Registrations for TECHNIX 8.0 are officially closed
+  return NextResponse.json(
+    {
+      error: "Registrations for TECHNIX 8.0 have officially concluded. Online and spot registrations are now closed.",
+      code: "REGISTRATIONS_CLOSED",
+    },
+    { status: 403 }
+  );
+
   let body: any = null;
   try {
     body = await req.json();
@@ -240,13 +249,13 @@ export async function POST(req: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in POST /api/registrations:", error);
 
     // Automatically dispatch emergency alert to admin (svbhathari@gmail.com)
     sendAdminSystemAlertEmail({
       errorType: "Registration System Failure (500)",
-      errorMessage: error instanceof Error ? error.message : String(error),
+      errorMessage: error?.message ? String(error.message) : String(error),
       endpoint: "POST /api/registrations",
       context: body
         ? {
@@ -260,13 +269,13 @@ export async function POST(req: NextRequest) {
             collegeName: body.collegeName,
           }
         : undefined,
-      stackTrace: error instanceof Error ? error.stack : undefined,
+      stackTrace: error?.stack ? String(error.stack) : undefined,
     }).catch((e) => console.error("Admin alert send failed:", e));
 
     return NextResponse.json(
       {
         error: "Failed to process registration submission.",
-        details: error instanceof Error ? error.message : "Unknown error",
+        details: error?.message || "Unknown error",
       },
       { status: 500 }
     );

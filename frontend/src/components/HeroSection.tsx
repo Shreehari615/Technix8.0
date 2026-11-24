@@ -11,12 +11,10 @@ import { festConfig } from "@/data/festConfig";
 interface HeroSectionProps {
   onReplaySplash?: () => void;
   isSplashActive?: boolean;
-  onOpenDay2Notice?: () => void;
 }
 
 export default function HeroSection({
   isSplashActive = false,
-  onOpenDay2Notice,
 }: HeroSectionProps) {
   const { navigateTo } = usePageTransition();
 
@@ -89,17 +87,6 @@ export default function HeroSection({
 
         {/* Live Launch Countdown (Replacing 'TECHNIX NOT LIVE NOW') */}
         <div className="w-full max-w-xl mx-auto flex flex-col items-center">
-          {/* Day 2 Announcement Pill */}
-          {onOpenDay2Notice && (
-            <button
-              onClick={onOpenDay2Notice}
-              className="mb-4 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/25 hover:bg-red-600/40 border border-red-500/60 hover:border-amber-400 text-amber-300 hover:text-white font-mono-code text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(239,68,68,0.35)] cursor-pointer hover:scale-105"
-            >
-              <span className="w-2 h-2 rounded-full bg-red-400 animate-ping" />
-              <span>⚡ Day 2 Events Open till 24th Nov 8:30 AM →</span>
-            </button>
-          )}
-
           <CountdownTimer
             variant="hero"
             onActionClick={() => handleOpenEvents()}

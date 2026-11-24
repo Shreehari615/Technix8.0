@@ -6,6 +6,10 @@ export const festConfig = {
   supportingTagline: "Where Universes Collide, Legends Rise.",
   heroCopy: "Where technology meets imagination. Assemble your team and take on the ultimate challenge.",
 
+  // Registration Status
+  isRegistrationOpen: false,
+  registrationClosedMessage: "Registrations for TECHNIX 8.0 have officially concluded. Online and spot entries are now closed.",
+
   // Event Date (Set for upcoming fest countdown)
   // Can be easily changed by coordinators here
   eventDate: "2026-11-23T10:00:00+05:30",
